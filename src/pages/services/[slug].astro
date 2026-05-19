@@ -1,0 +1,233 @@
+---
+import { Image } from "astro:assets";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Devis from "../../components/Devis.astro";
+import Zones from "../../components/Zones.astro";
+import { SERVICES, ZONES, SITE } from "../../data/site";
+import { SERVICE_CONTENT } from "../../data/service-content";
+import { SERVICE_IMAGES } from "../../data/service-images";
+
+export async function getStaticPaths() {
+  return SERVICES.map((s) => ({ params: { slug: s.slug }, props: { service: s } }));
+}
+
+const { service } = Astro.props;
+const content = SERVICE_CONTENT[service.slug];
+const heroImage = SERVICE_IMAGES[service.slug]; // undefined pour les services sans photo (4 décors d'art)
+const otherServices = SERVICES.filter((s) => s.slug !== service.slug).slice(0, 4);
+const topZones = ZONES.slice(0, 6).map((z) => z.name).join(", ");
+
+const seoTitle = `${service.shortName} à Nancy & en Lorraine`;
+const seoDesc = `${service.description} Devis gratuit étudié à la main par Gary Goder.`;
+const pageUrl = `${SITE.url}/services/${service.slug}`;
+
+// Service Schema — décrit le service spécifique offert par le LocalBusiness
+const serviceSchema = {
+  "@context": "https://schema.org",
+  "@type": "Service",
+  "@id": `${pageUrl}#service`,
+  serviceType: service.name,
+  name: service.name,
+  description: service.description,
+  url: pageUrl,
+  provider: { "@id": `${SITE.url}/#localbusiness` },
+  areaServed: ZONES.map((z) => ({ "@type": "City", name: z.name })),
+  category: service.category === "decor" ? "Décoration d'art" : "Bâtiment / Second œuvre",
+  ...(content?.faq && content.faq.length > 0 ? {
+    mainEntityOfPage: {
+      "@type": "FAQPage",
+      mainEntity: content.faq.map((f) => ({
+        "@type": "Question",
+        name: f.question,
+        acceptedAnswer: { "@type": "Answer", text: f.reponse },
+      })),
+    },
+  } : {}),
+};
+
+// BreadcrumbList Schema
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "Accueil", item: SITE.url },
+    { "@type": "ListItem", position: 2, name: "Services", item: `${SITE.url}/services` },
+    { "@type": "ListItem", position: 3, name: service.shortName, item: pageUrl },
+  ],
+};
+---
+
+<BaseLayout
+  title={seoTitle}
+  description={seoDesc}
+  ogImage={heroImage?.src ?? "/og-default.jpg"}
+  extraSchemas={[serviceSchema, breadcrumbSchema]}
+>
+  <article>
+  <!-- Hero service -->
+  <section class:list={[
+    "relative isolate overflow-hidden text-cream-50 pt-40 pb-24 lg:pt-48 lg:pb-32 grain",
+    !heroImage && "bg-mauve-900",
+  ]}>
+    {heroImage && (
+      <Image
+        src={heroImage}
+        alt=""
+        loading="eager"
+        widths={[800, 1280, 1920]}
+        sizes="100vw"
+        class="hero-bg-img absolute inset-0 -z-10 h-full w-full object-cover object-center"
+      />
+    )}
+    <div
+      class:list={[
+        "absolute inset-0 -z-10",
+        heroImage && "hero-overlay-image",
+      ]}
+      style={!heroImage ? "background: linear-gradient(180deg, rgba(42,31,61,0.10) 0%, rgba(42,31,61,0) 40%, rgba(42,31,61,0.2) 100%), radial-gradient(ellipse at 70% 30%, rgba(122,107,154,0.4), transparent 60%);" : ""}
+    ></div>
+
+    <div class="mx-auto max-w-7xl px-6 lg:px-10 reveal">
+      <nav class="mb-10" aria-label="Fil d'Ariane">
+        <ol class="flex flex-wrap items-center text-xs uppercase tracking-[0.22em] text-cream-100/60">
+          <li><a href="/" class="hover:text-cream-50">Accueil</a></li>
+          <li aria-hidden="true" class="mx-2">/</li>
+          <li><a href="/services" class="hover:text-cream-50">Services</a></li>
+          <li aria-hidden="true" class="mx-2">/</li>
+          <li><span class="text-cream-100" aria-current="page">{service.shortName}</span></li>
+        </ol>
+      </nav>
+
+      <p class="text-xs uppercase tracking-[0.22em] text-mauve-300">Service</p>
+      <h1 class:list={["mt-6 max-w-4xl font-display text-5xl leading-[1.05] sm:text-6xl lg:text-7xl", heroImage && "hero-readable"]}>
+        {service.name}
+        <span class="script-gradient italic text-[1.2em]"> à Nancy</span>.
+      </h1>
+      <p class="mt-6 font-display italic text-2xl text-mauve-200/90 sm:text-3xl">
+        {service.tagline}
+      </p>
+
+      <p class="mt-10 max-w-2xl text-lg leading-relaxed text-cream-100/85">
+        {service.description}
+      </p>
+
+      <div class="mt-10 flex flex-wrap gap-4">
+        <a
+          href="#devis"
+          class="inline-flex items-center gap-2 rounded-full bg-mauve-500 px-6 py-3.5 text-sm font-medium text-cream-50 shadow-lg shadow-mauve-950/30 transition hover:bg-mauve-400"
+        >
+          Devis gratuit
+        </a>
+        <a
+          href={`tel:${SITE.phoneRaw}`}
+          class="inline-flex items-center gap-2 rounded-full border border-cream-100/30 px-6 py-3.5 text-sm text-cream-100/90 transition hover:bg-cream-100/10"
+        >
+          {SITE.phone}
+        </a>
+      </div>
+    </div>
+  </section>
+
+  {content && (
+    <>
+      <!-- Long description -->
+      <section class="crepi relative bg-cream-50 py-24 lg:py-32">
+        <div class="mx-auto max-w-5xl px-6 lg:px-10">
+          <div class="grid gap-12 lg:grid-cols-12">
+            <div class="lg:col-span-4">
+              <p class="text-xs uppercase tracking-[0.22em] text-mauve-600">L'approche</p>
+              <h2 class="mt-6 font-display text-3xl leading-tight text-ink-900">
+                Le <span class="script text-5xl text-mauve-500">geste</span>, sans raccourci.
+              </h2>
+            </div>
+            <div class="lg:col-span-8 space-y-6">
+              {content.longDescription.map((para) => (
+                <p class="text-base leading-relaxed text-ink-700 sm:text-lg">{para}</p>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Pour qui -->
+      <section class="crepi relative bg-cream-100 py-20 lg:py-24">
+        <div class="mx-auto max-w-5xl px-6 lg:px-10">
+          <div class="rounded-sm border-l-2 border-mauve-500 pl-8">
+            <p class="text-xs uppercase tracking-[0.22em] text-mauve-600">Pour qui</p>
+            <p class="mt-4 font-display text-2xl leading-relaxed text-ink-800 sm:text-3xl">
+              {content.pourqui}
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Méthode -->
+      <section class="crepi relative bg-cream-50 py-24 lg:py-32">
+        <div class="mx-auto max-w-7xl px-6 lg:px-10">
+          <div class="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <p class="text-xs uppercase tracking-[0.22em] text-mauve-600">Méthode</p>
+              <h2 class="mt-6 max-w-xl font-display text-4xl leading-tight text-ink-900 sm:text-5xl">
+                Étape par <span class="script text-6xl text-mauve-500">étape</span>.
+              </h2>
+            </div>
+            <p class="max-w-md text-sm leading-relaxed text-ink-700/80">
+              Aucune étape n'est sautée, aucun raccourci pris. C'est ce qui distingue un chantier qui tient dans le temps.
+            </p>
+          </div>
+
+          <ol class="mt-16 grid gap-px overflow-hidden rounded-sm bg-mauve-200/50 sm:grid-cols-2 lg:grid-cols-4">
+            {content.methode.map((step, i) => (
+              <li class="flex flex-col gap-4 bg-cream-50 p-8">
+                <span class="font-display italic text-4xl text-mauve-400">{String(i + 1).padStart(2, "0")}</span>
+                <h3 class="font-display text-xl text-ink-900">{step.titre}</h3>
+                <p class="text-sm leading-relaxed text-ink-700/80">{step.texte}</p>
+              </li>
+            ))}
+          </ol>
+        </div>
+      </section>
+    </>
+  )}
+
+  <!-- Zones rappel SEO -->
+  <section class="crepi relative bg-cream-100 py-20 lg:py-24">
+    <div class="mx-auto max-w-5xl px-6 text-center lg:px-10">
+      <p class="text-xs uppercase tracking-[0.22em] text-mauve-600">Zones d'intervention</p>
+      <h2 class="mt-4 font-display text-3xl leading-tight text-ink-900 sm:text-4xl">
+        {service.shortName} à <span class="script text-5xl text-mauve-500">Nancy</span>
+        et dans 12 communes alentours.
+      </h2>
+      <p class="mt-6 text-sm text-ink-700/80">
+        {ZONES.map((z) => z.name).join(" · ")}.
+      </p>
+    </div>
+  </section>
+
+  <Devis />
+
+  <!-- Autres services -->
+  <aside class="crepi relative bg-cream-50 py-24 lg:py-32" aria-label="Autres savoir-faire">
+    <div class="mx-auto max-w-7xl px-6 lg:px-10">
+      <p class="text-xs uppercase tracking-[0.22em] text-mauve-600">Autres savoir-faire</p>
+      <h2 class="mt-6 max-w-2xl font-display text-3xl leading-tight text-ink-900 sm:text-4xl">
+        Découvrir les autres <span class="script text-5xl text-mauve-500">métiers</span> de Gary.
+      </h2>
+      <div class="mt-12 grid gap-px overflow-hidden rounded-sm bg-mauve-200/50 sm:grid-cols-2 lg:grid-cols-4">
+        {otherServices.map((s) => (
+          <a
+            href={`/services/${s.slug}`}
+            class="group flex flex-col gap-3 bg-cream-50 p-6 transition hover:bg-cream-100/80"
+          >
+            <h3 class="font-display text-xl text-ink-900">{s.name}</h3>
+            <p class="font-display italic text-xl text-mauve-500">{s.tagline}</p>
+            <span class="mt-2 text-xs uppercase tracking-[0.18em] text-mauve-700/70">
+              Voir →
+            </span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </aside>
+  </article>
+</BaseLayout>

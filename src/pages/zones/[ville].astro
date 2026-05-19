@@ -1,0 +1,183 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Devis from "../../components/Devis.astro";
+import { ZONES, GENERAL_SERVICES, SITE } from "../../data/site";
+
+export async function getStaticPaths() {
+  return ZONES.map((z) => ({ params: { ville: z.slug }, props: { zone: z } }));
+}
+
+const { zone } = Astro.props;
+const otherZones = ZONES.filter((z) => z.slug !== zone.slug);
+const topServices = GENERAL_SERVICES.slice(0, 6);
+
+const seoTitle = `Peintre, plâtrier et décorateur à ${zone.name}`;
+const seoDesc = `Gary Goder intervient à ${zone.name}${zone.postalCode ? ` (${zone.postalCode})` : ""} pour la peinture intérieure et extérieure, le crépi, le ravalement, les moulures, le béton ciré, la verrière et les décors d'art. Devis gratuit étudié à la main.`;
+const pageUrl = `${SITE.url}/zones/${zone.slug}`;
+
+// BreadcrumbList Schema
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "Accueil", item: SITE.url },
+    { "@type": "ListItem", position: 2, name: "Zones d'intervention", item: `${SITE.url}/zones` },
+    { "@type": "ListItem", position: 3, name: zone.name, item: pageUrl },
+  ],
+};
+
+// Service schema localisé : Gary propose ses services sur cette commune spécifique
+const localizedServiceSchema = {
+  "@context": "https://schema.org",
+  "@type": "Service",
+  "@id": `${pageUrl}#service`,
+  serviceType: "Peinture, plâtrerie et décoration",
+  name: `Peintre, plâtrier et décorateur à ${zone.name}`,
+  description: seoDesc,
+  url: pageUrl,
+  provider: { "@id": `${SITE.url}/#localbusiness` },
+  areaServed: {
+    "@type": "City",
+    name: zone.name,
+    ...(zone.postalCode ? { postalCode: zone.postalCode } : {}),
+  },
+};
+---
+
+<BaseLayout title={seoTitle} description={seoDesc} extraSchemas={[localizedServiceSchema, breadcrumbSchema]}>
+  <!-- Hero zone -->
+  <section class="relative isolate overflow-hidden bg-mauve-900 text-cream-50 pt-40 pb-24 lg:pt-48 lg:pb-32 grain">
+    <div
+      class="absolute inset-0 -z-10"
+      style="background: radial-gradient(ellipse at 30% 40%, rgba(122,107,154,0.5), transparent 60%), radial-gradient(ellipse at 80% 70%, rgba(235,215,180,0.18), transparent 60%);"
+    ></div>
+
+    <div class="mx-auto max-w-7xl px-6 lg:px-10">
+      <nav class="mb-10" aria-label="Fil d'Ariane">
+        <ol class="flex flex-wrap items-center text-xs uppercase tracking-[0.22em] text-cream-100/60">
+          <li><a href="/" class="hover:text-cream-50">Accueil</a></li>
+          <li aria-hidden="true" class="mx-2">/</li>
+          <li><a href="/zones" class="hover:text-cream-50">Zones</a></li>
+          <li aria-hidden="true" class="mx-2">/</li>
+          <li><span class="text-cream-100" aria-current="page">{zone.name}</span></li>
+        </ol>
+      </nav>
+
+      <p class="text-xs uppercase tracking-[0.22em] text-mauve-300">
+        Zone d'intervention{zone.postalCode ? ` · ${zone.postalCode}` : ""}
+      </p>
+      <h1 class="hero-readable mt-6 max-w-4xl font-display text-5xl leading-[1.05] sm:text-6xl lg:text-7xl">
+        Peintre, plâtrier et décorateur
+        <span class="script-gradient italic text-[1.4em]">à {zone.name}</span>.
+      </h1>
+
+      <p class="mt-10 max-w-2xl text-lg leading-relaxed text-cream-100/85">
+        {zone.intro} Gary Goder y intervient pour la peinture intérieure et extérieure, le crépi, le ravalement, les moulures, le béton ciré, la verrière et les décors d'art.
+      </p>
+
+      <div class="mt-10 flex flex-wrap gap-4">
+        <a
+          href="#devis"
+          class="inline-flex items-center gap-2 rounded-full bg-mauve-500 px-6 py-3.5 text-sm font-medium text-cream-50 shadow-lg shadow-mauve-950/30 transition hover:bg-mauve-400"
+        >
+          Devis gratuit à {zone.name}
+        </a>
+        <a
+          href={`tel:${SITE.phoneRaw}`}
+          class="inline-flex items-center gap-2 rounded-full border border-cream-100/30 px-6 py-3.5 text-sm text-cream-100/90 transition hover:bg-cream-100/10"
+        >
+          {SITE.phone}
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pourquoi Gary à [ville] -->
+  <section class="crepi relative bg-cream-50 py-24 lg:py-32">
+    <div class="mx-auto max-w-5xl px-6 lg:px-10">
+      <div class="grid gap-12 lg:grid-cols-12">
+        <div class="lg:col-span-4">
+          <p class="text-xs uppercase tracking-[0.22em] text-mauve-600">L'artisan</p>
+          <h2 class="mt-6 font-display text-3xl leading-tight text-ink-900">
+            Un seul <span class="script text-5xl text-mauve-500">artisan</span>
+            pour {zone.name}.
+          </h2>
+        </div>
+        <div class="lg:col-span-8 space-y-6">
+          <p class="text-base leading-relaxed text-ink-700 sm:text-lg">
+            Gary Goder intervient à {zone.name}. Vingt ans de métier, double formation
+            CAP Peintre poseur de sol &amp; BP mention décorateur, et CAP Plâtrier Plaquiste Staffeur.
+            Il transmet aussi son savoir au CFA de Pont-à-Mousson.
+          </p>
+          <p class="text-base leading-relaxed text-ink-700 sm:text-lg">
+            Que vous soyez à {zone.name} en centre ou en périphérie, le déplacement est inclus
+            dans le devis. Chaque devis est étudié à la main, gratuit et sans engagement.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Services dispos à [ville] -->
+  <section class="crepi relative bg-cream-100 py-24 lg:py-32">
+    <div class="mx-auto max-w-7xl px-6 lg:px-10">
+      <div class="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
+        <div>
+          <p class="text-xs uppercase tracking-[0.22em] text-mauve-600">Services à {zone.name}</p>
+          <h2 class="mt-6 max-w-2xl font-display text-4xl leading-tight text-ink-900 sm:text-5xl">
+            Du plâtre <span class="script text-6xl text-mauve-500">à la dorure</span>.
+          </h2>
+        </div>
+        <p class="max-w-md text-sm leading-relaxed text-ink-700/80">
+          Tous les savoir-faire disponibles à {zone.name}. Cliquez sur un service pour plus de détails.
+        </p>
+      </div>
+
+      <div class="mt-16 grid gap-px overflow-hidden rounded-sm bg-mauve-200/50 sm:grid-cols-2 lg:grid-cols-3">
+        {topServices.map((s) => (
+          <a
+            href={`/services/${s.slug}`}
+            class="group flex flex-col gap-3 bg-cream-50 p-8 transition hover:bg-cream-100/80"
+          >
+            <h3 class="font-display text-2xl text-ink-900">{s.shortName}</h3>
+            <p class="font-display italic text-2xl text-mauve-500">{s.tagline}</p>
+            <p class="mt-2 text-sm leading-relaxed text-ink-700/80 line-clamp-3">{s.description}</p>
+            <span class="mt-2 text-xs uppercase tracking-[0.18em] text-mauve-700/70 group-hover:text-mauve-600">
+              Voir le service →
+            </span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <Devis />
+
+  <!-- Communes voisines -->
+  <section class="crepi relative bg-cream-50 py-24 lg:py-32">
+    <div class="mx-auto max-w-7xl px-6 lg:px-10">
+      <p class="text-xs uppercase tracking-[0.22em] text-mauve-600">Communes voisines</p>
+      <h2 class="mt-6 max-w-2xl font-display text-3xl leading-tight text-ink-900 sm:text-4xl">
+        Intervention aussi à
+        <span class="script text-5xl text-mauve-500">proximité</span>.
+      </h2>
+      <ul class="mt-12 grid grid-cols-2 gap-x-8 gap-y-2 sm:grid-cols-3 lg:grid-cols-4">
+        {otherZones.map((z) => (
+          <li>
+            <a
+              href={`/zones/${z.slug}`}
+              class="group flex items-baseline justify-between border-b border-mauve-200 py-3 transition hover:border-mauve-500"
+            >
+              <span class="font-display text-lg text-ink-800 transition group-hover:text-mauve-600">
+                {z.name}
+              </span>
+              {z.postalCode && (
+                <span class="text-xs text-ink-700/50">{z.postalCode}</span>
+              )}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+</BaseLayout>

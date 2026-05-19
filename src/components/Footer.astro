@@ -1,0 +1,107 @@
+---
+import { Image } from "astro:assets";
+import logo from "../assets/logo/logo-kgm-512.webp";
+import { SITE, GENERAL_SERVICES, ZONES } from "../data/site";
+const year = new Date().getFullYear();
+---
+
+<footer class="bg-mauve-950 text-cream-100 grain">
+  <div class="mx-auto max-w-7xl px-6 py-20 lg:px-10">
+    <div class="grid gap-12 lg:grid-cols-5">
+      <div class="lg:col-span-2">
+        <a href="/" class="inline-flex items-center" aria-label="Accueil KGM Pro Decor">
+          <Image
+            src={logo}
+            alt="KGM Pro Decor"
+            width={400}
+            height={400}
+            class="h-32 w-auto sm:h-40"
+          />
+        </a>
+        <p class="mt-6 font-display text-3xl text-cream-50 leading-tight">
+          {SITE.name}
+        </p>
+        <p class="mt-2 font-display italic text-3xl text-mauve-300 leading-none">
+          peintre, plâtrier, décorateur.
+        </p>
+        <p class="mt-6 max-w-md text-sm text-cream-100/70 leading-relaxed">
+          {SITE.description}
+        </p>
+        <address class="mt-8 flex flex-wrap gap-3 not-italic">
+          <a
+            href={`tel:${SITE.phoneRaw}`}
+            class="inline-flex items-center gap-2 rounded-full bg-mauve-500 px-5 py-2.5 text-sm text-cream-50 transition hover:bg-mauve-400"
+            rel="nofollow"
+          >
+            {SITE.phone}
+          </a>
+          <a
+            href={`mailto:${SITE.email}`}
+            class="inline-flex items-center gap-2 rounded-full border border-cream-100/30 px-5 py-2.5 text-sm text-cream-100/85 transition hover:bg-cream-100/10"
+            rel="nofollow"
+          >
+            {SITE.email}
+          </a>
+        </address>
+      </div>
+
+      <div>
+        <p class="text-xs uppercase tracking-[0.18em] text-mauve-300">Services</p>
+        <ul class="mt-5 space-y-2 text-sm">
+          {GENERAL_SERVICES.slice(0, 6).map((s) => (
+            <li>
+              <a href={`/services/${s.slug}`} class="text-cream-100/70 transition hover:text-cream-50">
+                {s.shortName}
+              </a>
+            </li>
+          ))}
+          <li>
+            <a href="/services/decors-d-art" class="text-cream-100/70 transition hover:text-cream-50">
+              Décors d'art
+            </a>
+          </li>
+          <li class="pt-1">
+            <a href="/services" class="text-mauve-300 text-xs uppercase tracking-[0.18em] hover:text-mauve-200 hover:underline underline-offset-4">
+              Tous les services →
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <div>
+        <p class="text-xs uppercase tracking-[0.18em] text-mauve-300">Zones</p>
+        <ul class="mt-5 space-y-2 text-sm">
+          {ZONES.slice(0, 6).map((z) => (
+            <li>
+              <a href={`/zones/${z.slug}`} class="text-cream-100/70 transition hover:text-cream-50">
+                {z.name}
+              </a>
+            </li>
+          ))}
+          <li class="pt-1">
+            <a href="/zones" class="text-mauve-300 text-xs uppercase tracking-[0.18em] hover:text-mauve-200 hover:underline underline-offset-4">
+              {ZONES.length} communes →
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <div>
+        <p class="text-xs uppercase tracking-[0.18em] text-mauve-300">Le site</p>
+        <ul class="mt-5 space-y-2 text-sm">
+          <li><a href="/a-propos" class="text-cream-100/70 transition hover:text-cream-50">L'artisan</a></li>
+          <li><a href="/realisations" class="text-cream-100/70 transition hover:text-cream-50">Réalisations</a></li>
+          <li><a href="/contact" class="text-cream-100/70 transition hover:text-cream-50">Contact</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="mt-16 flex flex-col gap-4 border-t border-mauve-800/60 pt-8 text-xs text-cream-100/50 sm:flex-row sm:items-center sm:justify-between">
+      <p>© {year} {SITE.name} — {SITE.artisan}. Tous droits réservés.</p>
+      <div class="flex flex-wrap gap-4">
+        <a href="/mentions-legales" class="hover:text-cream-100">Mentions légales</a>
+        <a href="/politique-confidentialite" class="hover:text-cream-100">Confidentialité</a>
+      </div>
+    </div>
+  </div>
+</footer>

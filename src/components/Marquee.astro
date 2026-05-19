@@ -1,0 +1,64 @@
+---
+// Marquee — ticker horizontal infini, subtil
+// Usage : <Marquee items={["Nancy", "Pont-à-Mousson", ...]} />
+interface Props {
+  /** Liste des items à afficher en boucle */
+  items: string[];
+  /** Vitesse en secondes pour un cycle complet (default: 40s — plus c'est haut, plus c'est lent) */
+  speed?: number;
+  /** Séparateur visuel entre items (default: "·") */
+  separator?: string;
+  /** Classes Tailwind additionnelles sur le wrapper */
+  class?: string;
+}
+
+const { items, speed = 40, separator = "·", class: className = "" } = Astro.props;
+// Doubler la liste pour boucle sans saut
+const doubled = [...items, ...items];
+---
+
+<div class:list={["marquee", className]} style={`--marquee-duration: ${speed}s;`}>
+  <div class="marquee-track">
+    {doubled.map((item, i) => (
+      <span class="marquee-item">
+        {item}
+        {i < doubled.length - 1 && <span class="marquee-sep" aria-hidden="true">{separator}</span>}
+      </span>
+    ))}
+  </div>
+</div>
+
+<style>
+  .marquee {
+    overflow: hidden;
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+            mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+  }
+  .marquee-track {
+    display: inline-flex;
+    align-items: center;
+    gap: 1.5rem;
+    white-space: nowrap;
+    animation: marquee-x var(--marquee-duration, 40s) linear infinite;
+    will-change: transform;
+  }
+  .marquee-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 1.5rem;
+  }
+  .marquee-sep {
+    opacity: 0.5;
+  }
+
+  @keyframes marquee-x {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .marquee-track {
+      animation: none;
+    }
+  }
+</style>

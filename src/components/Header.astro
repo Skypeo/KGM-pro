@@ -1,0 +1,358 @@
+---
+import { Image } from "astro:assets";
+import logo from "../assets/logo/logo-kgm-512.webp";
+import { SITE, GENERAL_SERVICES } from "../data/site";
+
+interface Props {
+  /** true = header transparent initial (par-dessus un hero sombre). false = bg crème opaque dès le départ. */
+  lightHeader?: boolean;
+}
+
+const { lightHeader = true } = Astro.props;
+
+// Sous-items du menu Services
+const serviceChildren = [
+  ...GENERAL_SERVICES.map((s) => ({ href: `/services/${s.slug}`, label: s.shortName })),
+  { href: "/services/decors-d-art", label: "Décors d'art" },
+];
+
+const navLinks: Array<{
+  href: string;
+  label: string;
+  children?: { href: string; label: string }[];
+}> = [
+  { href: "/a-propos", label: "L'artisan" },
+  { href: "/services", label: "Services", children: serviceChildren },
+  { href: "/realisations", label: "Réalisations" },
+  { href: "/zones", label: "Zones" },
+  { href: "/contact", label: "Contact" },
+];
+---
+
+<header
+  class:list={[
+    "header fixed inset-x-0 top-0 z-40 transition-[background-color,color,box-shadow,padding] duration-300",
+    lightHeader ? "header--light text-cream-50" : "text-ink-800 bg-cream-50/95 backdrop-blur shadow-[0_1px_0_0_rgba(0,0,0,0.04),0_4px_20px_-6px_rgba(0,0,0,0.06)]",
+  ]}
+  data-header
+>
+  <div class="mx-auto flex max-w-7xl items-center justify-between px-6 py-4 lg:px-10 lg:py-5">
+    <a href="/" class="group flex items-center" aria-label="Accueil KGM Pro Decor">
+      <Image
+        src={logo}
+        alt="KGM Pro Decor"
+        width={200}
+        height={200}
+        class="header-logo h-16 w-auto transition-all duration-300 sm:h-20"
+      />
+    </a>
+
+    <!-- Nav desktop : lg+ uniquement (mobile + tablette = burger) -->
+    <nav class="hidden items-center gap-8 lg:flex" aria-label="Navigation principale">
+      {navLinks.map((l) => (
+        l.children ? (
+          <div class="nav-dropdown relative">
+            <a
+              href={l.href}
+              class="inline-flex items-center gap-1.5 text-xs uppercase tracking-[0.18em] opacity-80 transition hover:opacity-100"
+            >
+              {l.label}
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" class="h-3 w-3 transition-transform duration-300">
+                <polyline points="6 9 12 15 18 9" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </a>
+            <div
+              class="nav-dropdown-panel invisible absolute left-1/2 top-full -translate-x-1/2 translate-y-1 pt-3 opacity-0 transition-all duration-200"
+              role="menu"
+            >
+              <div class="min-w-[260px] rounded-2xl bg-cream-50 p-3 text-ink-800 shadow-[0_20px_50px_-12px_rgba(42,31,61,0.25)] ring-1 ring-mauve-200/60">
+                <a
+                  href={l.href}
+                  class="block rounded-lg px-3 py-2 text-[11px] uppercase tracking-[0.18em] text-mauve-700/70 transition hover:bg-mauve-50 hover:text-mauve-700"
+                >
+                  → Voir tous les services
+                </a>
+                <div class="my-1 h-px bg-mauve-100"></div>
+                <ul class="grid">
+                  {l.children.map((c) => (
+                    <li>
+                      <a
+                        href={c.href}
+                        class="block rounded-lg px-3 py-2.5 text-sm text-ink-800 transition hover:bg-mauve-50 hover:text-mauve-600"
+                        role="menuitem"
+                      >
+                        {c.label}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          </div>
+        ) : (
+          <a
+            href={l.href}
+            class="text-xs uppercase tracking-[0.18em] opacity-80 transition hover:opacity-100"
+          >
+            {l.label}
+          </a>
+        )
+      ))}
+    </nav>
+
+    <!-- Right cluster : CTA phone (desktop) + burger -->
+    <div class="flex items-center gap-3">
+      <a
+        href={`tel:${SITE.phoneRaw}`}
+        class="hidden items-center gap-2 rounded-full bg-mauve-500 px-5 py-2.5 text-sm text-cream-50 shadow-sm transition hover:bg-mauve-600 lg:inline-flex"
+      >
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" class="h-4 w-4">
+          <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.12.93.34 1.84.65 2.72a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.36-1.36a2 2 0 012.11-.45c.88.31 1.79.53 2.72.65A2 2 0 0122 16.92z" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        {SITE.phone}
+      </a>
+
+      <button
+        type="button"
+        class="inline-flex h-11 w-11 items-center justify-center rounded-full border border-current/30 transition hover:bg-current/10 lg:hidden"
+        aria-label="Ouvrir le menu"
+        aria-expanded="false"
+        data-menu-toggle
+      >
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" class="h-5 w-5">
+          <line x1="4" y1="7" x2="20" y2="7" stroke-linecap="round"/>
+          <line x1="4" y1="17" x2="20" y2="17" stroke-linecap="round"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- OFF-CANVAS MOBILE/TABLET MENU -->
+<dialog
+  id="mobile-menu"
+  class="m-0 ml-auto h-full max-h-none w-full max-w-[420px] bg-cream-50 p-0 text-ink-800 backdrop:bg-mauve-950/60 backdrop:backdrop-blur-sm"
+  aria-label="Menu de navigation"
+>
+  <div class="flex h-full flex-col">
+    <!-- Top bar -->
+    <div class="flex items-center justify-between border-b border-mauve-100 px-6 py-6">
+      <span class="font-display text-xs tracking-[0.22em] uppercase font-medium text-mauve-700/70">Menu</span>
+      <button
+        type="button"
+        data-menu-close
+        class="inline-flex h-11 w-11 items-center justify-center rounded-full border border-mauve-200 transition hover:bg-cream-100"
+        aria-label="Fermer le menu"
+      >
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" class="h-5 w-5">
+          <line x1="6" y1="6" x2="18" y2="18" stroke-linecap="round"/>
+          <line x1="18" y1="6" x2="6" y2="18" stroke-linecap="round"/>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Nav links -->
+    <nav class="flex flex-1 flex-col overflow-y-auto px-6 py-6" aria-label="Navigation mobile">
+      {navLinks.map((l, i) => (
+        l.children ? (
+          <details class="menu-link group border-b border-mauve-200/70" data-menu-link style={`--menu-delay: ${i * 60}ms;`}>
+            <summary class="flex cursor-pointer list-none items-baseline justify-between py-4 transition">
+              <a href={l.href} class="font-display text-2xl text-ink-900 transition hover:text-mauve-600 sm:text-3xl" onclick="event.stopPropagation()">
+                {l.label}
+              </a>
+              <span class="ml-3 text-mauve-500 transition-transform group-open:rotate-180">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" class="h-5 w-5">
+                  <polyline points="6 9 12 15 18 9" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </span>
+            </summary>
+            <ul class="pb-4 pl-1">
+              {l.children.map((c) => (
+                <li>
+                  <a
+                    href={c.href}
+                    data-menu-link-child
+                    class="block py-2 text-sm text-ink-700/85 transition hover:text-mauve-600"
+                  >
+                    {c.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </details>
+        ) : (
+          <a
+            href={l.href}
+            class="menu-link group flex items-baseline justify-between border-b border-mauve-200/70 py-5 transition hover:border-mauve-500"
+            data-menu-link
+            style={`--menu-delay: ${i * 60}ms;`}
+          >
+            <span class="font-display text-2xl text-ink-900 transition group-hover:text-mauve-600 sm:text-3xl">
+              {l.label}
+            </span>
+            <span class="text-mauve-500 opacity-0 transition group-hover:opacity-100 group-hover:translate-x-1">→</span>
+          </a>
+        )
+      ))}
+    </nav>
+
+    <!-- Bottom CTA -->
+    <div class="border-t border-mauve-200 bg-cream-100 px-6 py-8">
+      <p class="text-xs uppercase tracking-[0.22em] text-mauve-700/70">Contact direct</p>
+      <a
+        href={`tel:${SITE.phoneRaw}`}
+        class="mt-4 flex w-full items-center justify-center gap-2 rounded-full bg-mauve-500 px-6 py-4 text-sm font-medium text-cream-50 shadow-md transition hover:bg-mauve-600"
+      >
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" class="h-4 w-4">
+          <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.12.93.34 1.84.65 2.72a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.36-1.36a2 2 0 012.11-.45c.88.31 1.79.53 2.72.65A2 2 0 0122 16.92z" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        {SITE.phone}
+      </a>
+      <a
+        href={`mailto:${SITE.email}`}
+        class="mt-3 flex w-full items-center justify-center gap-2 rounded-full border border-mauve-400 px-6 py-3.5 text-sm text-mauve-700 transition hover:bg-mauve-50"
+      >
+        Écrire à Gary
+      </a>
+    </div>
+  </div>
+</dialog>
+
+<style>
+  /* === HEADER : état "scrolled" === */
+  :global(.header.is-scrolled) {
+    background-color: rgba(245, 240, 233, 0.96);
+    color: rgb(42, 37, 56);
+    -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: blur(10px);
+    box-shadow:
+      0 1px 0 0 rgba(0,0,0,0.04),
+      0 4px 20px -6px rgba(0,0,0,0.08);
+  }
+
+  /* Logo : sur header transparent (light) avec hero sombre derrière → forcer en blanc.
+     Au scroll ou sur header opaque → logo natif (noir + cursive jaune). */
+  :global(.header--light:not(.is-scrolled) .header-logo) {
+    filter: brightness(0) invert(1);
+  }
+  /* Au scroll : logo un peu réduit pour compacter le header */
+  :global(.header.is-scrolled .header-logo) {
+    height: 3rem; /* h-12 */
+  }
+  @media (min-width: 640px) {
+    :global(.header.is-scrolled .header-logo) {
+      height: 3.5rem; /* sm:h-14 */
+    }
+  }
+
+  /* === DROPDOWN DESKTOP === */
+  /* Affichage du panel au hover sur le container OU focus sur ses enfants (a11y) */
+  .nav-dropdown:hover .nav-dropdown-panel,
+  .nav-dropdown:focus-within .nav-dropdown-panel {
+    visibility: visible;
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+  /* Rotation du chevron au hover */
+  .nav-dropdown:hover > a > svg,
+  .nav-dropdown:focus-within > a > svg {
+    transform: rotate(180deg);
+  }
+
+  /* === OFF-CANVAS DIALOG === */
+  #mobile-menu {
+    transform: translateX(100%);
+    transition: transform 380ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  #mobile-menu.is-open {
+    transform: translateX(0);
+  }
+  #mobile-menu::backdrop {
+    background-color: rgba(42, 31, 61, 0);
+    -webkit-backdrop-filter: blur(0px);
+            backdrop-filter: blur(0px);
+    transition: background-color 380ms ease, backdrop-filter 380ms ease;
+  }
+  #mobile-menu.is-open::backdrop {
+    background-color: rgba(42, 31, 61, 0.6);
+    -webkit-backdrop-filter: blur(6px);
+            backdrop-filter: blur(6px);
+  }
+  #mobile-menu.is-open [data-menu-link] {
+    animation: menu-link-in 450ms cubic-bezier(0.22, 1, 0.36, 1) backwards;
+    animation-delay: calc(200ms + var(--menu-delay, 0ms));
+  }
+  @keyframes menu-link-in {
+    from { opacity: 0; transform: translateX(20px); }
+    to   { opacity: 1; transform: translateX(0); }
+  }
+
+  /* Cache le marker natif du <details><summary> */
+  summary { list-style: none; }
+  summary::-webkit-details-marker { display: none; }
+
+  @media (prefers-reduced-motion: reduce) {
+    #mobile-menu,
+    #mobile-menu.is-open [data-menu-link],
+    .nav-dropdown-panel {
+      transition: none;
+      animation: none;
+    }
+  }
+</style>
+
+<script>
+  function initHeader() {
+    const header = document.querySelector<HTMLElement>("[data-header]");
+    if (!header) return;
+    const onScroll = () => {
+      if (window.scrollY > 50) header.classList.add("is-scrolled");
+      else header.classList.remove("is-scrolled");
+    };
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+  }
+
+  function initMobileMenu() {
+    const dialog = document.getElementById("mobile-menu") as HTMLDialogElement | null;
+    const toggleBtn = document.querySelector<HTMLButtonElement>("[data-menu-toggle]");
+    const closeBtn = document.querySelector<HTMLButtonElement>("[data-menu-close]");
+    const links = document.querySelectorAll<HTMLAnchorElement>("a[data-menu-link], a[data-menu-link-child]");
+
+    if (!dialog || !toggleBtn) return;
+    const SLIDE_MS = 380;
+
+    const open = () => {
+      dialog.showModal();
+      document.body.style.overflow = "hidden";
+      toggleBtn.setAttribute("aria-expanded", "true");
+      requestAnimationFrame(() => requestAnimationFrame(() => dialog.classList.add("is-open")));
+    };
+    const close = () => {
+      dialog.classList.remove("is-open");
+      toggleBtn.setAttribute("aria-expanded", "false");
+      window.setTimeout(() => {
+        dialog.close();
+        document.body.style.overflow = "";
+      }, SLIDE_MS);
+    };
+
+    toggleBtn.addEventListener("click", open);
+    closeBtn?.addEventListener("click", close);
+    dialog.addEventListener("click", (e) => {
+      if (e.target === dialog) close();
+    });
+    links.forEach((link) => link.addEventListener("click", () => close()));
+    dialog.addEventListener("cancel", (e) => {
+      e.preventDefault();
+      close();
+    });
+  }
+
+  initHeader();
+  initMobileMenu();
+  document.addEventListener("astro:page-load", () => {
+    initHeader();
+    initMobileMenu();
+  });
+</script>

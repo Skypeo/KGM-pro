@@ -1,0 +1,309 @@
+---
+import { Image } from "astro:assets";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Devis from "../components/Devis.astro";
+import CountUp from "../components/CountUp.astro";
+import cielPeint from "../assets/ciel-peint.webp";
+import moulure from "../assets/moulure-cherubin.webp";
+import heroBg from "../assets/pages/artisan-mains.jpg";
+import { SITE, ZONES, SERVICES } from "../data/site";
+
+const generalCount = SERVICES.filter((s) => s.category !== "decor").length;
+const decorCount = SERVICES.filter((s) => s.category === "decor").length;
+
+const seoTitle = "L'artisan — Gary Goder";
+const seoDesc =
+  "Gary Goder, peintre, plâtrier et décorateur en Lorraine. 20 ans de métier, double CAP + BP mention décorateur, intervenant au CFA de Pont-à-Mousson.";
+
+// Person schema pour Gary Goder
+const personSchema = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "@id": `${SITE.url}/#person`,
+  name: SITE.artisan,
+  jobTitle: "Peintre, plâtrier et décorateur",
+  description: "Artisan peintre, plâtrier et décorateur en Lorraine. 20 ans de métier, double CAP + BP mention décorateur. Intervenant au CFA de Pont-à-Mousson.",
+  worksFor: { "@id": `${SITE.url}/#localbusiness` },
+  knowsAbout: [
+    "Peinture intérieure et extérieure",
+    "Plâtrerie traditionnelle",
+    "Plaquisterie",
+    "Moulures et ornements en plâtre",
+    "Crépi et ravalement de façade",
+    "Béton ciré",
+    "Verrière",
+    "Faux bois peint",
+    "Faux marbre peint",
+    "Faux ciel en trompe-l'œil",
+    "Dorure à la feuille d'or",
+  ],
+  hasCredential: [
+    { "@type": "EducationalOccupationalCredential", name: "CAP Peintre poseur de sol" },
+    { "@type": "EducationalOccupationalCredential", name: "BP mention décorateur" },
+    { "@type": "EducationalOccupationalCredential", name: "CAP Plâtrier Plaquiste Staffeur" },
+  ],
+};
+
+const aboutPageSchema = {
+  "@context": "https://schema.org",
+  "@type": "AboutPage",
+  url: `${SITE.url}/a-propos`,
+  mainEntity: { "@id": `${SITE.url}/#person` },
+};
+
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "Accueil", item: SITE.url },
+    { "@type": "ListItem", position: 2, name: "L'artisan", item: `${SITE.url}/a-propos` },
+  ],
+};
+
+// Parcours strict brief Timothée 2026-05-06
+const parcours = [
+  {
+    annee: "20 ans",
+    titre: "de métier",
+    desc: "Deux décennies à exercer la peinture, la plâtrerie et la décoration en Lorraine.",
+  },
+  {
+    annee: "CAP",
+    titre: "Peintre poseur de sol",
+    desc: "La base technique du métier de peintre, des supports à la finition.",
+  },
+  {
+    annee: "BP",
+    titre: "mention décorateur",
+    desc: "Brevet professionnel — qualification supérieure en peinture décorative.",
+  },
+  {
+    annee: "CAP",
+    titre: "Plâtrier Plaquiste Staffeur",
+    desc: "Plâtrerie traditionnelle, plaque, ornements en plâtre coulé.",
+  },
+];
+
+const specialites = ["Faux bois", "Faux marbre", "Faux ciel", "Feuille d'or"];
+---
+
+<BaseLayout title={seoTitle} description={seoDesc} ogType="profile" extraSchemas={[personSchema, aboutPageSchema, breadcrumbSchema]}>
+  <!-- HERO À propos -->
+  <section class="relative isolate overflow-hidden text-cream-50 pt-40 pb-24 lg:pt-48 lg:pb-32 grain">
+    <Image
+      src={heroBg}
+      alt=""
+      loading="eager"
+      widths={[800, 1280, 1920]}
+      sizes="100vw"
+      class="hero-bg-img absolute inset-0 -z-10 h-full w-full object-cover object-center"
+    />
+    <div class="hero-overlay-image absolute inset-0 -z-10"></div>
+
+    <div class="mx-auto max-w-7xl px-6 lg:px-10">
+      <nav class="mb-10" aria-label="Fil d'Ariane">
+        <ol class="flex flex-wrap items-center text-xs uppercase tracking-[0.22em] text-cream-100/60">
+          <li><a href="/" class="hover:text-cream-50">Accueil</a></li>
+          <li aria-hidden="true" class="mx-2">/</li>
+          <li><span class="text-cream-100" aria-current="page">L'artisan</span></li>
+        </ol>
+      </nav>
+
+      <p class="text-xs uppercase tracking-[0.22em] text-mauve-300">L'artisan</p>
+      <h1 class="hero-readable mt-6 max-w-4xl font-display text-5xl leading-[1.05] sm:text-6xl lg:text-7xl">
+        Gary Goder,
+        <span class="script-gradient italic text-[1.4em]">peintre décorateur</span>
+        en Lorraine.
+      </h1>
+      <p class="mt-10 max-w-2xl text-lg leading-relaxed text-cream-100/85">
+        Double CAP &amp; BP mention décorateur. Intervenant au CFA de Pont-à-Mousson, où il transmet quatre spécialités décoratives rares en Lorraine : faux bois, faux marbre, faux ciel et feuille d'or.
+      </p>
+    </div>
+  </section>
+
+  <!-- PORTRAIT EN MOTS -->
+  <section class="crepi relative bg-cream-50 py-24 lg:py-32">
+    <div class="mx-auto max-w-7xl px-6 lg:px-10">
+      <div class="grid gap-16 lg:grid-cols-12 lg:gap-20">
+        <!-- Image illustration -->
+        <div class="lg:col-span-5">
+          {/* TODO Gary : remplacer par une vraie photo portrait de Gary si disponible */}
+          <figure class="relative aspect-[4/5] w-full overflow-hidden rounded-sm bg-mauve-200">
+            <Image
+              src={cielPeint}
+              alt="Décor peint à la main signé Gary Goder"
+              widths={[480, 720, 960]}
+              sizes="(min-width: 1024px) 40vw, 100vw"
+              class="absolute inset-0 h-full w-full object-cover object-top"
+            />
+            <div
+              class="absolute inset-0"
+              style="background: linear-gradient(180deg, rgba(42,31,61,0.20) 0%, rgba(42,31,61,0.10) 40%, rgba(42,31,61,0.80) 100%);"
+            ></div>
+            <figcaption class="absolute inset-x-6 bottom-6 text-cream-50">
+              <p class="text-[10px] uppercase tracking-[0.28em] text-cream-100/80">— Signature</p>
+              <p class="mt-2 font-display text-3xl leading-none sm:text-4xl">
+                Gary <span class="font-medium">Goder</span>
+              </p>
+              <p class="mt-3 text-xs text-cream-100/85">
+                Peintre · plâtrier · décorateur
+              </p>
+            </figcaption>
+          </figure>
+        </div>
+
+        <!-- Texte portrait -->
+        <div class="lg:col-span-7">
+          <p class="text-xs uppercase tracking-[0.22em] text-mauve-600">Portrait</p>
+          <h2 class="mt-6 font-display text-3xl leading-[1.15] text-ink-900 sm:text-4xl lg:text-5xl">
+            Le métier d'abord,
+            <br class="hidden sm:block" />
+            la <span class="script-gradient italic">décoration</span> ensuite.
+          </h2>
+
+          <div class="mt-10 max-w-2xl space-y-5 text-base leading-relaxed text-ink-700 sm:text-lg">
+            <p>
+              Gary Goder commence par apprendre les bases dures : peinture, plâtrerie,
+              plaque. Deux CAP en poche — Peintre poseur de sol, Plâtrier Plaquiste Staffeur —
+              puis un BP mention décorateur pour aller plus loin que la pose et la finition.
+            </p>
+            <p>
+              Vingt ans plus tard, il intervient sur l'ensemble du second œuvre en Lorraine,
+              avec quatre spécialités décoratives peu courantes dans la région : faux bois,
+              faux marbre, faux ciel, feuille d'or.
+            </p>
+            <p>
+              Une partie de son temps est consacrée à la transmission. Il intervient au CFA
+              de Pont-à-Mousson pour former la relève — parce qu'un savoir-faire qui ne se
+              transmet pas finit par disparaître.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CHIFFRES -->
+  <section class="bg-mauve-50 py-20 lg:py-24">
+    <div class="mx-auto max-w-6xl px-6 lg:px-10">
+      <ul class="grid grid-cols-2 gap-12 sm:grid-cols-4">
+        <li class="text-center">
+          <p class="font-display text-6xl text-mauve-600 sm:text-7xl">
+            <CountUp to={20} />
+          </p>
+          <p class="mt-3 text-xs uppercase tracking-[0.22em] text-ink-700/70">Ans de métier</p>
+        </li>
+        <li class="text-center">
+          <p class="font-display text-6xl text-mauve-600 sm:text-7xl">
+            <CountUp to={ZONES.length} />
+          </p>
+          <p class="mt-3 text-xs uppercase tracking-[0.22em] text-ink-700/70">Communes desservies</p>
+        </li>
+        <li class="text-center">
+          <p class="font-display text-6xl text-mauve-600 sm:text-7xl">
+            <CountUp to={generalCount} />
+          </p>
+          <p class="mt-3 text-xs uppercase tracking-[0.22em] text-ink-700/70">Services principaux</p>
+        </li>
+        <li class="text-center">
+          <p class="font-display text-6xl text-mauve-600 sm:text-7xl">
+            <CountUp to={decorCount} />
+          </p>
+          <p class="mt-3 text-xs uppercase tracking-[0.22em] text-ink-700/70">Spécialités d'art rares</p>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- PARCOURS -->
+  <section class="crepi relative bg-cream-100 py-24 lg:py-32">
+    <div class="mx-auto max-w-7xl px-6 lg:px-10">
+      <div class="mx-auto max-w-3xl text-center">
+        <p class="inline-flex items-center gap-3 text-[11px] uppercase tracking-[0.28em] text-mauve-600">
+          <span class="h-px w-8 bg-mauve-300"></span>
+          Parcours
+          <span class="h-px w-8 bg-mauve-300"></span>
+        </p>
+        <h2 class="mt-6 font-display text-3xl leading-[1.15] text-ink-900 sm:text-4xl lg:text-5xl">
+          Une double formation,
+          <br class="hidden sm:block" />
+          <span class="script-gradient italic">complétée</span> par la spécialisation.
+        </h2>
+      </div>
+
+      <ol class="mt-16 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        {parcours.map((p) => (
+          <li class="flex flex-col gap-4 rounded-2xl bg-cream-50 p-8 ring-1 ring-mauve-200/60">
+            <span class="font-display italic text-5xl text-mauve-400">{p.annee}</span>
+            <h3 class="font-display text-xl text-ink-900">{p.titre}</h3>
+            <p class="text-sm leading-relaxed text-ink-700/85">{p.desc}</p>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <!-- TRANSMISSION CFA -->
+  <section class="bg-mauve-950 py-24 text-cream-50 lg:py-32 grain">
+    <div class="mx-auto max-w-5xl px-6 lg:px-10">
+      <div class="grid gap-12 lg:grid-cols-12">
+        <div class="lg:col-span-5">
+          <p class="text-xs uppercase tracking-[0.22em] text-mauve-300">Transmission</p>
+          <h2 class="mt-6 font-display text-3xl leading-[1.15] sm:text-4xl">
+            Former la <span class="script text-5xl text-mauve-200">relève</span>.
+          </h2>
+        </div>
+        <div class="lg:col-span-7 space-y-5 text-base leading-relaxed text-cream-100/85 sm:text-lg">
+          <p>
+            Gary intervient au <strong class="font-medium text-cream-50">CFA de Pont-à-Mousson</strong>,
+            le centre de formation des apprentis du bâtiment. Il y transmet aux jeunes peintres
+            et plâtriers les gestes du métier — la préparation d'un support, l'application
+            d'une finition, la pose d'un ornement.
+          </p>
+          <p>
+            C'est un engagement qui dit beaucoup sur l'artisan : on ne transmet bien que ce qu'on
+            maîtrise vraiment.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SPÉCIALITÉS DÉCORATIVES -->
+  <section class="crepi relative bg-cream-50 py-24 lg:py-32">
+    <div class="mx-auto max-w-7xl px-6 lg:px-10">
+      <div class="grid gap-12 lg:grid-cols-12">
+        <div class="lg:col-span-5">
+          <p class="text-xs uppercase tracking-[0.22em] text-mauve-600">Quatre spécialités</p>
+          <h2 class="mt-6 font-display text-3xl leading-[1.15] text-ink-900 sm:text-4xl lg:text-5xl">
+            Décors d'art,
+            <br />
+            <span class="script-gradient italic">savoir-faire rare</span>.
+          </h2>
+          <p class="mt-8 max-w-md text-base leading-relaxed text-ink-700/85">
+            Quatre techniques décoratives traditionnelles que Gary pratique depuis vingt ans —
+            et qu'il transmet aussi.
+          </p>
+          <a
+            href="/services/decors-d-art"
+            class="mt-10 inline-flex items-center gap-2 text-sm font-medium text-mauve-700 underline-offset-4 transition hover:underline"
+          >
+            Voir les quatre techniques en détail →
+          </a>
+        </div>
+
+        <div class="lg:col-span-7">
+          <ul class="grid grid-cols-2 gap-px overflow-hidden rounded-sm bg-mauve-200/50">
+            {specialites.map((s) => (
+              <li class="flex aspect-square items-center justify-center bg-cream-50 p-6 text-center">
+                <span class="font-display text-2xl leading-tight text-ink-900 sm:text-3xl">{s}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <Devis />
+</BaseLayout>

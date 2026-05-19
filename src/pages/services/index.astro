@@ -1,0 +1,132 @@
+---
+import { Image } from "astro:assets";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Devis from "../../components/Devis.astro";
+import { GENERAL_SERVICES, DECOR_SERVICES, SITE, SERVICES } from "../../data/site";
+import heroBg from "../../assets/services/peinture-interieure.jpg";
+
+const seoTitle = "Tous les services";
+const seoDesc =
+  "Peintre, plâtrier, plaquiste et décorateur en Lorraine. Peinture intérieure et extérieure, crépi, ravalement de façade, moulures, béton ciré, verrière, et quatre décors d'art rares.";
+
+const itemListSchema = {
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  name: "Tous les services KGM Pro Decor",
+  itemListElement: SERVICES.map((s, i) => ({
+    "@type": "ListItem",
+    position: i + 1,
+    name: s.name,
+    url: `${SITE.url}/services/${s.slug}`,
+  })),
+};
+
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "Accueil", item: SITE.url },
+    { "@type": "ListItem", position: 2, name: "Services", item: `${SITE.url}/services` },
+  ],
+};
+---
+
+<BaseLayout title={seoTitle} description={seoDesc} extraSchemas={[itemListSchema, breadcrumbSchema]}>
+  <!-- HERO -->
+  <section class="relative isolate overflow-hidden text-cream-50 pt-40 pb-24 lg:pt-48 lg:pb-32 grain">
+    <Image
+      src={heroBg}
+      alt=""
+      loading="eager"
+      widths={[800, 1280, 1920]}
+      sizes="100vw"
+      class="hero-bg-img absolute inset-0 -z-10 h-full w-full object-cover object-center"
+    />
+    <div class="hero-overlay-image absolute inset-0 -z-10"></div>
+
+    <div class="mx-auto max-w-7xl px-6 lg:px-10">
+      <nav class="mb-10" aria-label="Fil d'Ariane">
+        <ol class="flex flex-wrap items-center text-xs uppercase tracking-[0.22em] text-cream-100/60">
+          <li><a href="/" class="hover:text-cream-50">Accueil</a></li>
+          <li aria-hidden="true" class="mx-2">/</li>
+          <li><span class="text-cream-100" aria-current="page">Services</span></li>
+        </ol>
+      </nav>
+
+      <p class="text-xs uppercase tracking-[0.22em] text-mauve-300">Tous les services</p>
+      <h1 class="hero-readable mt-6 max-w-4xl font-display text-5xl leading-[1.05] sm:text-6xl lg:text-7xl">
+        Peinture, plâtrerie,
+        <span class="script-gradient italic text-[1.4em]">décoration</span>.
+      </h1>
+      <p class="mt-8 max-w-2xl text-lg leading-relaxed text-cream-100/85">
+        Neuf services généraux et quatre décors d'art rares, exécutés par Gary Goder, peintre décorateur en Lorraine. CAP Peintre poseur de sol + BP mention décorateur + CAP Plâtrier Plaquiste Staffeur.
+      </p>
+    </div>
+  </section>
+
+  <!-- LISTE 9 SERVICES GÉNÉRAUX -->
+  <section class="crepi relative bg-cream-50 py-24 lg:py-32">
+    <div class="mx-auto max-w-7xl px-6 lg:px-10">
+      <div class="grid gap-px overflow-hidden rounded-sm bg-mauve-200/50 sm:grid-cols-2 lg:grid-cols-3">
+        {GENERAL_SERVICES.map((s) => (
+          <a
+            href={`/services/${s.slug}`}
+            class="group flex flex-col gap-3 bg-cream-50 p-8 transition hover:bg-cream-100/80"
+          >
+            <h2 class="font-display text-2xl text-ink-900">{s.shortName}</h2>
+            <p class="font-display italic text-2xl text-mauve-500">{s.tagline}</p>
+            <p class="mt-2 text-sm leading-relaxed text-ink-700/80 line-clamp-3">{s.description}</p>
+            <span class="mt-auto pt-3 text-xs uppercase tracking-[0.18em] text-mauve-700/70 transition group-hover:text-mauve-500">
+              Voir le service →
+            </span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- HUB DÉCORS D'ART (mis en avant car spécialité rare) -->
+  <section class="bg-mauve-950 py-24 text-cream-50 lg:py-32 grain">
+    <div class="mx-auto max-w-7xl px-6 lg:px-10">
+      <div class="grid gap-12 lg:grid-cols-12 lg:items-center">
+        <div class="lg:col-span-5">
+          <p class="text-xs uppercase tracking-[0.22em] text-mauve-300">Spécialités rares</p>
+          <h2 class="mt-6 font-display text-3xl leading-tight sm:text-4xl lg:text-5xl">
+            Quatre <span class="script-gradient italic">décors d'art</span> peints à la main.
+          </h2>
+          <p class="mt-8 max-w-md text-base leading-relaxed text-cream-100/85">
+            Faux bois, faux marbre, faux ciel, dorure à la feuille d'or. Quatre savoir-faire
+            que Gary pratique depuis vingt ans et qu'il enseigne au CFA de Pont-à-Mousson.
+          </p>
+          <a
+            href="/services/decors-d-art"
+            class="mt-10 inline-flex items-center gap-2 rounded-full bg-mauve-500 px-6 py-3.5 text-sm font-medium text-cream-50 transition hover:bg-mauve-400"
+          >
+            Découvrir les quatre techniques →
+          </a>
+        </div>
+
+        <div class="lg:col-span-7">
+          <ul class="grid grid-cols-2 gap-4">
+            {DECOR_SERVICES.map((s) => (
+              <li>
+                <a
+                  href={`/services/${s.slug}`}
+                  class="group flex aspect-square flex-col justify-end rounded-2xl border border-mauve-700/40 bg-mauve-900/50 p-6 transition hover:border-mauve-400/60 hover:bg-mauve-900/80"
+                >
+                  <p class="text-[10px] uppercase tracking-[0.22em] text-mauve-300">Spécialité</p>
+                  <p class="mt-2 font-display text-2xl text-cream-50 sm:text-3xl">{s.shortName}</p>
+                  <p class="mt-2 text-xs text-cream-100/70 transition group-hover:text-cream-50">
+                    Voir →
+                  </p>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <Devis />
+</BaseLayout>

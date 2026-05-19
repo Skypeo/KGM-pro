@@ -1,0 +1,166 @@
+---
+import { Image } from "astro:assets";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Devis from "../../components/Devis.astro";
+import cielPeint from "../../assets/ciel-peint.webp";
+import { DECOR_SERVICES, SITE } from "../../data/site";
+
+const seoTitle = "Décors d'art — faux bois, faux marbre, faux ciel, feuille d'or";
+const seoDesc =
+  "Quatre spécialités décoratives rares pratiquées par Gary Goder en Lorraine : faux bois, faux marbre, faux ciel peint en trompe-l'œil, dorure à la feuille d'or. 20 ans de pratique, transmission au CFA.";
+
+const collectionPageSchema = {
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  url: `${SITE.url}/services/decors-d-art`,
+  name: "Décors d'art — quatre spécialités décoratives rares",
+  description: seoDesc,
+  hasPart: DECOR_SERVICES.map((s) => ({
+    "@type": "Service",
+    name: s.name,
+    url: `${SITE.url}/services/${s.slug}`,
+    provider: { "@id": `${SITE.url}/#localbusiness` },
+  })),
+};
+
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "Accueil", item: SITE.url },
+    { "@type": "ListItem", position: 2, name: "Services", item: `${SITE.url}/services` },
+    { "@type": "ListItem", position: 3, name: "Décors d'art", item: `${SITE.url}/services/decors-d-art` },
+  ],
+};
+
+// Couleur de fond et ordre d'affichage par décor (correspond aux slugs)
+const decorVisuals: Record<string, { gradient: string; emoji: null }> = {
+  "faux-bois":    { gradient: "linear-gradient(135deg, #6b4f2a 0%, #a47140 50%, #6b4f2a 100%)", emoji: null },
+  "faux-marbre":  { gradient: "linear-gradient(135deg, #2a2538 0%, #5a5266 50%, #2a2538 100%)", emoji: null },
+  "faux-ciel":    { gradient: "linear-gradient(180deg, #4a5d8a 0%, #8ab2d4 50%, #c8d8e8 100%)", emoji: null },
+  "feuille-d-or": { gradient: "linear-gradient(135deg, #8a6914 0%, #d4a838 50%, #8a6914 100%)", emoji: null },
+};
+---
+
+<BaseLayout title={seoTitle} description={seoDesc} extraSchemas={[collectionPageSchema, breadcrumbSchema]}>
+  <!-- HERO -->
+  <section class="relative isolate overflow-hidden text-cream-50 pt-40 pb-24 lg:pt-48 lg:pb-32 grain">
+    <Image
+      src={cielPeint}
+      alt=""
+      loading="eager"
+      widths={[800, 1280, 1920]}
+      sizes="100vw"
+      class="hero-bg-img absolute inset-0 -z-10 h-full w-full object-cover object-center"
+    />
+    <div class="hero-overlay-image absolute inset-0 -z-10"></div>
+
+    <div class="mx-auto max-w-7xl px-6 lg:px-10">
+      <nav class="mb-10" aria-label="Fil d'Ariane">
+        <ol class="flex flex-wrap items-center text-xs uppercase tracking-[0.22em] text-cream-100/60">
+          <li><a href="/" class="hover:text-cream-50">Accueil</a></li>
+          <li aria-hidden="true" class="mx-2">/</li>
+          <li><a href="/services" class="hover:text-cream-50">Services</a></li>
+          <li aria-hidden="true" class="mx-2">/</li>
+          <li><span class="text-cream-100" aria-current="page">Décors d'art</span></li>
+        </ol>
+      </nav>
+
+      <p class="text-xs uppercase tracking-[0.22em] text-mauve-300">Quatre spécialités rares</p>
+      <h1 class="hero-readable mt-6 max-w-4xl font-display text-5xl leading-[1.05] sm:text-6xl lg:text-7xl">
+        <span class="script-gradient italic text-[1.4em]">Faux bois, faux marbre,</span>
+        faux ciel et feuille d'or.
+      </h1>
+      <p class="mt-10 max-w-2xl text-lg leading-relaxed text-cream-100/85">
+        Quatre techniques décoratives rares pratiquées en Lorraine par Gary Goder, peintre décorateur formé au BP décorateur et intervenant au CFA de Pont-à-Mousson.
+      </p>
+    </div>
+  </section>
+
+  <!-- INTRO POURQUOI -->
+  <section class="crepi relative bg-cream-50 py-24 lg:py-32">
+    <div class="mx-auto max-w-5xl px-6 lg:px-10">
+      <div class="grid gap-12 lg:grid-cols-12">
+        <div class="lg:col-span-4">
+          <p class="text-xs uppercase tracking-[0.22em] text-mauve-600">Le geste</p>
+          <h2 class="mt-6 font-display text-3xl leading-tight text-ink-900">
+            Un métier que peu d'artisans pratiquent <span class="script text-5xl text-mauve-500">encore</span>.
+          </h2>
+        </div>
+        <div class="lg:col-span-8 space-y-6 text-base leading-relaxed text-ink-700 sm:text-lg">
+          <p>
+            Les décors d'art peints à la main demandent des années de pratique. Une bonne lecture
+            de la matière à imiter, un geste sûr, et le bon dosage entre les fonds, les glacis et
+            les finitions. Pas de raccourci possible — aucune machine ne reproduit ce travail.
+          </p>
+          <p>
+            Gary les pratique depuis vingt ans. Il intervient sur des chantiers en Lorraine, et
+            forme les apprentis au CFA de Pont-à-Mousson pour que ces techniques ne se perdent pas.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- LES 4 DÉCORS -->
+  <section class="crepi relative bg-cream-100 py-24 lg:py-32">
+    <div class="mx-auto max-w-7xl px-6 lg:px-10">
+      <div class="mx-auto max-w-3xl text-center">
+        <p class="inline-flex items-center gap-3 text-[11px] uppercase tracking-[0.28em] text-mauve-600">
+          <span class="h-px w-8 bg-mauve-300"></span>
+          Les quatre techniques
+          <span class="h-px w-8 bg-mauve-300"></span>
+        </p>
+        <h2 class="mt-6 font-display text-3xl leading-[1.15] text-ink-900 sm:text-4xl lg:text-5xl">
+          Chaque décor a sa <span class="script-gradient italic">grammaire</span>.
+        </h2>
+      </div>
+
+      <div class="mt-16 grid gap-8 sm:grid-cols-2">
+        {DECOR_SERVICES.map((s) => (
+          <a
+            href={`/services/${s.slug}`}
+            class="group flex flex-col overflow-hidden rounded-2xl bg-cream-50 ring-1 ring-mauve-200/60 transition hover:ring-mauve-400/70"
+          >
+            <div
+              class="aspect-[16/10] w-full relative"
+              style={`background: ${decorVisuals[s.slug]?.gradient ?? "linear-gradient(135deg, #7a6b9a, #2a1f3d)"};`}
+            >
+              <span class="absolute inset-0 grain opacity-30"></span>
+              <span class="absolute bottom-4 left-5 right-5 font-display text-3xl text-cream-50 drop-shadow-lg sm:text-4xl">{s.shortName}</span>
+            </div>
+            <div class="flex flex-col gap-3 p-7 sm:p-8">
+              <p class="font-display italic text-2xl text-mauve-500">{s.tagline}</p>
+              <p class="text-sm leading-relaxed text-ink-700/85">{s.description}</p>
+              <span class="mt-auto pt-3 text-xs uppercase tracking-[0.18em] text-mauve-700 transition group-hover:text-mauve-500">
+                Voir la technique en détail →
+              </span>
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- TRANSMISSION CFA -->
+  <section class="bg-mauve-950 py-20 text-cream-50 lg:py-24 grain">
+    <div class="mx-auto max-w-5xl px-6 text-center lg:px-10">
+      <p class="text-xs uppercase tracking-[0.22em] text-mauve-300">Transmission</p>
+      <h2 class="mt-6 font-display text-3xl leading-tight sm:text-4xl">
+        Ces quatre techniques, Gary les <span class="script text-5xl text-mauve-200">enseigne</span> aussi.
+      </h2>
+      <p class="mx-auto mt-8 max-w-2xl text-base leading-relaxed text-cream-100/85">
+        Au CFA de Pont-à-Mousson, Gary forme les apprentis peintres et plâtriers aux gestes
+        décoratifs traditionnels. Pour qu'ils ne se perdent pas.
+      </p>
+      <a
+        href="/a-propos"
+        class="mt-10 inline-flex items-center gap-2 rounded-full border border-cream-100/30 px-6 py-3.5 text-sm text-cream-100/90 transition hover:bg-cream-100/10"
+      >
+        L'histoire de Gary →
+      </a>
+    </div>
+  </section>
+
+  <Devis />
+</BaseLayout>

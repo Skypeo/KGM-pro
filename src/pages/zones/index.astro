@@ -1,0 +1,38 @@
+---
+import { Image } from "astro:assets";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Zones from "../../components/Zones.astro";
+import Devis from "../../components/Devis.astro";
+import heroBg from "../../assets/pages/nancy-architecture.jpg";
+---
+
+<BaseLayout
+  title="Zones d'intervention"
+  description="Peintre, plâtrier et décorateur d'art Gary Goder intervient à Nancy, Pont-à-Mousson, Frouard, Saint-Max et 10 autres communes de Lorraine."
+>
+  <section class="relative isolate overflow-hidden text-cream-50 pt-40 pb-20 lg:pt-48 lg:pb-24 grain">
+    <Image
+      src={heroBg}
+      alt=""
+      loading="eager"
+      widths={[800, 1280, 1920]}
+      sizes="100vw"
+      class="hero-bg-img absolute inset-0 -z-10 h-full w-full object-cover object-center"
+    />
+    <div class="hero-overlay-image absolute inset-0 -z-10"></div>
+    <div class="mx-auto max-w-7xl px-6 lg:px-10">
+      <p class="text-xs uppercase tracking-[0.22em] text-mauve-300">Zones d'intervention</p>
+      <h1 class="hero-readable mt-6 max-w-4xl font-display text-5xl leading-[1.05] sm:text-6xl lg:text-7xl">
+        Peintre et plâtrier dans
+        <span class="script-gradient italic text-[1.4em]">treize communes</span>
+        du Grand Nancy.
+      </h1>
+      <p class="mt-8 max-w-2xl text-lg leading-relaxed text-cream-100/85">
+        Intervention à Nancy, Pont-à-Mousson, Frouard, Saint-Max et 9 autres communes de Meurthe-et-Moselle. Devis gratuit étudié à la main pour chaque chantier.
+      </p>
+    </div>
+  </section>
+
+  <Zones />
+  <Devis />
+</BaseLayout>

@@ -1,17 +1,20 @@
 ---
-
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Hero from "../components/Hero.astro";
+import Artisan from "../components/Artisan.astro";
+import SavoirFaire from "../components/SavoirFaire.astro";
+import Realisations from "../components/Realisations.astro";
+import Zones from "../components/Zones.astro";
+import Devis from "../components/Devis.astro";
+// TODO Gary : réactiver Avis quand on aura les vrais témoignages + lien Google validé
+// import Avis from "../components/Avis.astro";
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<BaseLayout>
+  <Hero />
+  <Artisan />
+  <SavoirFaire />
+  <Realisations />
+  <Zones />
+  <Devis />
+</BaseLayout>

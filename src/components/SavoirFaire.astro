@@ -1,0 +1,172 @@
+---
+import { Image } from "astro:assets";
+import rosace from "../assets/moulure-cherubin.webp";
+
+// Bullets et cards basés strictement sur les 10 services du brief Timothée
+// TODO Gary : valider les bullets de la carte signature (styles précis, types d'ornements)
+const moulureBullets = [
+  "Moulures & corniches",
+  "Rosaces de plafond",
+  "Ornements en plâtre",
+  "Décors peints à la main",
+];
+
+const cards = [
+  {
+    title: "Peinture intérieure",
+    desc: "Murs, plafonds, boiseries. Préparation du support et finition soignée.",
+    tags: ["Intérieur", "Préparation", "Finition"],
+    icon: "brush",
+    href: "/services/peinture-interieure",
+  },
+  {
+    title: "Façades extérieures",
+    desc: "Peinture extérieure, crépi, ravalement de façade. Adapté au bâti et aux intempéries lorraines.",
+    tags: ["Crépi", "Ravalement", "Peinture façade"],
+    icon: "house",
+    href: "/services/ravalement-facade",
+  },
+  {
+    title: "Décors d'art",
+    desc: "Faux bois, faux marbre, faux ciel, feuille d'or. Quatre spécialités rares, vingt ans de pratique.",
+    tags: ["Faux marbre", "Faux ciel", "Feuille d'or"],
+    icon: "sparkle",
+    href: "/services/decors-d-art",
+  },
+];
+---
+
+<section id="savoir-faire" class="relative bg-mauve-950 py-20 text-cream-50 sm:py-24 lg:py-28">
+  <div class="mx-auto max-w-7xl px-6 lg:px-10">
+    <!-- Header -->
+    <div class="mx-auto max-w-3xl text-center reveal">
+      <p class="inline-flex items-center gap-3 text-[11px] uppercase tracking-[0.28em] text-mauve-300">
+        <span class="h-px w-8 bg-mauve-400/60"></span>
+        Savoir-faire
+        <span class="h-px w-8 bg-mauve-400/60"></span>
+      </p>
+      <h2 class="mt-6 font-display text-3xl leading-[1.15] text-white sm:text-4xl lg:text-5xl">
+        De l'ornement décoratif
+        <br class="hidden sm:block" />
+        à la <span class="script-gradient italic">rénovation complète</span>.
+      </h2>
+      <p class="mt-5 text-sm leading-relaxed text-cream-100/75 sm:text-base">
+        Dix métiers du bâtiment et de la décoration, exercés par Gary lui-même.
+      </p>
+    </div>
+
+    <!-- Featured signature card -->
+    <article class="mt-14 overflow-hidden rounded-2xl border border-mauve-700/60 bg-mauve-900/70 shadow-2xl shadow-mauve-950/50 backdrop-blur sm:mt-16 lg:mt-20 reveal" style="--reveal-delay: 100ms;">
+      <div class="grid lg:grid-cols-2">
+        <!-- Photo -->
+        <figure class="relative aspect-[4/3] lg:aspect-auto">
+          <Image
+            src={rosace}
+            alt="Rosace de plafond en plâtre — signée Gary Goder"
+            widths={[480, 720, 960, 1200]}
+            sizes="(min-width: 1024px) 50vw, 100vw"
+            class="absolute inset-0 h-full w-full object-cover"
+          />
+          <div class="absolute inset-0 bg-gradient-to-t from-mauve-950/60 via-transparent to-transparent"></div>
+          <figcaption class="absolute left-5 top-5 inline-flex items-center gap-2 rounded-full bg-mauve-950/70 px-3.5 py-1.5 text-[11px] uppercase tracking-[0.18em] text-cream-50 backdrop-blur ring-1 ring-mauve-400/30">
+            <svg viewBox="0 0 24 24" fill="currentColor" class="h-3 w-3 text-mauve-300">
+              <path d="M12 2l2.9 6.9 7.1.6-5.4 4.7 1.7 7-6.3-3.8-6.3 3.8 1.7-7L2 9.5l7.1-.6L12 2z"/>
+            </svg>
+            Signature
+          </figcaption>
+        </figure>
+
+        <!-- Content -->
+        <div class="flex flex-col gap-5 p-8 sm:p-10 lg:p-12">
+          <div class="flex h-11 w-11 items-center justify-center rounded-full bg-mauve-800/80 ring-1 ring-mauve-600/50">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" class="h-5 w-5 text-mauve-200">
+              <circle cx="12" cy="12" r="9"/>
+              <circle cx="12" cy="12" r="5"/>
+              <circle cx="12" cy="12" r="1.5" fill="currentColor"/>
+            </svg>
+          </div>
+
+          <p class="text-[11px] uppercase tracking-[0.22em] text-mauve-300">
+            Savoir-faire rare
+          </p>
+          <h3 class="font-display text-2xl leading-tight text-white sm:text-3xl lg:text-4xl">
+            Moulures &amp; ornements en plâtre
+          </h3>
+          <p class="text-sm leading-relaxed text-cream-100/75 sm:text-base">
+            Corniches, rosaces et ornements en plâtre. La pose d'ornements demande un œil de
+            décorateur — c'est l'une des signatures de Gary, avec les décors d'art peints (faux
+            bois, faux marbre, faux ciel, feuille d'or).
+          </p>
+
+          <ul class="mt-2 grid gap-x-6 gap-y-2.5 sm:grid-cols-2">
+            {moulureBullets.map((b) => (
+              <li class="flex items-center gap-2.5 text-sm text-cream-100/85">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" class="h-3.5 w-3.5 shrink-0 text-mauve-300">
+                  <polyline points="9 6 15 12 9 18" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                {b}
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </article>
+
+    <!-- 3 secondary cards -->
+    <div class="mt-6 grid gap-6 sm:mt-8 sm:grid-cols-2 lg:grid-cols-3">
+      {cards.map((c) => (
+        <a
+          href={c.href}
+          class="card-tilt group flex flex-col gap-4 rounded-2xl bg-cream-50 p-7 ring-1 ring-mauve-200/60 transition hover:ring-mauve-400/60 sm:p-8"
+        >
+          <div class="flex h-11 w-11 items-center justify-center rounded-full bg-mauve-100 text-mauve-600">
+            {c.icon === "brush" && (
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" class="h-5 w-5">
+                <path d="M3 21c0-3 2-5 5-5l3-3 5 5-3 3c0 3-2 5-5 5H3v-5z" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M14 8l5-5 2 2-5 5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            )}
+            {c.icon === "house" && (
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" class="h-5 w-5">
+                <path d="M3 11l9-7 9 7v10a1 1 0 01-1 1h-5v-7H9v7H4a1 1 0 01-1-1V11z" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            )}
+            {c.icon === "sparkle" && (
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" class="h-5 w-5">
+                <path d="M12 3l2 5 5 2-5 2-2 5-2-5-5-2 5-2 2-5z" stroke-linejoin="round"/>
+                <path d="M19 14l1 2.5L22.5 17.5 20 18.5l-1 2.5-1-2.5L15.5 17.5 18 16.5z" stroke-linejoin="round"/>
+              </svg>
+            )}
+          </div>
+
+          <h3 class="font-display text-2xl leading-tight text-ink-900 sm:text-[26px]">
+            {c.title}
+          </h3>
+          <p class="text-sm leading-relaxed text-ink-700/85">
+            {c.desc}
+          </p>
+
+          <ul class="mt-auto flex flex-wrap gap-2 pt-2">
+            {c.tags.map((t) => (
+              <li class="rounded-full border border-mauve-300/70 bg-cream-50 px-3 py-1 text-[12px] text-mauve-700">
+                {t}
+              </li>
+            ))}
+          </ul>
+          <span class="pt-2 text-[11px] uppercase tracking-[0.18em] text-mauve-700/70 transition group-hover:text-mauve-500">
+            Voir le détail →
+          </span>
+        </a>
+      ))}
+    </div>
+
+    <div class="mt-14 text-center">
+      <a
+        href="/services"
+        class="inline-flex items-center gap-2 rounded-full border border-cream-100/30 px-6 py-3.5 text-sm text-cream-100/90 transition hover:bg-cream-100/10"
+      >
+        Voir les neuf services en détail →
+      </a>
+    </div>
+  </div>
+</section>

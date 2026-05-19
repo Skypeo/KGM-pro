@@ -1,0 +1,104 @@
+---
+import { Image } from "astro:assets";
+import cielPeint from "../assets/ciel-peint.webp";
+
+// Parcours factuel — basé sur brief Timothée 2026-05-06 uniquement
+const parcours = [
+  { n: "01", title: "20 ans de métier", desc: "Deux décennies sur les chantiers, des plus simples aux décors d'art." },
+  { n: "02", title: "Double CAP", desc: "Peintre poseur de sol & Plâtrier Plaquiste Staffeur." },
+  { n: "03", title: "BP décorateur", desc: "Brevet professionnel mention décorateur — la qualification supérieure du métier." },
+  { n: "04", title: "Transmission au CFA", desc: "Intervenant au CFA de Pont-à-Mousson, forme la relève." },
+];
+---
+
+<section id="artisan" class="crepi relative py-20 sm:py-24 lg:py-32">
+  <div class="mx-auto max-w-7xl px-6 lg:px-10">
+    <div class="grid gap-12 lg:grid-cols-12 lg:gap-16">
+      <!-- LEFT — photo card -->
+      <div class="lg:col-span-5 reveal">
+        <figure class="relative aspect-[4/5] w-full overflow-hidden rounded-sm bg-mauve-200">
+          <Image
+            src={cielPeint}
+            alt="Réalisation signée Gary Goder — décor peint"
+            widths={[480, 720, 960]}
+            sizes="(min-width: 1024px) 40vw, 100vw"
+            class="absolute inset-0 h-full w-full object-cover object-top"
+          />
+          <!-- Mauve tint -->
+          <div
+            class="absolute inset-0"
+            style="background: linear-gradient(180deg, rgba(42,31,61,0.25) 0%, rgba(42,31,61,0.15) 35%, rgba(42,31,61,0.85) 100%);"
+          ></div>
+
+          <!-- Top badge -->
+          {/* TODO Gary : confirmer ce que représente vraiment cette photo (faux ciel ? décor peint ?) */}
+          <figcaption class="absolute left-5 top-5 inline-flex items-center gap-2 rounded-full bg-cream-50/90 px-3.5 py-1.5 text-[11px] uppercase tracking-[0.18em] text-ink-800 backdrop-blur">
+            <span class="h-1.5 w-1.5 rounded-full bg-mauve-500"></span>
+            Décor peint à la main
+          </figcaption>
+
+          <!-- Bottom signature -->
+          <div class="absolute inset-x-5 bottom-5 sm:inset-x-7 sm:bottom-7">
+            <p class="text-[10px] uppercase tracking-[0.28em] text-cream-100/80">— L'artisan</p>
+            <p class="mt-2 font-display text-4xl leading-none text-white sm:text-5xl">
+              Gary <span class="font-medium">Goder</span>
+            </p>
+            <p class="mt-3 text-xs text-cream-100/85 sm:text-sm">
+              Peintre, plâtrier, décorateur — 20 ans de métier
+            </p>
+            <p class="mt-4 text-[10px] uppercase tracking-[0.22em] text-cream-100/60">
+              Réalisation signée
+            </p>
+          </div>
+        </figure>
+      </div>
+
+      <!-- RIGHT — content -->
+      <div class="lg:col-span-7 lg:pt-2 reveal" style="--reveal-delay: 150ms;">
+        <p class="flex items-center gap-3 text-[11px] uppercase tracking-[0.28em] text-mauve-600">
+          <span class="h-px w-8 bg-mauve-400"></span>
+          L'artisan
+        </p>
+
+        <h2 class="mt-6 font-display text-3xl leading-[1.15] text-ink-900 sm:text-4xl lg:text-5xl">
+          Gary Goder,
+          <br class="hidden sm:block" />
+          vingt ans de
+          <span class="script-gradient italic">métier</span>.
+        </h2>
+
+        <div class="mt-8 max-w-xl space-y-5 text-[15px] leading-relaxed text-ink-700 sm:text-base">
+          <p>
+            Peintre, plâtrier et décorateur en Lorraine. Double formation :
+            <em class="not-italic font-medium text-ink-900">CAP Peintre poseur de sol</em>
+            avec BP mention décorateur, et
+            <em class="not-italic font-medium text-ink-900">CAP Plâtrier Plaquiste Staffeur</em>.
+          </p>
+          <p>
+            Spécialités décoratives rares : faux bois, faux marbre, faux ciel, feuille d'or.
+            Gary transmet aussi son savoir au CFA de Pont-à-Mousson.
+          </p>
+        </div>
+
+        <ul class="mt-12 grid gap-x-8 gap-y-8 sm:grid-cols-2">
+          {parcours.map((q) => (
+            <li class="relative border-t border-mauve-200 pt-5">
+              <span class="font-display text-sm tracking-widest text-mauve-500">{q.n}</span>
+              <p class="mt-2 font-display text-xl text-ink-900 sm:text-2xl">{q.title}</p>
+              <p class="mt-1.5 text-sm leading-relaxed text-ink-700">{q.desc}</p>
+            </li>
+          ))}
+        </ul>
+
+        <div class="mt-12">
+          <a
+            href="/a-propos"
+            class="inline-flex items-center gap-2 rounded-full bg-mauve-500 px-6 py-3.5 text-sm font-medium text-cream-50 shadow-md shadow-mauve-500/20 transition hover:bg-mauve-600"
+          >
+            L'histoire complète de Gary →
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

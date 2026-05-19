@@ -1,0 +1,261 @@
+---
+import { Image } from "astro:assets";
+import angelot from "../assets/galerie/2025-03-01_(1).webp";
+import rosaceBleue from "../assets/galerie/2025-03-01_(5).webp";
+import miniRosace from "../assets/galerie/2025-03-01_(4).webp";
+import ledCouloir from "../assets/galerie/2025-03-01.webp";
+import ledGeometrique from "../assets/galerie/2025-03-01_(2).webp";
+import cielPeint from "../assets/galerie/2025-03-01_(3).webp";
+
+// TODO Gary : faire valider les descriptions exactes de chaque photo (style historique, technique précise)
+const photos = [
+  { src: angelot,        alt: "Angelot en plâtre sculpté",         area: "tall" },
+  { src: rosaceBleue,    alt: "Grande rosace de plafond en plâtre", area: "wide" },
+  { src: miniRosace,     alt: "Rosace décorative en plâtre",        area: "wide" },
+  { src: ledCouloir,     alt: "Plafond décoratif éclairé",          area: "third" },
+  { src: ledGeometrique, alt: "Plafond décoratif géométrique éclairé", area: "third" },
+  { src: cielPeint,      alt: "Faux ciel peint à la main",          area: "third" },
+];
+---
+
+<section id="realisations" class="crepi relative bg-cream-50 py-20 sm:py-24 lg:py-28">
+  <div class="mx-auto max-w-7xl px-6 lg:px-10">
+    <!-- Header -->
+    <div class="mx-auto max-w-3xl text-center reveal">
+      <p class="inline-flex items-center gap-3 text-[11px] uppercase tracking-[0.28em] text-mauve-600">
+        <span class="h-px w-8 bg-mauve-300"></span>
+        Réalisations
+        <span class="h-px w-8 bg-mauve-300"></span>
+      </p>
+      <h2 class="mt-6 font-display text-3xl leading-[1.15] text-ink-900 sm:text-4xl lg:text-5xl">
+        Le geste artisanal,
+        <br class="hidden sm:block" />
+        <span class="script-gradient italic">en images</span>.
+      </h2>
+      <p class="mt-5 text-sm leading-relaxed text-ink-700/75 sm:text-base">
+        Quelques chantiers récents. Cliquez sur une image pour l'agrandir.
+      </p>
+    </div>
+
+    <!-- Section haute : 1 grande à gauche + 2 empilées à droite -->
+    <div class="mt-14 grid gap-4 sm:gap-5 lg:mt-16 lg:grid-cols-12 lg:gap-6">
+      <!-- Angelot (tall, gauche) -->
+      <button
+        type="button"
+        class="realisation-trigger group relative block overflow-hidden rounded-lg bg-mauve-100 lg:col-span-7 lg:row-span-2"
+        data-index="0"
+        aria-label="Agrandir : angelot en plâtre"
+      >
+        <Image
+          src={photos[0].src}
+          alt={photos[0].alt}
+          widths={[480, 720, 1080, 1440]}
+          sizes="(min-width: 1024px) 58vw, 100vw"
+          class="block aspect-[4/5] h-full w-full object-cover transition duration-700 group-hover:scale-[1.03] lg:aspect-auto"
+        />
+        <span class="pointer-events-none absolute inset-0 flex items-center justify-center bg-mauve-950/0 transition group-hover:bg-mauve-950/25">
+          <span class="inline-flex h-11 w-11 items-center justify-center rounded-full bg-cream-50/15 text-cream-50 opacity-0 ring-1 ring-cream-50/30 backdrop-blur transition group-hover:opacity-100">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="h-4 w-4">
+              <path d="M15 3h6v6M14 10l7-7M9 21H3v-6M10 14l-7 7" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </span>
+        </span>
+      </button>
+
+      <!-- Rosace bleue (droite haut) -->
+      <button
+        type="button"
+        class="realisation-trigger group relative block overflow-hidden rounded-lg bg-mauve-100 lg:col-span-5"
+        data-index="1"
+        aria-label="Agrandir : grande rosace"
+      >
+        <Image
+          src={photos[1].src}
+          alt={photos[1].alt}
+          widths={[480, 720, 960]}
+          sizes="(min-width: 1024px) 42vw, 100vw"
+          class="block aspect-square h-full w-full object-cover transition duration-700 group-hover:scale-[1.03]"
+        />
+        <span class="pointer-events-none absolute inset-0 flex items-center justify-center bg-mauve-950/0 transition group-hover:bg-mauve-950/25">
+          <span class="inline-flex h-11 w-11 items-center justify-center rounded-full bg-cream-50/15 text-cream-50 opacity-0 ring-1 ring-cream-50/30 backdrop-blur transition group-hover:opacity-100">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="h-4 w-4">
+              <path d="M15 3h6v6M14 10l7-7M9 21H3v-6M10 14l-7 7" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </span>
+        </span>
+      </button>
+
+      <!-- Mini rosace (droite bas) -->
+      <button
+        type="button"
+        class="realisation-trigger group relative block overflow-hidden rounded-lg bg-mauve-100 lg:col-span-5"
+        data-index="2"
+        aria-label="Agrandir : petite rosace"
+      >
+        <Image
+          src={photos[2].src}
+          alt={photos[2].alt}
+          widths={[480, 720, 960]}
+          sizes="(min-width: 1024px) 42vw, 100vw"
+          class="block aspect-[4/3] h-full w-full object-cover transition duration-700 group-hover:scale-[1.03]"
+        />
+        <span class="pointer-events-none absolute inset-0 flex items-center justify-center bg-mauve-950/0 transition group-hover:bg-mauve-950/25">
+          <span class="inline-flex h-11 w-11 items-center justify-center rounded-full bg-cream-50/15 text-cream-50 opacity-0 ring-1 ring-cream-50/30 backdrop-blur transition group-hover:opacity-100">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="h-4 w-4">
+              <path d="M15 3h6v6M14 10l7-7M9 21H3v-6M10 14l-7 7" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </span>
+        </span>
+      </button>
+    </div>
+
+    <!-- Section basse : 3 photos en ligne -->
+    <div class="mt-4 grid gap-4 sm:mt-5 sm:gap-5 sm:grid-cols-3 lg:mt-6 lg:gap-6">
+      {photos.slice(3).map((p, i) => (
+        <button
+          type="button"
+          class="realisation-trigger group relative block overflow-hidden rounded-lg bg-mauve-100"
+          data-index={i + 3}
+          aria-label="Agrandir l'image"
+        >
+          <Image
+            src={p.src}
+            alt={p.alt}
+            widths={[400, 640, 880]}
+            sizes="(min-width: 640px) 33vw, 100vw"
+            class="block aspect-[4/3] h-full w-full object-cover transition duration-700 group-hover:scale-[1.03]"
+          />
+          <span class="pointer-events-none absolute inset-0 flex items-center justify-center bg-mauve-950/0 transition group-hover:bg-mauve-950/25">
+            <span class="inline-flex h-11 w-11 items-center justify-center rounded-full bg-cream-50/15 text-cream-50 opacity-0 ring-1 ring-cream-50/30 backdrop-blur transition group-hover:opacity-100">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="h-4 w-4">
+                <path d="M15 3h6v6M14 10l7-7M9 21H3v-6M10 14l-7 7" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </span>
+          </span>
+        </button>
+      ))}
+    </div>
+
+    <div class="mt-14 text-center">
+      <a
+        href="/realisations"
+        class="inline-flex items-center gap-2 rounded-full bg-mauve-500 px-6 py-3.5 text-sm font-medium text-cream-50 shadow-md shadow-mauve-500/20 transition hover:bg-mauve-600"
+      >
+        Voir toutes les réalisations →
+      </a>
+    </div>
+  </div>
+
+  <!-- Lightbox -->
+  <dialog
+    id="realisation-lightbox"
+    class="m-0 max-h-none max-w-none h-full w-full bg-transparent p-0 backdrop:bg-mauve-950/85 backdrop:backdrop-blur-sm"
+  >
+    <div class="relative flex h-full w-full items-center justify-center p-4 sm:p-8">
+      <button
+        type="button"
+        data-lightbox-close
+        class="absolute right-4 top-4 z-10 inline-flex h-11 w-11 items-center justify-center rounded-full bg-cream-50/10 text-cream-50 ring-1 ring-cream-50/25 backdrop-blur transition hover:bg-cream-50/20 sm:right-6 sm:top-6"
+        aria-label="Fermer"
+      >
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" class="h-5 w-5">
+          <line x1="6" y1="6" x2="18" y2="18" stroke-linecap="round"/>
+          <line x1="18" y1="6" x2="6" y2="18" stroke-linecap="round"/>
+        </svg>
+      </button>
+
+      <button
+        type="button"
+        data-lightbox-prev
+        class="absolute left-3 top-1/2 z-10 inline-flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-cream-50/10 text-cream-50 ring-1 ring-cream-50/25 backdrop-blur transition hover:bg-cream-50/20 sm:left-6"
+        aria-label="Précédent"
+      >
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" class="h-5 w-5">
+          <polyline points="15 6 9 12 15 18" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+
+      <button
+        type="button"
+        data-lightbox-next
+        class="absolute right-3 top-1/2 z-10 inline-flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-cream-50/10 text-cream-50 ring-1 ring-cream-50/25 backdrop-blur transition hover:bg-cream-50/20 sm:right-6"
+        aria-label="Suivant"
+      >
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" class="h-5 w-5">
+          <polyline points="9 6 15 12 9 18" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+
+      <figure class="flex max-h-full max-w-6xl items-center justify-center">
+        <img
+          data-lightbox-img
+          src=""
+          alt=""
+          class="max-h-[88vh] w-auto max-w-full rounded-lg object-contain shadow-2xl"
+        />
+      </figure>
+    </div>
+  </dialog>
+</section>
+
+<script>
+  const dialog = document.getElementById("realisation-lightbox") as HTMLDialogElement | null;
+  if (dialog) {
+    const triggers = Array.from(
+      document.querySelectorAll<HTMLButtonElement>(".realisation-trigger")
+    );
+    const imgEl = dialog.querySelector<HTMLImageElement>("[data-lightbox-img]");
+    const closeBtn = dialog.querySelector<HTMLButtonElement>("[data-lightbox-close]");
+    const prevBtn = dialog.querySelector<HTMLButtonElement>("[data-lightbox-prev]");
+    const nextBtn = dialog.querySelector<HTMLButtonElement>("[data-lightbox-next]");
+
+    let current = 0;
+
+    const photos = triggers.map((btn) => {
+      const img = btn.querySelector("img");
+      return {
+        src: img?.currentSrc || img?.src || "",
+        alt: img?.alt || "",
+      };
+    });
+
+    const render = (i: number) => {
+      const p = photos[i];
+      if (!p || !imgEl) return;
+      imgEl.src = p.src;
+      imgEl.alt = p.alt;
+      current = i;
+    };
+
+    const open = (i: number) => {
+      render(i);
+      dialog.showModal();
+      document.body.style.overflow = "hidden";
+    };
+
+    const close = () => {
+      dialog.close();
+      document.body.style.overflow = "";
+    };
+
+    triggers.forEach((btn, i) => btn.addEventListener("click", () => open(i)));
+    closeBtn?.addEventListener("click", close);
+    prevBtn?.addEventListener("click", () => render((current - 1 + photos.length) % photos.length));
+    nextBtn?.addEventListener("click", () => render((current + 1) % photos.length));
+
+    dialog.addEventListener("click", (e) => {
+      if (e.target === dialog) close();
+    });
+
+    dialog.addEventListener("cancel", (e) => {
+      e.preventDefault();
+      close();
+    });
+
+    document.addEventListener("keydown", (e) => {
+      if (!dialog.open) return;
+      if (e.key === "ArrowLeft") render((current - 1 + photos.length) % photos.length);
+      if (e.key === "ArrowRight") render((current + 1) % photos.length);
+    });
+  }
+</script>

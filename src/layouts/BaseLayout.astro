@@ -1,0 +1,191 @@
+---
+import "../styles/global.css";
+import { ClientRouter } from "astro:transitions";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import { SITE, ZONES, SERVICES } from "../data/site";
+
+interface Props {
+  /** Titre de la page (sera concaténé avec le nom du site). Omis = titre par défaut. */
+  title?: string;
+  /** Meta description (max ~160 chars). Défaut = SITE.description. */
+  description?: string;
+  /** URL canonique de la page. Auto-calculée à partir de Astro.url si non fournie. */
+  canonical?: string;
+  /** Image OG / Twitter. Path relatif au domaine (default: /og-default.jpg). */
+  ogImage?: string;
+  /** Type Open Graph (default: website, peut être article pour blog si on en ajoute). */
+  ogType?: "website" | "article" | "profile";
+  /** noindex,nofollow pour pages légales / 404 */
+  noindex?: boolean;
+  /** Header transparent par défaut (light), false pour pages sans hero sombre */
+  lightHeader?: boolean;
+  /**
+   * Schémas JSON-LD additionnels à injecter en plus du LocalBusiness global.
+   * Ex: [{ "@type": "Service", ... }, { "@type": "BreadcrumbList", ... }]
+   */
+  extraSchemas?: Record<string, unknown>[];
+}
+
+const {
+  title,
+  description = SITE.description,
+  canonical,
+  ogImage = "/og-default.webp",
+  ogType = "website",
+  noindex = false,
+  lightHeader = true,
+  extraSchemas = [],
+} = Astro.props;
+
+const fullTitle = title ? `${title} — ${SITE.name}` : `${SITE.name} — ${SITE.tagline}`;
+const canonicalUrl = canonical ?? new URL(Astro.url.pathname, Astro.site).toString();
+const ogImageUrl = new URL(ogImage, Astro.site).toString();
+
+// JSON-LD LocalBusiness — schéma principal présent sur toutes les pages
+const localBusinessSchema = {
+  "@context": "https://schema.org",
+  "@type": ["LocalBusiness", "HomeAndConstructionBusiness", "Painter"],
+  "@id": `${SITE.url}/#localbusiness`,
+  name: SITE.name,
+  alternateName: "KGM",
+  description: SITE.description,
+  founder: { "@type": "Person", name: SITE.artisan },
+  telephone: SITE.phoneRaw,
+  email: SITE.email,
+  url: SITE.url,
+  image: ogImageUrl,
+  logo: new URL("/favicon.svg", SITE.url).toString(),
+  priceRange: "€€",
+  address: {
+    "@type": "PostalAddress",
+    addressLocality: SITE.city,
+    addressRegion: SITE.region,
+    addressCountry: "FR",
+  },
+  areaServed: ZONES.map((z) => ({
+    "@type": "City",
+    name: z.name,
+    ...(z.postalCode ? { postalCode: z.postalCode } : {}),
+  })),
+  makesOffer: SERVICES.map((s) => ({
+    "@type": "Offer",
+    itemOffered: {
+      "@type": "Service",
+      name: s.name,
+      description: s.description,
+      url: `${SITE.url}/services/${s.slug}`,
+    },
+  })),
+  knowsAbout: [
+    "Peinture intérieure",
+    "Peinture extérieure",
+    "Plâtrerie",
+    "Plaquisterie",
+    "Crépi de façade",
+    "Ravalement de façade",
+    "Moulures en plâtre",
+    "Béton ciré",
+    "Verrière intérieure",
+    "Faux bois",
+    "Faux marbre",
+    "Faux ciel peint",
+    "Dorure à la feuille d'or",
+  ],
+  // TODO Gary : réactiver aggregateRating quand on a le vrai compteur d'avis Google validé
+};
+
+// WebSite schema pour rich snippet de sitelinks search
+const websiteSchema = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "@id": `${SITE.url}/#website`,
+  url: SITE.url,
+  name: SITE.name,
+  description: SITE.description,
+  inLanguage: "fr-FR",
+  publisher: { "@id": `${SITE.url}/#localbusiness` },
+};
+
+const allSchemas = [localBusinessSchema, websiteSchema, ...extraSchemas];
+---
+
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="generator" content={Astro.generator} />
+
+    <!-- Icons -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicon.svg" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta name="theme-color" content="#7a6b9a" />
+    <meta name="msapplication-TileColor" content="#7a6b9a" />
+
+    <!-- SEO core -->
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <meta name="author" content={SITE.artisan} />
+    <link rel="canonical" href={canonicalUrl} />
+    {noindex && <meta name="robots" content="noindex,nofollow" />}
+    {!noindex && <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1" />}
+
+    <!-- Open Graph -->
+    <meta property="og:type" content={ogType} />
+    <meta property="og:locale" content="fr_FR" />
+    <meta property="og:site_name" content={SITE.name} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:image" content={ogImageUrl} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={`${SITE.name} — ${SITE.tagline}`} />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={fullTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImageUrl} />
+    <meta name="twitter:image:alt" content={`${SITE.name} — ${SITE.tagline}`} />
+
+    <!-- Fonts : preconnect + preload + display:swap pour éviter FOIT -->
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
+    <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="preload"
+      as="style"
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@400;500;600&display=swap"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@400;500;600&display=swap"
+    />
+
+    <!-- JSON-LD : LocalBusiness + WebSite + schemas spécifiques à la page -->
+    {allSchemas.map((schema) => (
+      <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+    ))}
+
+    <ClientRouter />
+  </head>
+  <body class="min-h-dvh bg-cream-50 text-ink-800 antialiased">
+    <!-- Skip link a11y : permet aux utilisateurs clavier de sauter directement au contenu -->
+    <a
+      href="#main-content"
+      class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:rounded-md focus:bg-mauve-900 focus:px-4 focus:py-2 focus:text-cream-50 focus:no-underline focus:shadow-lg focus:outline-none focus:ring-2 focus:ring-mauve-300"
+    >
+      Aller au contenu principal
+    </a>
+
+    <Header lightHeader={lightHeader} />
+    <main id="main-content">
+      <slot />
+    </main>
+    <Footer />
+  </body>
+</html>

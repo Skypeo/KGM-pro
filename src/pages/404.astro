@@ -1,0 +1,33 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+
+<BaseLayout title="Page introuvable" noindex={true}>
+  <section class="flex min-h-[80dvh] items-center bg-mauve-900 text-cream-50 grain">
+    <div class="mx-auto max-w-3xl px-6 py-32 text-center lg:px-10">
+      <p class="font-display italic text-7xl text-mauve-200">404</p>
+      <h1 class="mt-4 font-display text-4xl leading-tight sm:text-5xl">
+        Cette page n'existe pas
+        <br />
+        — ou n'existe plus.
+      </h1>
+      <p class="mt-6 text-base text-cream-100/80">
+        Le chantier a peut-être déménagé. Retour à l'atelier ?
+      </p>
+      <div class="mt-10 flex flex-wrap items-center justify-center gap-4">
+        <a
+          href="/"
+          class="inline-flex items-center gap-2 rounded-full bg-mauve-500 px-6 py-3.5 text-sm font-medium text-cream-50 transition hover:bg-mauve-400"
+        >
+          Retour à l'accueil
+        </a>
+        <a
+          href="/services"
+          class="inline-flex items-center gap-2 rounded-full border border-cream-100/30 px-6 py-3.5 text-sm transition hover:bg-cream-100/10"
+        >
+          Voir les savoir-faire
+        </a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

@@ -1,0 +1,18 @@
+{
+  "name": "KGM Pro Decor",
+  "short_name": "KGM",
+  "description": "Peintre, plâtrier et décorateur à Nancy — Gary Goder. 20 ans de métier. Spécialités décoratives : faux bois, faux marbre, faux ciel, feuille d'or.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#fbf9f5",
+  "theme_color": "#7a6b9a",
+  "lang": "fr-FR",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}

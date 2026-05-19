@@ -1,7 +1,8 @@
 {
-  "name": "celestial-cluster",
+  "name": "kgm-pro-decor",
   "type": "module",
-  "version": "0.0.1",
+  "version": "0.1.0",
+  "private": true,
   "engines": {
     "node": ">=22.12.0"
   },
@@ -12,6 +13,9 @@
     "astro": "astro"
   },
   "dependencies": {
-    "astro": "^6.3.1"
+    "@astrojs/sitemap": "^3.7.2",
+    "@tailwindcss/vite": "^4.3.0",
+    "astro": "^6.3.1",
+    "tailwindcss": "^4.3.0"
   }
 }

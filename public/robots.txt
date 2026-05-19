@@ -1,0 +1,18 @@
+User-agent: *
+Allow: /
+Disallow: /404
+
+# Bloque les bots IA qui scrapent pour entraînement sans valeur retour
+User-agent: GPTBot
+Disallow: /
+
+User-agent: CCBot
+Disallow: /
+
+User-agent: anthropic-ai
+Disallow: /
+
+User-agent: Claude-Web
+Disallow: /
+
+Sitemap: https://kgm-pro-decor.fr/sitemap-index.xml

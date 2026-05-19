@@ -1,0 +1,89 @@
+---
+// CountUp — anime un nombre de 0 à `to` au scroll-in
+// Usage : <CountUp to={20} suffix=" ans" />
+interface Props {
+  /** Valeur cible */
+  to: number;
+  /** Valeur de départ (default: 0) */
+  from?: number;
+  /** Durée de l'animation en ms (default: 1400) */
+  duration?: number;
+  /** Texte ajouté après le nombre (ex: " ans") */
+  suffix?: string;
+  /** Texte ajouté avant le nombre (ex: "+") */
+  prefix?: string;
+  /** Classes Tailwind additionnelles */
+  class?: string;
+}
+
+const { to, from = 0, duration = 1400, suffix = "", prefix = "", class: className = "" } = Astro.props;
+---
+
+<span
+  class:list={["countup", className]}
+  data-from={from}
+  data-to={to}
+  data-duration={duration}
+  data-suffix={suffix}
+  data-prefix={prefix}
+  aria-label={`${prefix}${to}${suffix}`}
+>{prefix}{from}{suffix}</span>
+
+<script>
+  function easeOutCubic(t: number): number {
+    return 1 - Math.pow(1 - t, 3);
+  }
+
+  function animateCount(el: HTMLElement) {
+    const from = parseFloat(el.dataset.from ?? "0");
+    const to = parseFloat(el.dataset.to ?? "0");
+    const duration = parseInt(el.dataset.duration ?? "1400", 10);
+    const suffix = el.dataset.suffix ?? "";
+    const prefix = el.dataset.prefix ?? "";
+
+    const start = performance.now();
+    const step = (now: number) => {
+      const progress = Math.min((now - start) / duration, 1);
+      const eased = easeOutCubic(progress);
+      const value = Math.round(from + (to - from) * eased);
+      el.textContent = `${prefix}${value}${suffix}`;
+      if (progress < 1) requestAnimationFrame(step);
+    };
+    requestAnimationFrame(step);
+  }
+
+  function initCountUp() {
+    const elements = document.querySelectorAll<HTMLElement>(".countup:not(.is-counted)");
+    if (!elements.length) return;
+
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      elements.forEach((el) => {
+        const to = el.dataset.to ?? "0";
+        const suffix = el.dataset.suffix ?? "";
+        const prefix = el.dataset.prefix ?? "";
+        el.textContent = `${prefix}${to}${suffix}`;
+        el.classList.add("is-counted");
+      });
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const el = entry.target as HTMLElement;
+            el.classList.add("is-counted");
+            animateCount(el);
+            observer.unobserve(el);
+          }
+        });
+      },
+      { threshold: 0.5 }
+    );
+
+    elements.forEach((el) => observer.observe(el));
+  }
+
+  initCountUp();
+  document.addEventListener("astro:page-load", initCountUp);
+</script>
