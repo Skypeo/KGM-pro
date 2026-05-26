@@ -1,21 +1,15 @@
-// Mapping slug → image hero pour les pages services individuelles.
-// Images téléchargées depuis Unsplash (libres de droit) le 2026-05-19, stockées localement
-// pour éviter toute dépendance réseau côté visiteur + bénéficier de l'optimisation Astro
-// (WebP responsive auto-généré).
-//
-// TODO Gary : remplacer par les vraies photos de chantiers de Gary quand disponibles.
-// Garder le même format de mapping ici, l'import statique fait le reste.
-
 import type { ImageMetadata } from "astro";
 
-import moulurePlatre from "../assets/services/moulure-platre.jpg";
-import peintureInterieure from "../assets/services/peinture-interieure.jpg";
-import peintureExterieure from "../assets/services/peinture-exterieure.jpg";
-import crepiFacade from "../assets/services/crepi-facade.jpg";
-import ravalementFacade from "../assets/services/ravalement-facade.jpg";
-import betonCire from "../assets/services/beton-cire.jpg";
+import moulurePlatre from "../assets/realisations/moulure/moulure-09.webp";
+import peintureInterieure from "../assets/realisations/peinture-interieure/peinture-interieure-09.webp";
+import peintureExterieure from "../assets/realisations/peinture-exterieure/peinture-exterieure-21.webp";
+import crepiFacade from "../assets/realisations/peinture-exterieure/peinture-exterieure-22.webp";
+import ravalementFacade from "../assets/realisations/peinture-exterieure/peinture-exterieure-19.webp";
+import betonCire from "../assets/realisations/beton-cire/beton-cire-01.webp";
 import verriere from "../assets/services/verriere.jpg";
-import platrierPlaquiste from "../assets/services/platrier-plaquiste.jpg";
+import platrierPlaquiste from "../assets/realisations/plaquiste/plaquiste-02.webp";
+import fauxCiel from "../assets/realisations/faux-ciel/faux-ciel-01.webp";
+import peintureDecorative from "../assets/realisations/peinture-decorative/peinture-decorative-02.webp";
 
 export const SERVICE_IMAGES: Record<string, ImageMetadata> = {
   "moulure-platre": moulurePlatre,
@@ -26,4 +20,8 @@ export const SERVICE_IMAGES: Record<string, ImageMetadata> = {
   "beton-cire": betonCire,
   "verriere": verriere,
   "platrier-plaquiste": platrierPlaquiste,
+  "faux-ciel": fauxCiel,
+  "faux-bois": peintureDecorative,
+  "faux-marbre": peintureDecorative,
+  "feuille-d-or": moulurePlatre,
 };

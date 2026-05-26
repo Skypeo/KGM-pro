@@ -1,7 +1,9 @@
 ---
+import { Image } from "astro:assets";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import Devis from "../../components/Devis.astro";
 import { ZONES, GENERAL_SERVICES, SITE } from "../../data/site";
+import heroZone from "../../assets/realisations/peinture-exterieure/peinture-exterieure-19.webp";
 
 export async function getStaticPaths() {
   return ZONES.map((z) => ({ params: { ville: z.slug }, props: { zone: z } }));
@@ -47,10 +49,15 @@ const localizedServiceSchema = {
 <BaseLayout title={seoTitle} description={seoDesc} extraSchemas={[localizedServiceSchema, breadcrumbSchema]}>
   <!-- Hero zone -->
   <section class="relative isolate overflow-hidden bg-mauve-900 text-cream-50 pt-40 pb-24 lg:pt-48 lg:pb-32 grain">
-    <div
-      class="absolute inset-0 -z-10"
-      style="background: radial-gradient(ellipse at 30% 40%, rgba(122,107,154,0.5), transparent 60%), radial-gradient(ellipse at 80% 70%, rgba(235,215,180,0.18), transparent 60%);"
-    ></div>
+    <Image
+      src={heroZone}
+      alt=""
+      loading="eager"
+      widths={[800, 1280, 1920]}
+      sizes="100vw"
+      class="hero-bg-img absolute inset-0 -z-20 h-full w-full object-cover object-center"
+    />
+    <div class="absolute inset-0 -z-10 hero-overlay-image"></div>
 
     <div class="mx-auto max-w-7xl px-6 lg:px-10">
       <nav class="mb-10" aria-label="Fil d'Ariane">

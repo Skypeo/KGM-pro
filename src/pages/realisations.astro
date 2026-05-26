@@ -3,16 +3,23 @@ import { Image } from "astro:assets";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Devis from "../components/Devis.astro";
 import { SITE } from "../data/site";
-import angelot from "../assets/galerie/2025-03-01_(1).webp";
-import rosaceBleue from "../assets/galerie/2025-03-01_(5).webp";
-import miniRosace from "../assets/galerie/2025-03-01_(4).webp";
-import ledCouloir from "../assets/galerie/2025-03-01.webp";
-import ledGeometrique from "../assets/galerie/2025-03-01_(2).webp";
-import cielPeint from "../assets/galerie/2025-03-01_(3).webp";
+import heroRealisations from "../assets/realisations/moulure/moulure-03.webp";
+import moulureOrnement from "../assets/realisations/moulure/moulure-09.webp";
+import moulureCorniche from "../assets/realisations/moulure/moulure-16.webp";
+import moulurePose from "../assets/realisations/moulure/moulure-14.webp";
+import fauxCiel from "../assets/realisations/faux-ciel/faux-ciel-01.webp";
+import betonCire from "../assets/realisations/beton-cire/beton-cire-01.webp";
+import enduitDeco from "../assets/realisations/peinture-decorative/peinture-decorative-02.webp";
+import enduitMural from "../assets/realisations/peinture-decorative/peinture-decorative-06.webp";
+import peintureCombles from "../assets/realisations/peinture-interieure/peinture-interieure-09.webp";
+import peintureTexturee from "../assets/realisations/peinture-interieure/peinture-interieure-10.webp";
+import facadeTerminee from "../assets/realisations/peinture-exterieure/peinture-exterieure-21.webp";
+import ravalementFacade from "../assets/realisations/peinture-exterieure/peinture-exterieure-19.webp";
+import fresqueMurale from "../assets/realisations/peinture-decorative/peinture-decorative-01.webp";
 
 const seoTitle = "Réalisations — galerie";
 const seoDesc =
-  "Galerie des réalisations de Gary Goder : ornements en plâtre, décors peints, faux ciel, plafonds décoratifs. Chantiers en Lorraine.";
+  "Galerie des réalisations de Gary Goder : moulures, faux ciel, béton ciré, fresques, enduits décoratifs, peinture intérieure et extérieure. Chantiers en Lorraine.";
 
 const breadcrumbSchema = {
   "@context": "https://schema.org",
@@ -31,49 +38,90 @@ const collectionPageSchema = {
   description: seoDesc,
 };
 
-// TODO Gary : faire valider les descriptions exactes + ajouter de nouvelles photos quand dispo
 const realisations = [
   {
-    src: angelot,
-    alt: "Angelot en plâtre sculpté",
-    titre: "Angelot en plâtre",
-    categorie: "Ornements",
-    desc: "Pièce sculptée en plâtre, posée et raccordée à la main.",
+    src: moulureOrnement,
+    alt: "Ornement en plâtre sculpté — chérubin et corniche décorative",
+    titre: "Chérubin et corniche ornée",
+    categorie: "Moulures & ornements",
+    desc: "Sculpture de chérubin posée dans un triangle de plafond, entourée de frises florales et d'une corniche en arc.",
   },
   {
-    src: rosaceBleue,
-    alt: "Grande rosace de plafond en plâtre",
-    titre: "Grande rosace de plafond",
-    categorie: "Ornements",
-    desc: "Rosace décorative posée et mise en peinture au centre du plafond.",
+    src: moulureCorniche,
+    alt: "Corniche ornementale au plafond avec motifs floraux",
+    titre: "Corniche ornementale",
+    categorie: "Moulures & ornements",
+    desc: "Angle de corniche en plâtre avec motifs de fruits et feuillages, posée et raccordée à la main.",
   },
   {
-    src: miniRosace,
-    alt: "Rosace décorative en plâtre",
-    titre: "Rosace décorative",
-    categorie: "Ornements",
-    desc: "Petite rosace en plâtre, idéale pour intégrer un point lumineux.",
-  },
-  {
-    src: ledCouloir,
-    alt: "Plafond décoratif éclairé",
-    titre: "Plafond décoratif éclairé",
-    categorie: "Plâtrerie décorative",
-    desc: "Travail de plâtrerie avec éclairage intégré, finition peinture mate.",
-  },
-  {
-    src: ledGeometrique,
-    alt: "Plafond décoratif géométrique éclairé",
-    titre: "Plafond géométrique",
-    categorie: "Plâtrerie décorative",
-    desc: "Composition géométrique en plâtre avec éclairage encastré.",
-  },
-  {
-    src: cielPeint,
-    alt: "Faux ciel peint à la main",
+    src: fauxCiel,
+    alt: "Faux ciel peint à la main — plafond de salle de bain",
     titre: "Faux ciel peint à la main",
     categorie: "Décor d'art",
-    desc: "Plafond peint en trompe-l'œil — l'une des quatre spécialités décoratives de Gary.",
+    desc: "Plafond de salle de bain peint en trompe-l'œil — nuages et lumière dorée. Une des quatre spécialités décoratives de Gary.",
+  },
+  {
+    src: fresqueMurale,
+    alt: "Fresque murale décorative en noir et blanc",
+    titre: "Fresque murale",
+    categorie: "Peinture décorative",
+    desc: "Portrait stylisé peint directement sur le mur, en noir et blanc, dans un intérieur contemporain.",
+  },
+  {
+    src: betonCire,
+    alt: "Sol en béton ciré dans une cuisine contemporaine",
+    titre: "Béton ciré en cuisine",
+    categorie: "Béton ciré",
+    desc: "Sol en béton ciré coulé dans une cuisine ouverte contemporaine, finition lisse et lumineuse.",
+  },
+  {
+    src: enduitDeco,
+    alt: "Enduit décoratif texturé argenté sur mur en combles",
+    titre: "Enduit décoratif texturé",
+    categorie: "Peinture décorative",
+    desc: "Mur de combles traité en enduit décoratif argenté avec effet de matière, sous pente avec velux.",
+  },
+  {
+    src: enduitMural,
+    alt: "Panneau mural en enduit décoratif gris dans un couloir",
+    titre: "Panneau mural décoratif",
+    categorie: "Peinture décorative",
+    desc: "Panneau mural en enduit texturé, posé dans un couloir sur parquet chêne.",
+  },
+  {
+    src: peintureCombles,
+    alt: "Combles rénovés — peinture intérieure et poutres grises",
+    titre: "Rénovation de combles",
+    categorie: "Peinture intérieure",
+    desc: "Pièce sous combles entièrement rénovée : poutres peintes en gris, murs blancs, sol posé.",
+  },
+  {
+    src: peintureTexturee,
+    alt: "Peinture décorative et papier peint dans une pièce rénovée",
+    titre: "Peinture intérieure et papier peint",
+    categorie: "Peinture intérieure",
+    desc: "Combinaison de papier peint graphique et d'enduit décoratif sur mur adjacent, plafond lambris.",
+  },
+  {
+    src: moulurePose,
+    alt: "Corniche en plâtre en cours de pose au plafond",
+    titre: "Pose de corniche",
+    categorie: "Moulures & ornements",
+    desc: "Corniche classique en cours de pose — raccord précis des motifs à oves et rais-de-cœur.",
+  },
+  {
+    src: facadeTerminee,
+    alt: "Façade terminée — peinture extérieure blanc et gris bleu",
+    titre: "Façade rénovée",
+    categorie: "Peinture extérieure",
+    desc: "Ravalement complet d'une façade en bi-ton blanc et gris bleu, finition propre.",
+  },
+  {
+    src: ravalementFacade,
+    alt: "Ravalement de façade en cours — échafaudage et peinture bi-ton",
+    titre: "Ravalement de façade",
+    categorie: "Peinture extérieure",
+    desc: "Façade de maison en cours de ravalement, traitement bi-ton avec échafaudage.",
   },
 ];
 ---
@@ -81,10 +129,15 @@ const realisations = [
 <BaseLayout title={seoTitle} description={seoDesc} extraSchemas={[collectionPageSchema, breadcrumbSchema]}>
   <!-- HERO -->
   <section class="relative isolate overflow-hidden bg-mauve-900 text-cream-50 pt-40 pb-24 lg:pt-48 lg:pb-32 grain">
-    <div
-      class="absolute inset-0 -z-10"
-      style="background: radial-gradient(ellipse at 30% 40%, rgba(122,107,154,0.5), transparent 60%), radial-gradient(ellipse at 80% 70%, rgba(235,215,180,0.18), transparent 60%);"
-    ></div>
+    <Image
+      src={heroRealisations}
+      alt=""
+      loading="eager"
+      widths={[800, 1280, 1920]}
+      sizes="100vw"
+      class="hero-bg-img absolute inset-0 -z-20 h-full w-full object-cover object-center"
+    />
+    <div class="absolute inset-0 -z-10 hero-overlay-image"></div>
 
     <div class="mx-auto max-w-7xl px-6 lg:px-10">
       <nav class="mb-10" aria-label="Fil d'Ariane">
@@ -96,12 +149,12 @@ const realisations = [
       </nav>
 
       <p class="text-xs uppercase tracking-[0.22em] text-mauve-300">Galerie</p>
-      <h1 class="mt-6 max-w-4xl font-display text-5xl leading-[1.05] sm:text-6xl lg:text-7xl">
+      <h1 class="hero-readable mt-6 max-w-4xl font-display text-5xl leading-[1.05] sm:text-6xl lg:text-7xl">
         <span class="script-gradient italic text-[1.4em]">Réalisations</span>
         de Gary Goder.
       </h1>
       <p class="mt-10 max-w-2xl text-lg leading-relaxed text-cream-100/85">
-        Ornements en plâtre, plafonds décoratifs, faux ciels peints à la main. Quelques chantiers récents en Lorraine — cliquez sur une image pour l'agrandir.
+        Moulures, faux ciel, béton ciré, fresques, enduits décoratifs, peinture intérieure et extérieure. Chantiers récents en Lorraine — cliquez sur une image pour l'agrandir.
       </p>
     </div>
   </section>

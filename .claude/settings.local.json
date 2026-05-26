@@ -28,7 +28,22 @@
       "Bash(curl -sSL -o crepi-facade.jpg \"https://images.unsplash.com/photo-1494177242659-c726060f48dd?fm=jpg&q=75&w=1920&auto=format&fit=crop\")",
       "Bash(curl -sSL -o platrier-plaquiste.jpg \"https://images.unsplash.com/photo-1704742950992-9815a104820c?fm=jpg&q=75&w=1920&auto=format&fit=crop\")",
       "Bash(curl -sSL -o peinture-exterieure.jpg \"https://images.unsplash.com/photo-1718992045271-fdf8eaf33e93?fm=jpg&q=75&w=1920&auto=format&fit=crop\")",
-      "Bash(curl -sSL -o ravalement-facade.jpg \"https://images.unsplash.com/photo-1458022799175-1eb17cf09d90?fm=jpg&q=75&w=1920&auto=format&fit=crop\")"
+      "Bash(curl -sSL -o ravalement-facade.jpg \"https://images.unsplash.com/photo-1458022799175-1eb17cf09d90?fm=jpg&q=75&w=1920&auto=format&fit=crop\")",
+      "PowerShell(ffmpeg *)",
+      "PowerShell(npm list *)",
+      "PowerShell(pip install *)",
+      "PowerShell(node _source-assets/convert-heic.mjs)",
+      "PowerShell($f = Get-Item \"_source-assets\\\\Gary\\\\IMG_1812.HEIC\"; Write-Output \"Size: $\\($f.Length\\) bytes\"; Write-Output \"Attributes: $\\($f.Attributes\\)\"; $isOnDemand = $f.Attributes -match 'ReparsePoint|Offline|SparseFile'; Write-Output \"OneDrive on-demand: $isOnDemand\")",
+      "PowerShell(npm install *)",
+      "PowerShell(node -e \"import\\('heic-convert'\\).then\\(m => { console.log\\('default:', typeof m.default\\); console.log\\('keys:', Object.keys\\(m\\)\\); }\\)\")",
+      "PowerShell(node -e \"import convert from 'heic-convert'; import { readFile } from 'fs/promises'; const buf = await readFile\\('./_source-assets/Gary/IMG_1812.HEIC'\\); console.log\\('input size:', buf.length\\); const result = await convert\\({ buffer: buf, format: 'JPEG', quality: 0.85 }\\); console.log\\('result type:', typeof result\\); console.log\\('is buffer:', Buffer.isBuffer\\(result\\)\\); if \\(Buffer.isBuffer\\(result\\)\\) console.log\\('output size:', result.length\\);\")",
+      "PowerShell(node _source-assets/organize-photos.mjs)",
+      "PowerShell(Get-ChildItem *)",
+      "PowerShell(Remove-Item *)",
+      "PowerShell(npm uninstall *)",
+      "Bash(Get-ChildItem -Path \"C:\\\\Users\\\\monke\\\\OneDrive\\\\Bureau\\\\Kgm_pro_decor\\\\src\\\\pages\" -Recurse -Include \"*.astro\")",
+      "Bash(Select-Object -ExpandProperty FullName)",
+      "mcp__puppeteer__puppeteer_evaluate"
     ]
   }
 }
