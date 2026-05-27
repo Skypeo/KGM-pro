@@ -213,10 +213,20 @@ const photos = [
     let current = 0;
     let savedScrollY = 0;
 
+    const largestSrc = (img: HTMLImageElement | null) => {
+      if (!img?.srcset) return img?.currentSrc || img?.src || "";
+      const entries = img.srcset.split(",").map((s) => {
+        const [url, w] = s.trim().split(/\s+/);
+        return { url, w: parseInt(w) || 0 };
+      });
+      entries.sort((a, b) => b.w - a.w);
+      return entries[0]?.url || img.currentSrc || img.src || "";
+    };
+
     const photos = triggers.map((btn) => {
       const img = btn.querySelector("img");
       return {
-        src: img?.currentSrc || img?.src || "",
+        src: largestSrc(img),
         alt: img?.alt || "",
       };
     });
