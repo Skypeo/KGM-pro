@@ -337,8 +337,11 @@ const realisations = [
     const open = (i: number) => {
       render(i);
       savedScrollY = window.scrollY;
+      document.documentElement.style.scrollBehavior = "auto";
       dialog.showModal();
       document.body.style.overflow = "hidden";
+      window.scrollTo(0, savedScrollY);
+      document.documentElement.style.scrollBehavior = "";
     };
 
     const close = () => {
