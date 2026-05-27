@@ -43,7 +43,14 @@
       "PowerShell(npm uninstall *)",
       "Bash(Get-ChildItem -Path \"C:\\\\Users\\\\monke\\\\OneDrive\\\\Bureau\\\\Kgm_pro_decor\\\\src\\\\pages\" -Recurse -Include \"*.astro\")",
       "Bash(Select-Object -ExpandProperty FullName)",
-      "mcp__puppeteer__puppeteer_evaluate"
+      "mcp__puppeteer__puppeteer_evaluate",
+      "Bash(git *)",
+      "Bash(findstr \"blob\")",
+      "PowerShell(git *)",
+      "PowerShell(Get-ChildItem -Path \"C:\\\\Users\\\\monke\\\\OneDrive\\\\Bureau\\\\Kgm_pro_decor\\\\src\\\\assets\\\\realisations\\\\\" -Recurse -File | ForEach-Object { $_.FullName.Replace\\(\"C:\\\\Users\\\\monke\\\\OneDrive\\\\Bureau\\\\Kgm_pro_decor\\\\src\\\\assets\\\\\", \"\"\\) } | Sort-Object)",
+      "PowerShell(Get-ChildItem -Path \"C:\\\\Users\\\\monke\\\\OneDrive\\\\Bureau\\\\Kgm_pro_decor\\\\src\\\\assets\\\\\" -File -Depth 0 | ForEach-Object { $_.FullName.Replace\\(\"C:\\\\Users\\\\monke\\\\OneDrive\\\\Bureau\\\\Kgm_pro_decor\\\\src\\\\assets\\\\\", \"\"\\) } | Sort-Object)",
+      "Bash(npx astro *)",
+      "Bash(Select-Object -Last 20)"
     ]
   }
 }

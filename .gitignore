@@ -17,6 +17,9 @@ pnpm-debug.log*
 .env
 .env.production
 
+# source assets (photos/vidéos client — trop lourds pour git)
+_source-assets/
+
 # macOS-specific files
 .DS_Store
 

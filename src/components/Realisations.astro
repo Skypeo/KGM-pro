@@ -4,16 +4,18 @@ import moulureOrnement from "../assets/realisations/moulure/moulure-09.webp";
 import moulurecorniche from "../assets/realisations/moulure/moulure-16.webp";
 import betonCire from "../assets/realisations/beton-cire/beton-cire-01.webp";
 import fauxCiel from "../assets/realisations/faux-ciel/faux-ciel-01.webp";
-import enduitDeco from "../assets/realisations/peinture-decorative/peinture-decorative-02.webp";
+import verriereAtelier from "../assets/realisations/renovation/renovation-05.webp";
 import facadeTerminee from "../assets/realisations/peinture-exterieure/peinture-exterieure-21.webp";
+import doucheBetonCire from "../assets/realisations/renovation/renovation-17.webp";
 
 const photos = [
   { src: moulureOrnement, alt: "Ornement en plâtre sculpté — chérubin et corniche décorative", area: "tall" },
   { src: moulurecorniche,  alt: "Corniche ornementale au plafond avec motifs floraux", area: "wide" },
   { src: betonCire,        alt: "Sol en béton ciré dans une cuisine contemporaine", area: "wide" },
   { src: fauxCiel,         alt: "Faux ciel peint à la main — plafond de salle de bain", area: "third" },
-  { src: enduitDeco,       alt: "Enduit décoratif texturé argenté sur mur", area: "third" },
+  { src: verriereAtelier,  alt: "Verrière style atelier posée dans un couloir", area: "third" },
   { src: facadeTerminee,   alt: "Façade terminée — ravalement blanc et gris bleu", area: "third" },
+  { src: doucheBetonCire,  alt: "Douche béton ciré aux murs avec colonne noire", area: "third" },
 ];
 ---
 
@@ -41,7 +43,7 @@ const photos = [
       <!-- Angelot (tall, gauche) -->
       <button
         type="button"
-        class="realisation-trigger group relative block overflow-hidden rounded-lg bg-mauve-100 lg:col-span-7 lg:row-span-2"
+        class="realisation-trigger group relative block cursor-pointer overflow-hidden rounded-lg bg-mauve-100 lg:col-span-7 lg:row-span-2"
         data-index="0"
         aria-label="Agrandir : angelot en plâtre"
       >
@@ -64,7 +66,7 @@ const photos = [
       <!-- Rosace bleue (droite haut) -->
       <button
         type="button"
-        class="realisation-trigger group relative block overflow-hidden rounded-lg bg-mauve-100 lg:col-span-5"
+        class="realisation-trigger group relative block cursor-pointer overflow-hidden rounded-lg bg-mauve-100 lg:col-span-5"
         data-index="1"
         aria-label="Agrandir : grande rosace"
       >
@@ -87,7 +89,7 @@ const photos = [
       <!-- Mini rosace (droite bas) -->
       <button
         type="button"
-        class="realisation-trigger group relative block overflow-hidden rounded-lg bg-mauve-100 lg:col-span-5"
+        class="realisation-trigger group relative block cursor-pointer overflow-hidden rounded-lg bg-mauve-100 lg:col-span-5"
         data-index="2"
         aria-label="Agrandir : petite rosace"
       >
@@ -109,11 +111,11 @@ const photos = [
     </div>
 
     <!-- Section basse : 3 photos en ligne -->
-    <div class="mt-4 grid gap-4 sm:mt-5 sm:gap-5 sm:grid-cols-3 lg:mt-6 lg:gap-6">
+    <div class="mt-4 grid gap-4 sm:mt-5 sm:gap-5 sm:grid-cols-2 lg:mt-6 lg:grid-cols-4 lg:gap-6">
       {photos.slice(3).map((p, i) => (
         <button
           type="button"
-          class="realisation-trigger group relative block overflow-hidden rounded-lg bg-mauve-100"
+          class="realisation-trigger group relative block cursor-pointer overflow-hidden rounded-lg bg-mauve-100"
           data-index={i + 3}
           aria-label="Agrandir l'image"
         >
@@ -209,6 +211,7 @@ const photos = [
     const nextBtn = dialog.querySelector<HTMLButtonElement>("[data-lightbox-next]");
 
     let current = 0;
+    let savedScrollY = 0;
 
     const photos = triggers.map((btn) => {
       const img = btn.querySelector("img");
@@ -228,6 +231,7 @@ const photos = [
 
     const open = (i: number) => {
       render(i);
+      savedScrollY = window.scrollY;
       dialog.showModal();
       document.body.style.overflow = "hidden";
     };
@@ -235,6 +239,9 @@ const photos = [
     const close = () => {
       dialog.close();
       document.body.style.overflow = "";
+      document.documentElement.style.scrollBehavior = "auto";
+      window.scrollTo(0, savedScrollY);
+      document.documentElement.style.scrollBehavior = "";
     };
 
     triggers.forEach((btn, i) => btn.addEventListener("click", () => open(i)));

@@ -6,10 +6,12 @@ import peintureExterieure from "../assets/realisations/peinture-exterieure/peint
 import crepiFacade from "../assets/realisations/peinture-exterieure/peinture-exterieure-22.webp";
 import ravalementFacade from "../assets/realisations/peinture-exterieure/peinture-exterieure-19.webp";
 import betonCire from "../assets/realisations/beton-cire/beton-cire-01.webp";
-import verriere from "../assets/services/verriere.jpg";
+import verriere from "../assets/realisations/renovation/renovation-05.webp";
 import platrierPlaquiste from "../assets/realisations/plaquiste/plaquiste-02.webp";
 import fauxCiel from "../assets/realisations/faux-ciel/faux-ciel-01.webp";
-import peintureDecorative from "../assets/realisations/peinture-decorative/peinture-decorative-02.webp";
+import fauxBois from "../assets/realisations/peinture-decorative/peinture-decorative-01.webp";
+import fauxMarbre from "../assets/realisations/peinture-decorative/peinture-decorative-06.webp";
+import feuilleOr from "../assets/realisations/moulure/moulure-16.webp";
 
 export const SERVICE_IMAGES: Record<string, ImageMetadata> = {
   "moulure-platre": moulurePlatre,
@@ -21,7 +23,7 @@ export const SERVICE_IMAGES: Record<string, ImageMetadata> = {
   "verriere": verriere,
   "platrier-plaquiste": platrierPlaquiste,
   "faux-ciel": fauxCiel,
-  "faux-bois": peintureDecorative,
-  "faux-marbre": peintureDecorative,
-  "feuille-d-or": moulurePlatre,
+  "faux-bois": fauxBois,
+  "faux-marbre": fauxMarbre,
+  "feuille-d-or": feuilleOr,
 };

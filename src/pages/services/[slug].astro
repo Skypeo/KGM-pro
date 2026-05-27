@@ -6,6 +6,7 @@ import Zones from "../../components/Zones.astro";
 import { SERVICES, ZONES, SITE } from "../../data/site";
 import { SERVICE_CONTENT } from "../../data/service-content";
 import { SERVICE_IMAGES } from "../../data/service-images";
+import { getServiceGallery } from "../../data/service-gallery";
 
 export async function getStaticPaths() {
   return SERVICES.map((s) => ({ params: { slug: s.slug }, props: { service: s } }));
@@ -14,6 +15,7 @@ export async function getStaticPaths() {
 const { service } = Astro.props;
 const content = SERVICE_CONTENT[service.slug];
 const heroImage = SERVICE_IMAGES[service.slug]; // undefined pour les services sans photo (4 décors d'art)
+const gallery = getServiceGallery(service.slug);
 const otherServices = SERVICES.filter((s) => s.slug !== service.slug).slice(0, 4);
 const topZones = ZONES.slice(0, 6).map((z) => z.name).join(", ");
 
@@ -190,6 +192,99 @@ const breadcrumbSchema = {
     </>
   )}
 
+  {gallery.length >= 2 && (
+    <section class="crepi relative bg-cream-100 py-24 lg:py-32">
+      <div class="mx-auto max-w-7xl px-6 lg:px-10">
+        <div class="text-center">
+          <p class="text-xs uppercase tracking-[0.22em] text-mauve-600">Réalisations</p>
+          <h2 class="mt-6 font-display text-3xl leading-tight text-ink-900 sm:text-4xl">
+            Quelques <span class="script-gradient italic text-[1.3em]">chantiers</span> récents.
+          </h2>
+        </div>
+
+        <div class="mt-16 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {gallery.map((g, i) => (
+            <button
+              type="button"
+              class="service-gallery-trigger group relative block cursor-pointer overflow-hidden rounded-lg bg-mauve-100"
+              data-index={i}
+              aria-label={`Agrandir : ${g.alt}`}
+            >
+              <Image
+                src={g.image}
+                alt={g.alt}
+                widths={[400, 640, 960]}
+                sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+                class="block aspect-[4/3] h-full w-full object-cover transition duration-700 group-hover:scale-[1.03]"
+              />
+              <span class="pointer-events-none absolute inset-0 flex items-center justify-center bg-mauve-950/0 transition group-hover:bg-mauve-950/25">
+                <span class="inline-flex h-11 w-11 items-center justify-center rounded-full bg-cream-50/15 text-cream-50 opacity-0 ring-1 ring-cream-50/30 backdrop-blur transition group-hover:opacity-100">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="h-4 w-4">
+                    <path d="M15 3h6v6M14 10l7-7M9 21H3v-6M10 14l-7 7" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </span>
+              </span>
+            </button>
+          ))}
+        </div>
+
+        <p class="mt-10 text-center">
+          <a
+            href="/realisations"
+            class="inline-flex items-center gap-2 text-sm font-medium text-mauve-700 transition hover:text-mauve-500"
+          >
+            Voir toutes les réalisations
+            <svg viewBox="0 0 20 20" fill="currentColor" class="h-4 w-4">
+              <path fill-rule="evenodd" d="M3 10a.75.75 0 01.75-.75h10.638L10.23 5.29a.75.75 0 111.04-1.08l5.5 5.25a.75.75 0 010 1.08l-5.5 5.25a.75.75 0 11-1.04-1.08l4.158-3.96H3.75A.75.75 0 013 10z" clip-rule="evenodd"/>
+            </svg>
+          </a>
+        </p>
+      </div>
+
+      <dialog
+        id="service-gallery-lightbox"
+        class="m-0 max-h-none max-w-none h-full w-full bg-transparent p-0 backdrop:bg-mauve-950/85 backdrop:backdrop-blur-sm"
+      >
+        <div class="relative flex h-full w-full items-center justify-center p-4 sm:p-8">
+          <button
+            type="button"
+            data-sg-close
+            class="absolute right-4 top-4 z-10 inline-flex h-11 w-11 items-center justify-center rounded-full bg-cream-50/10 text-cream-50 ring-1 ring-cream-50/25 backdrop-blur transition hover:bg-cream-50/20 sm:right-6 sm:top-6"
+            aria-label="Fermer"
+          >
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" class="h-5 w-5">
+              <line x1="6" y1="6" x2="18" y2="18" stroke-linecap="round"/>
+              <line x1="18" y1="6" x2="6" y2="18" stroke-linecap="round"/>
+            </svg>
+          </button>
+          <button
+            type="button"
+            data-sg-prev
+            class="absolute left-3 top-1/2 z-10 inline-flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-cream-50/10 text-cream-50 ring-1 ring-cream-50/25 backdrop-blur transition hover:bg-cream-50/20 sm:left-6"
+            aria-label="Précédent"
+          >
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" class="h-5 w-5">
+              <polyline points="15 6 9 12 15 18" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+          <button
+            type="button"
+            data-sg-next
+            class="absolute right-3 top-1/2 z-10 inline-flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-cream-50/10 text-cream-50 ring-1 ring-cream-50/25 backdrop-blur transition hover:bg-cream-50/20 sm:right-6"
+            aria-label="Suivant"
+          >
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" class="h-5 w-5">
+              <polyline points="9 6 15 12 9 18" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+          <figure class="flex max-h-full max-w-6xl items-center justify-center">
+            <img data-sg-img src="" alt="" class="max-h-[88vh] w-auto max-w-full rounded-lg object-contain shadow-2xl" />
+          </figure>
+        </div>
+      </dialog>
+    </section>
+  )}
+
   <!-- Zones rappel SEO -->
   <section class="crepi relative bg-cream-100 py-20 lg:py-24">
     <div class="mx-auto max-w-5xl px-6 text-center lg:px-10">
@@ -231,3 +326,67 @@ const breadcrumbSchema = {
   </aside>
   </article>
 </BaseLayout>
+
+<script>
+  const dialog = document.getElementById("service-gallery-lightbox") as HTMLDialogElement | null;
+  if (dialog) {
+    const triggers = Array.from(
+      document.querySelectorAll<HTMLButtonElement>(".service-gallery-trigger")
+    );
+    const imgEl = dialog.querySelector<HTMLImageElement>("[data-sg-img]");
+    const closeBtn = dialog.querySelector<HTMLButtonElement>("[data-sg-close]");
+    const prevBtn = dialog.querySelector<HTMLButtonElement>("[data-sg-prev]");
+    const nextBtn = dialog.querySelector<HTMLButtonElement>("[data-sg-next]");
+
+    let current = 0;
+    let savedScrollY = 0;
+
+    const photos = triggers.map((btn) => {
+      const img = btn.querySelector("img");
+      return { src: img?.currentSrc || img?.src || "", alt: img?.alt || "" };
+    });
+
+    const render = (i: number) => {
+      const p = photos[i];
+      if (!p || !imgEl) return;
+      imgEl.src = p.src;
+      imgEl.alt = p.alt;
+      current = i;
+    };
+
+    const open = (i: number) => {
+      render(i);
+      savedScrollY = window.scrollY;
+      dialog.showModal();
+      document.body.style.overflow = "hidden";
+    };
+
+    const close = () => {
+      dialog.close();
+      document.body.style.overflow = "";
+      document.documentElement.style.scrollBehavior = "auto";
+      window.scrollTo(0, savedScrollY);
+      document.documentElement.style.scrollBehavior = "";
+    };
+
+    triggers.forEach((btn, i) => btn.addEventListener("click", () => open(i)));
+    closeBtn?.addEventListener("click", close);
+    prevBtn?.addEventListener("click", () => render((current - 1 + photos.length) % photos.length));
+    nextBtn?.addEventListener("click", () => render((current + 1) % photos.length));
+
+    dialog.addEventListener("click", (e) => {
+      if (e.target === dialog) close();
+    });
+
+    dialog.addEventListener("cancel", (e) => {
+      e.preventDefault();
+      close();
+    });
+
+    document.addEventListener("keydown", (e) => {
+      if (!dialog.open) return;
+      if (e.key === "ArrowLeft") render((current - 1 + photos.length) % photos.length);
+      if (e.key === "ArrowRight") render((current + 1) % photos.length);
+    });
+  }
+</script>

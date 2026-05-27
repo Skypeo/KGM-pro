@@ -16,10 +16,16 @@ import peintureTexturee from "../assets/realisations/peinture-interieure/peintur
 import facadeTerminee from "../assets/realisations/peinture-exterieure/peinture-exterieure-21.webp";
 import ravalementFacade from "../assets/realisations/peinture-exterieure/peinture-exterieure-19.webp";
 import fresqueMurale from "../assets/realisations/peinture-decorative/peinture-decorative-01.webp";
+import cuisineModerne from "../assets/realisations/peinture-decorative/peinture-decorative-03.webp";
+import verriereAtelier from "../assets/realisations/renovation/renovation-05.webp";
+import verriereGrosPlan from "../assets/realisations/renovation/renovation-06.webp";
+import doucheBetonCire from "../assets/realisations/renovation/renovation-17.webp";
+import murBetonCire from "../assets/realisations/renovation/renovation-14.webp";
+import fauxPlafondLed from "../assets/realisations/moulure/moulure-05.webp";
 
 const seoTitle = "Réalisations — galerie";
 const seoDesc =
-  "Galerie des réalisations de Gary Goder : moulures, faux ciel, béton ciré, fresques, enduits décoratifs, peinture intérieure et extérieure. Chantiers en Lorraine.";
+  "Galerie des réalisations de Gary Goder : moulures, faux ciel, béton ciré, verrières, fresques, enduits décoratifs, peinture intérieure et extérieure. Chantiers en Lorraine.";
 
 const breadcrumbSchema = {
   "@context": "https://schema.org",
@@ -103,11 +109,53 @@ const realisations = [
     desc: "Combinaison de papier peint graphique et d'enduit décoratif sur mur adjacent, plafond lambris.",
   },
   {
+    src: fauxPlafondLed,
+    alt: "Faux-plafond moulé avec éclairage LED intégré dans un couloir",
+    titre: "Faux-plafond moulé et LED",
+    categorie: "Moulures & ornements",
+    desc: "Couloir habillé d'un faux-plafond en plâtre mouluré avec éclairage LED indirect intégré dans les gorges.",
+  },
+  {
     src: moulurePose,
     alt: "Corniche en plâtre en cours de pose au plafond",
     titre: "Pose de corniche",
     categorie: "Moulures & ornements",
     desc: "Corniche classique en cours de pose — raccord précis des motifs à oves et rais-de-cœur.",
+  },
+  {
+    src: verriereAtelier,
+    alt: "Verrière style atelier posée dans un couloir blanc",
+    titre: "Verrière style atelier",
+    categorie: "Verrière",
+    desc: "Verrière en acier noir posée dans un couloir d'appartement ancien, apportant lumière et caractère.",
+  },
+  {
+    src: verriereGrosPlan,
+    alt: "Verrière noire horizontale — gros plan sur les traverses",
+    titre: "Verrière — détail des traverses",
+    categorie: "Verrière",
+    desc: "Gros plan sur une verrière horizontale à traverses noires, intégrée dans une cloison blanche avec moulures.",
+  },
+  {
+    src: doucheBetonCire,
+    alt: "Douche en béton ciré aux murs avec colonne de douche noire",
+    titre: "Douche béton ciré",
+    categorie: "Béton ciré",
+    desc: "Cabine de douche entièrement revêtue de béton ciré aux murs, colonne de douche noire mate.",
+  },
+  {
+    src: murBetonCire,
+    alt: "Mur en béton ciré dans une cabine de douche — texture lisse",
+    titre: "Béton ciré mural",
+    categorie: "Béton ciré",
+    desc: "Mur de douche en béton ciré, finition lisse et minérale, raccord sol en pierre naturelle.",
+  },
+  {
+    src: cuisineModerne,
+    alt: "Cuisine contemporaine noire avec plan de travail en bois",
+    titre: "Cuisine contemporaine",
+    categorie: "Rénovation complète",
+    desc: "Cuisine entièrement rénovée : meubles noirs, plan de travail bois, sol béton ciré clair.",
   },
   {
     src: facadeTerminee,
@@ -154,7 +202,7 @@ const realisations = [
         de Gary Goder.
       </h1>
       <p class="mt-10 max-w-2xl text-lg leading-relaxed text-cream-100/85">
-        Moulures, faux ciel, béton ciré, fresques, enduits décoratifs, peinture intérieure et extérieure. Chantiers récents en Lorraine — cliquez sur une image pour l'agrandir.
+        Moulures, faux ciel, béton ciré, verrières, fresques, enduits décoratifs, peinture intérieure et extérieure. Chantiers récents en Lorraine — cliquez sur une image pour l'agrandir.
       </p>
     </div>
   </section>
@@ -167,7 +215,7 @@ const realisations = [
           <figure class="group flex flex-col gap-5">
             <button
               type="button"
-              class="realisation-trigger relative block overflow-hidden rounded-lg bg-mauve-100"
+              class="realisation-trigger relative block cursor-pointer overflow-hidden rounded-lg bg-mauve-100"
               data-index={i}
               aria-label={`Agrandir : ${r.titre}`}
             >
@@ -268,6 +316,7 @@ const realisations = [
     const nextBtn = dialog.querySelector<HTMLButtonElement>("[data-lightbox-next]");
 
     let current = 0;
+    let savedScrollY = 0;
 
     const photos = triggers.map((btn) => {
       const img = btn.querySelector("img");
@@ -287,6 +336,7 @@ const realisations = [
 
     const open = (i: number) => {
       render(i);
+      savedScrollY = window.scrollY;
       dialog.showModal();
       document.body.style.overflow = "hidden";
     };
@@ -294,6 +344,9 @@ const realisations = [
     const close = () => {
       dialog.close();
       document.body.style.overflow = "";
+      document.documentElement.style.scrollBehavior = "auto";
+      window.scrollTo(0, savedScrollY);
+      document.documentElement.style.scrollBehavior = "";
     };
 
     triggers.forEach((btn, i) => btn.addEventListener("click", () => open(i)));
