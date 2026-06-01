@@ -7,7 +7,6 @@ export const SITE = {
   tagline: "L'art de la moulure. La précision du geste.",
   description:
     "Peintre, plâtrier et décorateur à Nancy. 20 ans de métier, double CAP + BP décorateur. Spécialités décoratives rares : faux bois, faux marbre, faux ciel, feuille d'or.",
-  // TODO confirmer ces coordonnées avec le client
   phone: "06 33 55 75 06",
   phoneRaw: "+33633557506",
   email: "contact@kgm-pro-decor.fr",
@@ -17,6 +16,29 @@ export const SITE = {
   // rating: { value: 5.0, count: 1 },
   responseTime: "Devis gratuit, étudié à la main",
   url: "https://kgm-pro-decor.fr",
+  // Données légales officielles (source INSEE/RNE, MAJ 31/05/2026).
+  // Entrepreneur individuel : la dénomination légale est le nom du dirigeant ; "KGM Pro Decor" est le nom commercial.
+  legal: {
+    denomination: "Gary Goder",
+    nomCommercial: "KGM Pro Decor",
+    formeJuridique: "Entrepreneur individuel",
+    siren: "939 875 738",
+    siret: "939 875 738 00014",
+    tva: "FR89939875738",
+    ape: "4334Z",
+    apeLabel: "Travaux de peinture et vitrerie",
+    dateCreation: "21 janvier 2025",
+    address: {
+      street: "53 rue du Général Custine",
+      postalCode: "54670",
+      city: "Custines",
+    },
+    host: {
+      name: "Hostinger International Ltd.",
+      address: "61 Lordou Vironos Street, 6023 Larnaca, Chypre",
+      url: "https://www.hostinger.fr",
+    },
+  },
 } as const;
 
 export type Service = {

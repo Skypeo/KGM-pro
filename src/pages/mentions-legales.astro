@@ -20,10 +20,13 @@ import { SITE } from "../data/site";
         <div>
           <h2 class="font-display text-2xl text-ink-900">Éditeur du site</h2>
           <p class="mt-3">
-            {SITE.name}<br />
-            Gary Goder, artisan<br />
-            SIRET : <span class="text-mauve-600">à compléter</span><br />
-            Adresse : <span class="text-mauve-600">à compléter</span><br />
+            {SITE.name} — {SITE.legal.denomination}, artisan<br />
+            {SITE.legal.formeJuridique}<br />
+            Siège social : {SITE.legal.address.street}, {SITE.legal.address.postalCode} {SITE.legal.address.city}<br />
+            SIRET : {SITE.legal.siret}<br />
+            SIREN : {SITE.legal.siren}<br />
+            N° TVA intracommunautaire : {SITE.legal.tva}<br />
+            Code APE : {SITE.legal.ape} — {SITE.legal.apeLabel}<br />
             Téléphone : {SITE.phone}<br />
             Email : {SITE.email}
           </p>
@@ -37,7 +40,9 @@ import { SITE } from "../data/site";
         <div>
           <h2 class="font-display text-2xl text-ink-900">Hébergement</h2>
           <p class="mt-3">
-            <span class="text-mauve-600">À compléter selon l'hébergeur retenu (Netlify, Vercel, OVH...)</span>
+            {SITE.legal.host.name}<br />
+            {SITE.legal.host.address}<br />
+            <a href={SITE.legal.host.url} class="text-mauve-600 underline-offset-4 hover:underline" rel="nofollow noopener" target="_blank">{SITE.legal.host.url}</a>
           </p>
         </div>
 

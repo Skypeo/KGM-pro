@@ -59,10 +59,15 @@ const localBusinessSchema = {
   priceRange: "€€",
   address: {
     "@type": "PostalAddress",
-    addressLocality: SITE.city,
+    streetAddress: SITE.legal.address.street,
+    postalCode: SITE.legal.address.postalCode,
+    addressLocality: SITE.legal.address.city,
     addressRegion: SITE.region,
     addressCountry: "FR",
   },
+  vatID: SITE.legal.tva,
+  taxID: SITE.legal.siret,
+  foundingDate: "2025-01-21",
   areaServed: ZONES.map((z) => ({
     "@type": "City",
     name: z.name,
