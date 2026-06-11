@@ -50,7 +50,16 @@
       "PowerShell(Get-ChildItem -Path \"C:\\\\Users\\\\monke\\\\OneDrive\\\\Bureau\\\\Kgm_pro_decor\\\\src\\\\assets\\\\realisations\\\\\" -Recurse -File | ForEach-Object { $_.FullName.Replace\\(\"C:\\\\Users\\\\monke\\\\OneDrive\\\\Bureau\\\\Kgm_pro_decor\\\\src\\\\assets\\\\\", \"\"\\) } | Sort-Object)",
       "PowerShell(Get-ChildItem -Path \"C:\\\\Users\\\\monke\\\\OneDrive\\\\Bureau\\\\Kgm_pro_decor\\\\src\\\\assets\\\\\" -File -Depth 0 | ForEach-Object { $_.FullName.Replace\\(\"C:\\\\Users\\\\monke\\\\OneDrive\\\\Bureau\\\\Kgm_pro_decor\\\\src\\\\assets\\\\\", \"\"\\) } | Sort-Object)",
       "Bash(npx astro *)",
-      "Bash(Select-Object -Last 20)"
+      "Bash(Select-Object -Last 20)",
+      "Bash(file src/assets/realisations/peinture-decorative/*.webp)",
+      "Bash(node -e \"require\\('sharp'\\); console.log\\('sharp OK'\\)\")",
+      "Bash(node -e ' *)",
+      "Bash(mkdir -p .tmp-rot)",
+      "Bash(find . -type d -iname \"*avant*\" -not -path \"*/node_modules/*\")",
+      "Bash(find \"C:/Users/monke/OneDrive/Bureau\" -maxdepth 2 -type d -iname \"*avant*\")",
+      "Bash(find \"C:/Users/monke/OneDrive/Bureau\" -maxdepth 2 -type d -iname \"*apr*\")",
+      "Bash(mkdir -p src/assets/avant-apres/pairs)",
+      "Bash(rm -rf src/assets/avant-apres/pairs)"
     ]
   }
 }

@@ -2,7 +2,22 @@
 import { Image } from "astro:assets";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Devis from "../components/Devis.astro";
+import BeforeAfter from "../components/BeforeAfter.astro";
 import { SITE } from "../data/site";
+
+// Avant / Après — paires rangées dans assets/avant-apres/pairs
+import cuisineAvant from "../assets/avant-apres/pairs/cuisine-avant.webp";
+import cuisineApres from "../assets/avant-apres/pairs/cuisine-apres.webp";
+import pieceVieAvant from "../assets/avant-apres/pairs/piece-vie-avant.webp";
+import pieceVieApres from "../assets/avant-apres/pairs/piece-vie-apres.webp";
+import solSejourAvant from "../assets/avant-apres/pairs/sol-sejour-avant.webp";
+import solSejourApres from "../assets/avant-apres/pairs/sol-sejour-apres.webp";
+import doucheItalienneAvant from "../assets/avant-apres/pairs/douche-italienne-avant.webp";
+import doucheItalienneApres from "../assets/avant-apres/pairs/douche-italienne-apres.webp";
+import doucheAngleAvant from "../assets/avant-apres/pairs/douche-angle-avant.webp";
+import doucheAngleApres from "../assets/avant-apres/pairs/douche-angle-apres.webp";
+import comblesAvant from "../assets/avant-apres/pairs/combles-avant.webp";
+import comblesApres from "../assets/avant-apres/pairs/combles-apres.webp";
 import heroRealisations from "../assets/realisations/moulure/moulure-03.webp";
 import moulureOrnement from "../assets/realisations/moulure/moulure-09.webp";
 import moulureCorniche from "../assets/realisations/moulure/moulure-16.webp";
@@ -43,6 +58,58 @@ const collectionPageSchema = {
   name: seoTitle,
   description: seoDesc,
 };
+
+// ⚠️ Titres/contexte à confirmer avec Gary (pièce, commune, année). Aucune localisation inventée ici.
+const transformations = [
+  {
+    before: cuisineAvant,
+    after: cuisineApres,
+    beforeAlt: "Pièce vide en chantier avant l'installation de la cuisine",
+    afterAlt: "Cuisine équipée terminée — îlot, plan de travail bois, faux-plafond LED",
+    meta: "Rénovation complète",
+    titre: "D'une pièce nue à la cuisine",
+  },
+  {
+    before: pieceVieAvant,
+    after: pieceVieApres,
+    beforeAlt: "Pièce de vie en chantier, sol brut, baie vitrée",
+    afterAlt: "Pièce de vie terminée — sol en béton ciré gris, baie vitrée",
+    meta: "Béton ciré",
+    titre: "Pièce de vie en béton ciré",
+  },
+  {
+    before: solSejourAvant,
+    after: solSejourApres,
+    beforeAlt: "Sol en ancien carrelage vert avant travaux",
+    afterAlt: "Sol refait en parquet clair après travaux",
+    meta: "Sol & finitions",
+    titre: "Du carrelage au parquet",
+  },
+  {
+    before: doucheItalienneAvant,
+    after: doucheItalienneApres,
+    beforeAlt: "Douche en travaux, ancien carrelage déposé",
+    afterAlt: "Douche italienne terminée, parois et finition grises",
+    meta: "Salle de bain",
+    titre: "Douche italienne",
+  },
+  {
+    before: doucheAngleAvant,
+    after: doucheAngleApres,
+    beforeAlt: "Douche d'angle en cours d'installation",
+    afterAlt: "Douche d'angle terminée avec receveur quart de rond",
+    meta: "Salle de bain",
+    titre: "Douche d'angle",
+  },
+  {
+    before: comblesAvant,
+    after: comblesApres,
+    beforeAlt: "Combles en chantier, sol et murs bruts",
+    afterAlt: "Combles aménagés, murs clairs et sol fini",
+    meta: "Aménagement de combles",
+    titre: "Combles aménagés",
+  },
+];
 
 const realisations = [
   {
@@ -204,6 +271,35 @@ const realisations = [
       <p class="mt-10 max-w-2xl text-lg leading-relaxed text-cream-100/85">
         Moulures, faux ciel, béton ciré, verrières, fresques, enduits décoratifs, peinture intérieure et extérieure. Chantiers récents en Lorraine — cliquez sur une image pour l'agrandir.
       </p>
+    </div>
+  </section>
+
+  <!-- AVANT / APRÈS -->
+  <section class="relative bg-mauve-50 py-24 lg:py-32">
+    <div class="mx-auto max-w-7xl px-6 lg:px-10">
+      <div class="max-w-2xl">
+        <p class="text-xs uppercase tracking-[0.22em] text-mauve-600">Transformations</p>
+        <h2 class="mt-5 font-display text-4xl leading-tight text-ink-900 sm:text-5xl">
+          <span class="script-gradient italic text-[1.25em]">Avant</span> / Après
+        </h2>
+        <p class="mt-6 text-lg leading-relaxed text-ink-700/85">
+          Glissez la poignée pour découvrir l'état d'origine puis le résultat. Des chantiers menés de bout en bout par Gary, en Lorraine.
+        </p>
+      </div>
+
+      <div class="mt-14 grid gap-x-8 gap-y-12 sm:grid-cols-2 lg:gap-x-10">
+        {transformations.map((t) => (
+          <BeforeAfter
+            before={t.before}
+            after={t.after}
+            beforeAlt={t.beforeAlt}
+            afterAlt={t.afterAlt}
+            titre={t.titre}
+            meta={t.meta}
+            ratio="3 / 4"
+          />
+        ))}
+      </div>
     </div>
   </section>
 
