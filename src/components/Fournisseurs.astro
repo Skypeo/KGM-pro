@@ -1,0 +1,49 @@
+---
+// Fournisseurs / Matériaux — partenaires de confiance (peintures Théodore + Big Mat)
+// Copy factuelle : Gary travaille avec ces fournisseurs. Pas de claim inventé.
+// TODO Gary : si logos officiels fournis, remplacer le bloc typographique par les images.
+const partenaires = [
+  {
+    nom: "Théodore",
+    type: "Peintures",
+    desc: "Peintures haut de gamme, tenue des teintes et finitions durables.",
+  },
+  {
+    nom: "Big Mat",
+    type: "Matériaux & enduits",
+    desc: "Fournisseur matériaux de chantier — supports, enduits et accessoires.",
+  },
+];
+---
+
+<section id="fournisseurs" class="relative bg-cream-100 py-16 sm:py-20 lg:py-24">
+  <div class="mx-auto max-w-5xl px-6 lg:px-10">
+    <!-- Header -->
+    <div class="mx-auto max-w-2xl text-center reveal">
+      <p class="inline-flex items-center gap-3 text-[11px] uppercase tracking-[0.28em] text-mauve-600">
+        <span class="h-px w-8 bg-mauve-400"></span>
+        Matériaux
+        <span class="h-px w-8 bg-mauve-400"></span>
+      </p>
+      <h2 class="mt-6 font-display text-3xl leading-[1.15] text-ink-900 sm:text-4xl">
+        Des fournisseurs <span class="script-gradient italic">de confiance</span>.
+      </h2>
+      <p class="mt-5 text-sm leading-relaxed text-ink-700 sm:text-base">
+        Gary travaille avec les peintures <strong class="font-medium text-ink-900">Théodore</strong>
+        et son fournisseur <strong class="font-medium text-ink-900">Big Mat</strong> — un matériel
+        choisi pour la qualité du rendu et sa tenue dans le temps.
+      </p>
+    </div>
+
+    <!-- Partner cards -->
+    <div class="mt-12 grid gap-6 sm:grid-cols-2 reveal" style="--reveal-delay: 100ms;">
+      {partenaires.map((p) => (
+        <article class="flex flex-col items-center gap-3 rounded-2xl bg-cream-50 px-8 py-10 text-center ring-1 ring-mauve-200/70">
+          <p class="font-display text-3xl text-ink-900 sm:text-4xl">{p.nom}</p>
+          <p class="text-[11px] uppercase tracking-[0.22em] text-mauve-600">{p.type}</p>
+          <p class="mt-1 max-w-xs text-sm leading-relaxed text-ink-700/85">{p.desc}</p>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
