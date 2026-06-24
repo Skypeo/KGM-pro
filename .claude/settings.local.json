@@ -59,7 +59,17 @@
       "Bash(find \"C:/Users/monke/OneDrive/Bureau\" -maxdepth 2 -type d -iname \"*avant*\")",
       "Bash(find \"C:/Users/monke/OneDrive/Bureau\" -maxdepth 2 -type d -iname \"*apr*\")",
       "Bash(mkdir -p src/assets/avant-apres/pairs)",
-      "Bash(rm -rf src/assets/avant-apres/pairs)"
+      "Bash(rm -rf src/assets/avant-apres/pairs)",
+      "PowerShell(& \"C:\\\\Program Files\\\\nodejs\\\\node.exe\" -e \"try{const s=require\\('sharp'\\);console.log\\('sharp-ok'\\)}catch\\(e\\){console.log\\('no-sharp'\\)}\" 2>&1; \\(Get-Command magick -ErrorAction SilentlyContinue\\).Source; \\(Get-Command cwebp -ErrorAction SilentlyContinue\\).Source)",
+      "PowerShell($node=\"C:\\\\Program Files\\\\nodejs\\\\node.exe\"; & $node -e \"const sharp=require\\('sharp'\\);\\(async\\(\\)=>{for\\(const f of ['logo_theodore.jpeg','logo_bigmat.jpg']\\){const m=await sharp\\(f\\).metadata\\(\\);console.log\\(f,m.width+'x'+m.height,m.format\\);}}\\)\\(\\)\")",
+      "PowerShell($node=\"C:\\\\Program Files\\\\nodejs\\\\node.exe\"; & \"C:\\\\Program Files\\\\nodejs\\\\npm.cmd\" run build 2>&1 | Select-Object -Last 15)",
+      "PowerShell($p=\"C:\\\\Users\\\\monke\\\\OneDrive\\\\Bureau\\\\Kgm_pro_decor\"; \"astro pkg: \"+\\(Test-Path \"$p\\\\node_modules\\\\astro\\\\package.json\"\\); \"astro-jsx: \"+\\(Test-Path \"$p\\\\node_modules\\\\astro\\\\astro-jsx.d.ts\"\\); if\\(Test-Path \"$p\\\\node_modules\\\\astro\\\\package.json\"\\){\\(Get-Content \"$p\\\\node_modules\\\\astro\\\\package.json\" | ConvertFrom-Json\\).version})",
+      "PowerShell(& \"C:\\\\Program Files\\\\nodejs\\\\npx.cmd\" astro sync 2>&1 | Select-Object -Last 8)",
+      "PowerShell(& \"C:\\\\Program Files\\\\nodejs\\\\npx.cmd\" astro check 2>&1 | Select-Object -Last 20)",
+      "Bash(grep -qiE 'error|warning|hint|Result|Completed|✓|found' 'C:\\\\Users\\\\monke\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\C--Users-monke-OneDrive-Bureau-Kgm-pro-decor\\\\a0556f7d-1b5a-452b-ac55-361cd2f0fa47\\\\tasks\\\\blp12l16j.output')",
+      "Bash(sleep 2)",
+      "Bash(tail -20 'C:\\\\Users\\\\monke\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\C--Users-monke-OneDrive-Bureau-Kgm-pro-decor\\\\a0556f7d-1b5a-452b-ac55-361cd2f0fa47\\\\tasks\\\\blp12l16j.output')",
+      "PowerShell($out = & \"C:\\\\Program Files\\\\nodejs\\\\npx.cmd\" astro check 2>&1 | Out-String; $out.Trim\\(\\))"
     ]
   }
 }

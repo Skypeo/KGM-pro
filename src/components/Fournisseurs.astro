@@ -1,15 +1,20 @@
 ---
 // Fournisseurs / Matériaux — partenaires de confiance (peintures Théodore + Big Mat)
 // Copy factuelle : Gary travaille avec ces fournisseurs. Pas de claim inventé.
-// TODO Gary : si logos officiels fournis, remplacer le bloc typographique par les images.
+import { Image } from "astro:assets";
+import logoTheodore from "../assets/logo/fournisseur-theodore.webp";
+import logoBigMat from "../assets/logo/fournisseur-bigmat.webp";
+
 const partenaires = [
   {
     nom: "Théodore",
+    logo: logoTheodore,
     type: "Peintures",
     desc: "Peintures haut de gamme, tenue des teintes et finitions durables.",
   },
   {
     nom: "Big Mat",
+    logo: logoBigMat,
     type: "Matériaux & enduits",
     desc: "Fournisseur matériaux de chantier — supports, enduits et accessoires.",
   },
@@ -38,8 +43,15 @@ const partenaires = [
     <!-- Partner cards -->
     <div class="mt-12 grid gap-6 sm:grid-cols-2 reveal" style="--reveal-delay: 100ms;">
       {partenaires.map((p) => (
-        <article class="flex flex-col items-center gap-3 rounded-2xl bg-cream-50 px-8 py-10 text-center ring-1 ring-mauve-200/70">
-          <p class="font-display text-3xl text-ink-900 sm:text-4xl">{p.nom}</p>
+        <article class="flex flex-col items-center gap-4 rounded-2xl bg-cream-50 px-8 py-10 text-center ring-1 ring-mauve-200/70">
+          <div class="flex h-24 w-full items-center justify-center rounded-xl bg-white px-6 py-4 ring-1 ring-mauve-100">
+            <Image
+              src={p.logo}
+              alt={`Logo ${p.nom}`}
+              class="max-h-16 w-auto object-contain"
+              loading="lazy"
+            />
+          </div>
           <p class="text-[11px] uppercase tracking-[0.22em] text-mauve-600">{p.type}</p>
           <p class="mt-1 max-w-xs text-sm leading-relaxed text-ink-700/85">{p.desc}</p>
         </article>
