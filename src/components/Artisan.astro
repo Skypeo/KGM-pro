@@ -1,12 +1,13 @@
 ---
 import { Image } from "astro:assets";
 import cielPeint from "../assets/realisations/faux-ciel/faux-ciel-01.webp";
+import SplitText from "./ui/SplitText.tsx";
 
 // Parcours factuel — basé sur brief Timothée 2026-05-06 uniquement
 const parcours = [
   { n: "01", title: "20 ans de métier", desc: "Deux décennies sur les chantiers, des plus simples aux décors d'art." },
   { n: "02", title: "Double CAP", desc: "Peintre poseur de sol & Plâtrier Plaquiste Staffeur." },
-  { n: "03", title: "BP décorateur", desc: "Brevet professionnel mention décorateur — la qualification supérieure du métier." },
+  { n: "03", title: "BP décorateur", desc: "Brevet professionnel mention décorateur, la qualification supérieure du métier." },
   { n: "04", title: "Mentions complémentaires", desc: "Qualifications complémentaires venant spécialiser le savoir-faire." },
   { n: "05", title: "Transmission au CFA", desc: "Intervenant au CFA de Pont-à-Mousson, forme la relève." },
 ];
@@ -58,7 +59,16 @@ const parcours = [
       <div class="lg:col-span-7 lg:pt-2 reveal" style="--reveal-delay: 150ms;">
         <p class="flex items-center gap-3 text-[11px] uppercase tracking-[0.28em] text-mauve-600">
           <span class="h-px w-8 bg-mauve-400"></span>
-          L'artisan
+          <SplitText
+            client:visible
+            text="L'artisan"
+            tag="span"
+            splitType="chars"
+            delay={35}
+            duration={0.7}
+            textAlign="left"
+            className="uppercase tracking-[0.28em]"
+          />
         </p>
 
         <h2 class="mt-6 font-display text-3xl leading-[1.15] text-ink-900 sm:text-4xl lg:text-5xl">
@@ -81,15 +91,31 @@ const parcours = [
           </p>
         </div>
 
-        <ul class="mt-12 grid gap-x-8 gap-y-8 sm:grid-cols-2">
-          {parcours.map((q) => (
-            <li class="relative border-t border-mauve-200 pt-5">
-              <span class="font-display text-sm tracking-widest text-mauve-500">{q.n}</span>
-              <p class="mt-2 font-display text-xl text-ink-900 sm:text-2xl">{q.title}</p>
-              <p class="mt-1.5 text-sm leading-relaxed text-ink-700">{q.desc}</p>
+        <ol class="parcours mt-10">
+          {parcours.map((q, i) => (
+            <li
+              class="parcours-item group relative flex gap-5"
+              style={`--i: ${i};`}
+            >
+              <!-- Rail + badge numéroté -->
+              <div class="flex flex-col items-center">
+                <span class="badge flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-mauve-300 bg-cream-50 font-display text-sm text-mauve-600 transition-colors duration-300 group-hover:border-mauve-500 group-hover:bg-mauve-500 group-hover:text-cream-50">
+                  {q.n}
+                </span>
+                {i < parcours.length - 1 && (
+                  <span class="rail mt-1.5 w-px flex-1 bg-gradient-to-b from-mauve-300 to-mauve-200/40"></span>
+                )}
+              </div>
+              <!-- Contenu -->
+              <div class="pb-7 last:pb-0">
+                <p class="font-display text-lg leading-tight text-ink-900 transition-colors duration-300 group-hover:text-mauve-700 sm:text-xl">
+                  {q.title}
+                </p>
+                <p class="mt-1 text-sm leading-relaxed text-ink-700">{q.desc}</p>
+              </div>
             </li>
           ))}
-        </ul>
+        </ol>
 
         <div class="mt-12">
           <a
@@ -103,3 +129,73 @@ const parcours = [
     </div>
   </div>
 </section>
+
+<style>
+  /* Entrée en cascade des étapes du parcours + tracé progressif du rail vertical.
+     Le délai par item vient de --i (défini inline), déclenché quand la liste entre
+     dans le viewport (classe .is-in ajoutée par le script). */
+  .parcours-item {
+    opacity: 0;
+    transform: translateY(14px);
+    transition:
+      opacity 600ms cubic-bezier(0.22, 1, 0.36, 1),
+      transform 600ms cubic-bezier(0.22, 1, 0.36, 1);
+    transition-delay: calc(var(--i) * 90ms);
+  }
+  .parcours-item .rail {
+    transform: scaleY(0);
+    transform-origin: top;
+    transition: transform 500ms cubic-bezier(0.22, 1, 0.36, 1);
+    transition-delay: calc(var(--i) * 90ms + 200ms);
+  }
+  .parcours.is-in .parcours-item {
+    opacity: 1;
+    transform: none;
+  }
+  .parcours.is-in .parcours-item .rail {
+    transform: scaleY(1);
+  }
+  .parcours-item .badge {
+    transition:
+      background-color 300ms ease,
+      border-color 300ms ease,
+      color 300ms ease,
+      transform 300ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .parcours-item:hover .badge {
+    transform: scale(1.08);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .parcours-item,
+    .parcours-item .rail {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
+  }
+</style>
+
+<script>
+  // Déclenche l'entrée en cascade du parcours quand la liste devient visible.
+  // Compatible View Transitions (réinitialisé à chaque astro:page-load).
+  function initParcours() {
+    document.querySelectorAll<HTMLElement>(".parcours:not(.is-in)").forEach((list) => {
+      const io = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("is-in");
+              io.unobserve(entry.target);
+            }
+          });
+        },
+        { threshold: 0.2, rootMargin: "0px 0px -8% 0px" }
+      );
+      io.observe(list);
+    });
+  }
+
+  initParcours();
+  document.addEventListener("astro:page-load", initParcours);
+</script>

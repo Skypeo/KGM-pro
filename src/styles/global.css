@@ -28,6 +28,13 @@
   --color-ink-800: #2a1f3d;
   --color-ink-900: #1c1426;
 
+  /* Tokens sémantiques — requis par les composants React (SmoothUI / React Bits).
+     On les mappe sur la charte KGM pour que `bg-background`, `text-foreground`,
+     `bg-brand` restent cohérents avec le reste du site. */
+  --color-background: #fbf9f5; /* = cream-50 */
+  --color-foreground: #1c1426; /* = ink-900 */
+  --color-brand: #7a6b9a;      /* = mauve-500 */
+
   /* Typographie — RÈGLE STRICTE : uniquement Cormorant Garamond (titres) + Inter (corps).
      Le user a explicitement banni toute police cursive (Italianno, Petit Formal Script, etc.).
      --font-script existait historiquement, on le pointe vers Cormorant pour ne pas casser les classes
@@ -82,37 +89,20 @@
     line-height: 1;
   }
 
-  /* Dégradé violet animé sur mots accentués (hero).
-     IMPORTANT : on annule explicitement `text-shadow` parce que le texte ayant
-     `color: transparent` + `-webkit-text-fill-color: transparent`, tout text-shadow
-     hérité (notamment celui de .hero-readable) se rend comme un fantôme flou
-     autour des lettres invisibles. */
+  /* Mots accentués des titres : violet statique, lisible sur fond clair comme sur
+     fond sombre (hero, sections mauve-950). L'ancien dégradé animé transparent était
+     illisible par-dessus les photos et les fonds sombres, il a été retiré. */
   .script-gradient {
-    background: linear-gradient(
-      110deg,
-      #e8dff0 0%,
-      #c7b6d6 25%,
-      #7a6b9a 50%,
-      #c7b6d6 75%,
-      #e8dff0 100%
-    );
-    background-size: 200% 100%;
-    background-position: 100% 50%;
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-    color: transparent;
+    color: var(--color-mauve-500);
+    -webkit-text-fill-color: var(--color-mauve-500);
     text-shadow: none !important;
-    animation: script-gradient-flow 5s linear infinite;
   }
 
-  @keyframes script-gradient-flow {
-    0%   { background-position: 100% 50%; }
-    100% { background-position: -100% 50%; }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .script-gradient { animation: none; }
+  /* Variante éclaircie pour les accents posés sur un fond sombre (hero) : mauve-500
+     y est trop proche du violet du fond. mauve-300 reste franchement lisible. */
+  .script-light {
+    color: var(--color-mauve-300);
+    -webkit-text-fill-color: var(--color-mauve-300);
   }
 
   ::selection {

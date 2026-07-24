@@ -2,6 +2,7 @@
 import { Image } from "astro:assets";
 import moulure from "../assets/moulure-cherubin.webp";
 import { SITE, ZONES } from "../data/site";
+import BlurText from "./ui/BlurText.tsx";
 
 // Toutes les zones jointes en une seule string, séparées par un point médian.
 // Servies en double dans le marquee pour boucle continue invisible.
@@ -39,12 +40,17 @@ const zonesText = ZONES.map((z) => z.name).join(" · ");
         <h1 class="hero-readable font-display text-[2.75rem] leading-[1.05] tracking-tight text-white sm:text-6xl lg:text-7xl">
           Peintre, plâtrier
           <br />
-          et <span class="script-gradient italic">décorateur</span> à Nancy.
+          et <span class="script-gradient script-light italic">décorateur</span> à Nancy.
         </h1>
 
-        <p class="mt-8 max-w-xl text-base leading-relaxed text-cream-100/85 sm:text-lg" style="--reveal-delay: 200ms;">
-          Vingt ans de métier. Double CAP &amp; BP mention décorateur, intervenant au CFA de Pont-à-Mousson. Quatre spécialités décoratives rares en Lorraine : faux bois, faux marbre, faux ciel et feuille d'or.
-        </p>
+        <BlurText
+          client:load
+          text="Vingt ans de métier. Double CAP et BP mention décorateur, intervenant au CFA de Pont-à-Mousson. Quatre spécialités décoratives rares en Lorraine : faux bois, faux marbre, faux ciel et feuille d'or."
+          animateBy="words"
+          direction="top"
+          delay={16}
+          className="mt-8 max-w-xl text-base leading-relaxed text-cream-100/90 sm:text-lg"
+        />
 
         <div class="mt-10 flex flex-wrap items-center gap-4" style="--reveal-delay: 400ms;">
           <a

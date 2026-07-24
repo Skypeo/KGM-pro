@@ -1,22 +1,46 @@
 ---
-import { Image } from "astro:assets";
-import moulureOrnement from "../assets/realisations/moulure/moulure-09.webp";
-import moulurecorniche from "../assets/realisations/moulure/moulure-16.webp";
-import betonCire from "../assets/realisations/beton-cire/beton-cire-01.webp";
-import fauxCiel from "../assets/realisations/faux-ciel/faux-ciel-01.webp";
-import verriereAtelier from "../assets/realisations/renovation/renovation-05.webp";
-import facadeTerminee from "../assets/realisations/peinture-exterieure/peinture-exterieure-21.webp";
-import doucheBetonCire from "../assets/realisations/renovation/renovation-17.webp";
+import { getImage } from "astro:assets";
+import Masonry from "./ui/Masonry.tsx";
+import SplitText from "./ui/SplitText.tsx";
 
-const photos = [
-  { src: moulureOrnement, alt: "Ornement en plâtre sculpté — chérubin et corniche décorative", area: "tall" },
-  { src: moulurecorniche,  alt: "Corniche ornementale au plafond avec motifs floraux", area: "wide" },
-  { src: betonCire,        alt: "Sol en béton ciré dans une cuisine contemporaine", area: "wide" },
-  { src: fauxCiel,         alt: "Faux ciel peint à la main — plafond de salle de bain", area: "third" },
-  { src: verriereAtelier,  alt: "Verrière style atelier posée dans un couloir", area: "third" },
-  { src: facadeTerminee,   alt: "Façade terminée — ravalement blanc et gris bleu", area: "third" },
-  { src: doucheBetonCire,  alt: "Douche béton ciré aux murs avec colonne noire", area: "third" },
+import moulureOrnement from "../assets/realisations/moulure/moulure-09.webp";
+import moulureCorniche from "../assets/realisations/moulure/moulure-16.webp";
+import moulureRosace from "../assets/realisations/moulure/moulure-04.webp";
+import fauxCiel from "../assets/realisations/faux-ciel/faux-ciel-01.webp";
+import betonCire from "../assets/realisations/beton-cire/beton-cire-01.webp";
+import facadeTerminee from "../assets/realisations/peinture-exterieure/peinture-exterieure-21.webp";
+import verriereAtelier from "../assets/realisations/renovation/renovation-05.webp";
+import doucheBetonCire from "../assets/realisations/renovation/renovation-17.webp";
+import peintureDeco from "../assets/realisations/peinture-decorative/peinture-decorative-01.webp";
+import peintureInt from "../assets/realisations/peinture-interieure/peinture-interieure-01.webp";
+
+// Hauteurs volontairement variées pour un vrai rendu masonry (le composant divise
+// height/2 pour la hauteur rendue). Images optimisées au build (webp 560px) avant
+// d'être passées à l'îlot React Masonry qui n'accepte que des URLs.
+const sources = [
+  { src: moulureOrnement, height: 720 },
+  { src: facadeTerminee, height: 520 },
+  { src: fauxCiel, height: 600 },
+  { src: betonCire, height: 460 },
+  { src: verriereAtelier, height: 640 },
+  { src: moulureCorniche, height: 500 },
+  { src: doucheBetonCire, height: 700 },
+  { src: peintureDeco, height: 560 },
+  { src: peintureInt, height: 480 },
+  { src: moulureRosace, height: 620 },
 ];
+
+const items = await Promise.all(
+  sources.map(async (s, i) => {
+    const optimized = await getImage({ src: s.src, width: 560, format: "webp" });
+    return {
+      id: String(i),
+      img: optimized.src,
+      url: "/realisations",
+      height: s.height,
+    };
+  })
+);
 ---
 
 <section id="realisations" class="crepi relative bg-cream-50 py-20 sm:py-24 lg:py-28">
@@ -33,108 +57,29 @@ const photos = [
         <br class="hidden sm:block" />
         <span class="script-gradient italic">en images</span>.
       </h2>
-      <p class="mt-5 text-sm leading-relaxed text-ink-700/75 sm:text-base">
-        Quelques chantiers récents. Cliquez sur une image pour l'agrandir.
-      </p>
+      <SplitText
+        client:visible
+        text="Quelques chantiers récents, de la moulure au béton ciré."
+        tag="p"
+        splitType="words"
+        delay={30}
+        duration={0.8}
+        className="mt-5 w-full text-sm leading-relaxed text-ink-700/75 sm:text-base"
+      />
     </div>
 
-    <!-- Section haute : 1 grande à gauche + 2 empilées à droite -->
-    <div class="mt-14 grid gap-4 sm:gap-5 lg:mt-16 lg:grid-cols-12 lg:gap-6">
-      <!-- Angelot (tall, gauche) -->
-      <button
-        type="button"
-        class="realisation-trigger group relative block cursor-pointer overflow-hidden rounded-lg bg-mauve-100 lg:col-span-7 lg:row-span-2"
-        data-index="0"
-        aria-label="Agrandir : angelot en plâtre"
-      >
-        <Image
-          src={photos[0].src}
-          alt={photos[0].alt}
-          widths={[480, 720, 1080, 1440]}
-          sizes="(min-width: 1024px) 58vw, 100vw"
-          class="block aspect-[4/5] h-full w-full object-cover transition duration-700 group-hover:scale-[1.03] lg:aspect-auto"
-        />
-        <span class="pointer-events-none absolute inset-0 flex items-center justify-center bg-mauve-950/0 transition group-hover:bg-mauve-950/25">
-          <span class="inline-flex h-11 w-11 items-center justify-center rounded-full bg-cream-50/15 text-cream-50 opacity-0 ring-1 ring-cream-50/30 backdrop-blur transition group-hover:opacity-100">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="h-4 w-4">
-              <path d="M15 3h6v6M14 10l7-7M9 21H3v-6M10 14l-7 7" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-          </span>
-        </span>
-      </button>
-
-      <!-- Rosace bleue (droite haut) -->
-      <button
-        type="button"
-        class="realisation-trigger group relative block cursor-pointer overflow-hidden rounded-lg bg-mauve-100 lg:col-span-5"
-        data-index="1"
-        aria-label="Agrandir : grande rosace"
-      >
-        <Image
-          src={photos[1].src}
-          alt={photos[1].alt}
-          widths={[480, 720, 960]}
-          sizes="(min-width: 1024px) 42vw, 100vw"
-          class="block aspect-square h-full w-full object-cover transition duration-700 group-hover:scale-[1.03]"
-        />
-        <span class="pointer-events-none absolute inset-0 flex items-center justify-center bg-mauve-950/0 transition group-hover:bg-mauve-950/25">
-          <span class="inline-flex h-11 w-11 items-center justify-center rounded-full bg-cream-50/15 text-cream-50 opacity-0 ring-1 ring-cream-50/30 backdrop-blur transition group-hover:opacity-100">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="h-4 w-4">
-              <path d="M15 3h6v6M14 10l7-7M9 21H3v-6M10 14l-7 7" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-          </span>
-        </span>
-      </button>
-
-      <!-- Mini rosace (droite bas) -->
-      <button
-        type="button"
-        class="realisation-trigger group relative block cursor-pointer overflow-hidden rounded-lg bg-mauve-100 lg:col-span-5"
-        data-index="2"
-        aria-label="Agrandir : petite rosace"
-      >
-        <Image
-          src={photos[2].src}
-          alt={photos[2].alt}
-          widths={[480, 720, 960]}
-          sizes="(min-width: 1024px) 42vw, 100vw"
-          class="block aspect-[4/3] h-full w-full object-cover transition duration-700 group-hover:scale-[1.03]"
-        />
-        <span class="pointer-events-none absolute inset-0 flex items-center justify-center bg-mauve-950/0 transition group-hover:bg-mauve-950/25">
-          <span class="inline-flex h-11 w-11 items-center justify-center rounded-full bg-cream-50/15 text-cream-50 opacity-0 ring-1 ring-cream-50/30 backdrop-blur transition group-hover:opacity-100">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="h-4 w-4">
-              <path d="M15 3h6v6M14 10l7-7M9 21H3v-6M10 14l-7 7" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-          </span>
-        </span>
-      </button>
-    </div>
-
-    <!-- Section basse : 3 photos en ligne -->
-    <div class="mt-4 grid gap-4 sm:mt-5 sm:gap-5 sm:grid-cols-2 lg:mt-6 lg:grid-cols-4 lg:gap-6">
-      {photos.slice(3).map((p, i) => (
-        <button
-          type="button"
-          class="realisation-trigger group relative block cursor-pointer overflow-hidden rounded-lg bg-mauve-100"
-          data-index={i + 3}
-          aria-label="Agrandir l'image"
-        >
-          <Image
-            src={p.src}
-            alt={p.alt}
-            widths={[400, 640, 880]}
-            sizes="(min-width: 640px) 33vw, 100vw"
-            class="block aspect-[4/3] h-full w-full object-cover transition duration-700 group-hover:scale-[1.03]"
-          />
-          <span class="pointer-events-none absolute inset-0 flex items-center justify-center bg-mauve-950/0 transition group-hover:bg-mauve-950/25">
-            <span class="inline-flex h-11 w-11 items-center justify-center rounded-full bg-cream-50/15 text-cream-50 opacity-0 ring-1 ring-cream-50/30 backdrop-blur transition group-hover:opacity-100">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="h-4 w-4">
-                <path d="M15 3h6v6M14 10l7-7M9 21H3v-6M10 14l-7 7" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-            </span>
-          </span>
-        </button>
-      ))}
+    <!-- Masonry React : mosaïque animée à l'entrée (stagger + blur), scale au survol -->
+    <div class="mt-14 lg:mt-16">
+      <Masonry
+        client:load
+        items={items}
+        animateFrom="bottom"
+        duration={0.6}
+        stagger={0.06}
+        scaleOnHover={true}
+        hoverScale={0.96}
+        blurToFocus={true}
+      />
     </div>
 
     <div class="mt-14 text-center">
@@ -146,135 +91,4 @@ const photos = [
       </a>
     </div>
   </div>
-
-  <!-- Lightbox -->
-  <dialog
-    id="realisation-lightbox"
-    class="m-0 max-h-none max-w-none h-full w-full bg-transparent p-0 backdrop:bg-mauve-950/85 backdrop:backdrop-blur-sm"
-  >
-    <div class="relative flex h-full w-full items-center justify-center p-4 sm:p-8">
-      <button
-        type="button"
-        data-lightbox-close
-        class="absolute right-4 top-4 z-10 inline-flex h-11 w-11 items-center justify-center rounded-full bg-cream-50/10 text-cream-50 ring-1 ring-cream-50/25 backdrop-blur transition hover:bg-cream-50/20 sm:right-6 sm:top-6"
-        aria-label="Fermer"
-      >
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" class="h-5 w-5">
-          <line x1="6" y1="6" x2="18" y2="18" stroke-linecap="round"/>
-          <line x1="18" y1="6" x2="6" y2="18" stroke-linecap="round"/>
-        </svg>
-      </button>
-
-      <button
-        type="button"
-        data-lightbox-prev
-        class="absolute left-3 top-1/2 z-10 inline-flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-cream-50/10 text-cream-50 ring-1 ring-cream-50/25 backdrop-blur transition hover:bg-cream-50/20 sm:left-6"
-        aria-label="Précédent"
-      >
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" class="h-5 w-5">
-          <polyline points="15 6 9 12 15 18" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-      </button>
-
-      <button
-        type="button"
-        data-lightbox-next
-        class="absolute right-3 top-1/2 z-10 inline-flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-cream-50/10 text-cream-50 ring-1 ring-cream-50/25 backdrop-blur transition hover:bg-cream-50/20 sm:right-6"
-        aria-label="Suivant"
-      >
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" class="h-5 w-5">
-          <polyline points="9 6 15 12 9 18" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-      </button>
-
-      <figure class="flex max-h-full max-w-6xl items-center justify-center">
-        <img
-          data-lightbox-img
-          src=""
-          alt=""
-          class="max-h-[88vh] w-auto max-w-full rounded-lg object-contain shadow-2xl"
-        />
-      </figure>
-    </div>
-  </dialog>
 </section>
-
-<script>
-  const dialog = document.getElementById("realisation-lightbox") as HTMLDialogElement | null;
-  if (dialog) {
-    const triggers = Array.from(
-      document.querySelectorAll<HTMLButtonElement>(".realisation-trigger")
-    );
-    const imgEl = dialog.querySelector<HTMLImageElement>("[data-lightbox-img]");
-    const closeBtn = dialog.querySelector<HTMLButtonElement>("[data-lightbox-close]");
-    const prevBtn = dialog.querySelector<HTMLButtonElement>("[data-lightbox-prev]");
-    const nextBtn = dialog.querySelector<HTMLButtonElement>("[data-lightbox-next]");
-
-    let current = 0;
-    let savedScrollY = 0;
-
-    const largestSrc = (img: HTMLImageElement | null) => {
-      if (!img?.srcset) return img?.currentSrc || img?.src || "";
-      const entries = img.srcset.split(",").map((s) => {
-        const [url, w] = s.trim().split(/\s+/);
-        return { url, w: parseInt(w) || 0 };
-      });
-      entries.sort((a, b) => b.w - a.w);
-      return entries[0]?.url || img.currentSrc || img.src || "";
-    };
-
-    const photos = triggers.map((btn) => {
-      const img = btn.querySelector("img");
-      return {
-        src: largestSrc(img),
-        alt: img?.alt || "",
-      };
-    });
-
-    const render = (i: number) => {
-      const p = photos[i];
-      if (!p || !imgEl) return;
-      imgEl.src = p.src;
-      imgEl.alt = p.alt;
-      current = i;
-    };
-
-    const open = (i: number) => {
-      render(i);
-      savedScrollY = window.scrollY;
-      document.documentElement.style.scrollBehavior = "auto";
-      dialog.showModal();
-      document.body.style.overflow = "hidden";
-      window.scrollTo(0, savedScrollY);
-      document.documentElement.style.scrollBehavior = "";
-    };
-
-    const close = () => {
-      dialog.close();
-      document.body.style.overflow = "";
-      document.documentElement.style.scrollBehavior = "auto";
-      window.scrollTo(0, savedScrollY);
-      document.documentElement.style.scrollBehavior = "";
-    };
-
-    triggers.forEach((btn, i) => btn.addEventListener("click", () => open(i)));
-    closeBtn?.addEventListener("click", close);
-    prevBtn?.addEventListener("click", () => render((current - 1 + photos.length) % photos.length));
-    nextBtn?.addEventListener("click", () => render((current + 1) % photos.length));
-
-    dialog.addEventListener("click", (e) => {
-      if (e.target === dialog) close();
-    });
-
-    dialog.addEventListener("cancel", (e) => {
-      e.preventDefault();
-      close();
-    });
-
-    document.addEventListener("keydown", (e) => {
-      if (!dialog.open) return;
-      if (e.key === "ArrowLeft") render((current - 1 + photos.length) % photos.length);
-      if (e.key === "ArrowRight") render((current + 1) % photos.length);
-    });
-  }
-</script>

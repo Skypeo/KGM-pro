@@ -2,6 +2,7 @@
 import { defineConfig } from 'astro/config';
 import tailwindcss from '@tailwindcss/vite';
 import sitemap from '@astrojs/sitemap';
+import react from '@astrojs/react';
 
 // TODO: remplacer par le vrai domaine une fois acheté
 const SITE_URL = 'https://kgm-pro-decor.fr';
@@ -25,6 +26,7 @@ export default defineConfig({
     },
   },
   integrations: [
+    react(),
     sitemap({
       filter: (page) => !page.includes('/404'),
       changefreq: 'monthly',

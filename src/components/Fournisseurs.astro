@@ -1,7 +1,10 @@
 ---
-// Fournisseurs / Matériaux — partenaires de confiance (peintures Théodore + Big Mat)
-// Copy factuelle : Gary travaille avec ces fournisseurs. Pas de claim inventé.
+// Fournisseurs / Matériaux — partenaires de confiance.
+// Seigneurie (Peinture & Décoration, groupe PPG) mis en avant comme fournisseur principal,
+// Théodore + Big Mat en partenaires secondaires. Copy factuelle, pas de claim inventé.
 import { Image } from "astro:assets";
+import BlurText from "./ui/BlurText.tsx";
+import logoSeigneurie from "../assets/logo/fournisseur-seigneurie.png";
 import logoTheodore from "../assets/logo/fournisseur-theodore.webp";
 import logoBigMat from "../assets/logo/fournisseur-bigmat.webp";
 
@@ -16,7 +19,7 @@ const partenaires = [
     nom: "Big Mat",
     logo: logoBigMat,
     type: "Matériaux & enduits",
-    desc: "Fournisseur matériaux de chantier — supports, enduits et accessoires.",
+    desc: "Fournisseur matériaux de chantier : supports, enduits et accessoires.",
   },
 ];
 ---
@@ -33,27 +36,57 @@ const partenaires = [
       <h2 class="mt-6 font-display text-3xl leading-[1.15] text-ink-900 sm:text-4xl">
         Des fournisseurs <span class="script-gradient italic">de confiance</span>.
       </h2>
-      <p class="mt-5 text-sm leading-relaxed text-ink-700 sm:text-base">
-        Gary travaille avec les peintures <strong class="font-medium text-ink-900">Théodore</strong>
-        et son fournisseur <strong class="font-medium text-ink-900">Big Mat</strong> — un matériel
-        choisi pour la qualité du rendu et sa tenue dans le temps.
-      </p>
+      <BlurText
+        client:visible
+        text="Des marques choisies pour la qualité du rendu et la tenue dans le temps."
+        animateBy="words"
+        delay={40}
+        className="mt-5 justify-center text-sm leading-relaxed text-ink-700 sm:text-base"
+      />
     </div>
 
-    <!-- Partner cards -->
-    <div class="mt-12 grid gap-6 sm:grid-cols-2 reveal" style="--reveal-delay: 100ms;">
+    <!-- Fournisseur principal : Seigneurie, mis en avant -->
+    <article class="mt-12 grid items-center gap-6 overflow-hidden rounded-2xl bg-cream-50 p-6 shadow-xl shadow-mauve-950/[0.07] ring-2 ring-mauve-400/50 reveal sm:p-8 lg:grid-cols-[1.05fr_1fr] lg:gap-10" style="--reveal-delay: 80ms;">
+      <div class="flex h-32 items-center justify-center rounded-xl bg-white px-8 py-6 ring-1 ring-mauve-100 sm:h-36">
+        <Image
+          src={logoSeigneurie}
+          alt="Logo Seigneurie — Peinture & Décoration (groupe PPG)"
+          class="max-h-20 w-auto object-contain sm:max-h-24"
+          loading="lazy"
+        />
+      </div>
+      <div>
+        <span class="inline-flex items-center gap-1.5 rounded-full bg-mauve-500 px-3 py-1 text-[11px] font-medium uppercase tracking-[0.16em] text-cream-50">
+          <svg viewBox="0 0 24 24" fill="currentColor" class="h-3 w-3">
+            <path d="M12 2l2.9 6.9 7.1.6-5.4 4.7 1.7 7-6.3-3.8-6.3 3.8 1.7-7L2 9.5l7.1-.6L12 2z"/>
+          </svg>
+          Fournisseur principal
+        </span>
+        <h3 class="mt-4 font-display text-2xl text-ink-900 sm:text-3xl">Seigneurie</h3>
+        <p class="mt-1 text-[11px] uppercase tracking-[0.22em] text-mauve-600">
+          Peinture & décoration · Groupe PPG
+        </p>
+        <p class="mt-3 max-w-md text-sm leading-relaxed text-ink-700/85 sm:text-base">
+          Peintures professionnelles et solutions décoratives haut de gamme. La référence
+          que Gary privilégie pour la profondeur des teintes et la durabilité des finitions.
+        </p>
+      </div>
+    </article>
+
+    <!-- Partenaires secondaires -->
+    <div class="mt-6 grid gap-6 sm:grid-cols-2 reveal" style="--reveal-delay: 160ms;">
       {partenaires.map((p) => (
-        <article class="flex flex-col items-center gap-4 rounded-2xl bg-cream-50 px-8 py-10 text-center ring-1 ring-mauve-200/70">
-          <div class="flex h-24 w-full items-center justify-center rounded-xl bg-white px-6 py-4 ring-1 ring-mauve-100">
+        <article class="flex flex-col items-center gap-4 rounded-2xl bg-cream-50 px-8 py-8 text-center ring-1 ring-mauve-200/70">
+          <div class="flex h-20 w-full items-center justify-center rounded-xl bg-white px-6 py-4 ring-1 ring-mauve-100">
             <Image
               src={p.logo}
               alt={`Logo ${p.nom}`}
-              class="max-h-16 w-auto object-contain"
+              class="max-h-12 w-auto object-contain"
               loading="lazy"
             />
           </div>
           <p class="text-[11px] uppercase tracking-[0.22em] text-mauve-600">{p.type}</p>
-          <p class="mt-1 max-w-xs text-sm leading-relaxed text-ink-700/85">{p.desc}</p>
+          <p class="max-w-xs text-sm leading-relaxed text-ink-700/85">{p.desc}</p>
         </article>
       ))}
     </div>

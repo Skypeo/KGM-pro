@@ -1,6 +1,8 @@
 ---
 import { Image } from "astro:assets";
 import rosace from "../assets/realisations/moulure/moulure-09.webp";
+import SpotlightCard from "./ui/SpotlightCard.tsx";
+import BlurText from "./ui/BlurText.tsx";
 
 // Bullets et cards basés strictement sur les 10 services du brief Timothée
 // TODO Gary : valider les bullets de la carte signature (styles précis, types d'ornements)
@@ -50,9 +52,13 @@ const cards = [
         <br class="hidden sm:block" />
         à la <span class="script-gradient italic">rénovation complète</span>.
       </h2>
-      <p class="mt-5 text-sm leading-relaxed text-cream-100/75 sm:text-base">
-        Dix métiers du bâtiment et de la décoration, exercés par Gary lui-même.
-      </p>
+      <BlurText
+        client:visible
+        text="Dix métiers du bâtiment et de la décoration, exercés par Gary lui-même."
+        animateBy="words"
+        delay={35}
+        className="mt-5 justify-center text-sm leading-relaxed text-cream-100/75 sm:text-base"
+      />
     </div>
 
     <!-- Featured signature card -->
@@ -115,10 +121,12 @@ const cards = [
     <!-- 3 secondary cards -->
     <div class="mt-6 grid gap-6 sm:mt-8 sm:grid-cols-2 lg:grid-cols-3">
       {cards.map((c) => (
-        <a
-          href={c.href}
-          class="card-tilt group flex flex-col gap-4 rounded-2xl bg-cream-50 p-7 ring-1 ring-mauve-200/60 transition hover:ring-mauve-400/60 sm:p-8"
+        <SpotlightCard
+          client:visible
+          spotlightColor="rgba(122, 107, 154, 0.22)"
+          className="card-tilt group flex flex-col gap-4 rounded-2xl bg-cream-50 p-7 ring-1 ring-mauve-200/60 transition hover:ring-mauve-400/60 sm:p-8"
         >
+          <a href={c.href} class="absolute inset-0 z-20" aria-label={c.title}></a>
           <div class="flex h-11 w-11 items-center justify-center rounded-full bg-mauve-100 text-mauve-600">
             {c.icon === "brush" && (
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" class="h-5 w-5">
@@ -156,7 +164,7 @@ const cards = [
           <span class="pt-2 text-[11px] uppercase tracking-[0.18em] text-mauve-700/70 transition group-hover:text-mauve-500">
             Voir le détail →
           </span>
-        </a>
+        </SpotlightCard>
       ))}
     </div>
 

@@ -1,5 +1,6 @@
 ---
 import { SITE } from "../data/site";
+import SplitText from "./ui/SplitText.tsx";
 ---
 
 <section id="devis" class="crepi relative bg-cream-100 py-24 lg:py-32">
@@ -13,11 +14,15 @@ import { SITE } from "../data/site";
       étudié à la main.
     </h2>
 
-    <p class="mx-auto mt-8 max-w-2xl text-base leading-relaxed text-ink-700">
-      Chaque devis est préparé à la main, jamais à la louche. Gary prend le temps d'évaluer chaque
-      surface, chaque difficulté, chaque exigence — c'est ce qui permet d'aligner précisément le
-      prix sur la prestation.
-    </p>
+    <SplitText
+      client:visible
+      text="Chaque devis est préparé à la main, jamais à la louche. Gary prend le temps d'évaluer chaque surface, chaque difficulté, chaque exigence : c'est ce qui permet d'aligner précisément le prix sur la prestation."
+      tag="p"
+      splitType="words"
+      delay={12}
+      duration={0.7}
+      className="mt-8 max-w-2xl text-base leading-relaxed text-ink-700"
+    />
 
     <div class="mt-12 flex flex-wrap items-center justify-center gap-4">
       <a

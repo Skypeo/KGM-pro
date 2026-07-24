@@ -6,6 +6,10 @@ Site vitrine premium pour **Gary Goder**, artisan peintre / plâtrier / décorat
 
 - **Astro 6.3** (template minimal, TypeScript strict)
 - **Tailwind CSS 4.3** (via `@tailwindcss/vite`)
+- **@astrojs/react** + React 19 + **motion** (framer-motion) : îlots React animés dans `src/components/ui/`. Hydratation via directives `client:*` (voir CLAUDE.md monorepo). Alias `@/*` = `src/*` (tsconfig paths + helper `cn` dans `src/lib/utils.ts`).
+  - Composants installés (SmoothUI / React Bits) : `BlurText` + `SplitText` (effets de texte parsemés sur les sections, deps `gsap` + `@gsap/react` pour SplitText), `SpotlightCard` (cartes services SavoirFaire), `Masonry` (galerie Réalisations en `client:load` car rendu 100% client, deps `gsap`), `ReviewsCarousel` (avis, deps `motion` + `lucide-react`).
+  - Mots accentués des titres : classe `.script-gradient` = violet statique (mauve-500), pas de dégradé animé (illisible sur fonds sombres, retiré).
+  - Tokens sémantiques `--color-background/foreground/brand` ajoutés dans `global.css` (mappés cream-50 / ink-900 / mauve-500) pour les composants qui utilisent `bg-background`, `text-foreground`, `bg-brand`.
 - **@astrojs/sitemap** pour sitemap.xml auto-généré
 - Node 22+ requis
 
@@ -66,7 +70,7 @@ Nancy · Domartemont · Essey-lès-Nancy · Pont-à-Mousson · Frouard · Nomeny
 - **Devis gratuit, étudié à la main** — ⚠️ NE JAMAIS promettre de délai (pas de "sous 48h", "sous 72h", "rapide", "express"). Gary prend beaucoup de temps sur chaque devis pour qu'il soit réellement sur-mesure. Le temps passé est un argument de vente, pas un défaut.
 - **Sur-mesure réel** : tarification et exécution sur-mesure (Gary prend beaucoup de temps sur chaque devis — argument à valoriser)
 - **Artisan unique** : un seul interlocuteur, un seul standard de qualité
-- 5/5 sur Google (avis à intégrer)
+- 5,0/5 sur Google, 29 avis (intégrés via `ReviewsCarousel` dans `Avis.astro`, données dans `src/data/avis.ts`, vrais noms car données publiques). Lien Google My Business encore en placeholder `#` dans `avis.ts`.
 
 ## Direction design
 
