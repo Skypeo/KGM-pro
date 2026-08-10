@@ -7,8 +7,8 @@ export const SITE = {
   tagline: "L'art de la moulure. La précision du geste.",
   description:
     "Peintre, plâtrier et décorateur à Nancy. 20 ans de métier, double CAP + BP décorateur. Spécialités décoratives rares : faux bois, faux marbre, faux ciel, feuille d'or.",
-  phone: "06 33 55 75 06",
-  phoneRaw: "+33633557506",
+  phone: "06 25 55 13 20",
+  phoneRaw: "+33625551320",
   email: "contact@kgm-pro-decor.fr",
   city: "Nancy",
   region: "Lorraine, Meurthe-et-Moselle",

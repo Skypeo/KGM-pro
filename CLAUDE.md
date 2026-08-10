@@ -93,7 +93,7 @@ Stratégie SEO local fort :
 
 ## Infos manquantes (à compléter)
 
-- [ ] Téléphone exact (visible flou sur la maquette : ~"06 33 55 75 06" — à confirmer)
+- [x] Téléphone : 06 25 55 13 20 (confirmé par le user)
 - [ ] Email
 - [ ] Adresse / siège
 - [ ] SIRET (pour mentions légales + JSON-LD)
