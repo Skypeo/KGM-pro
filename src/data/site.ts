@@ -9,7 +9,7 @@ export const SITE = {
     "Peintre, plâtrier et décorateur à Nancy. 20 ans de métier, double CAP + BP décorateur. Spécialités décoratives rares : faux bois, faux marbre, faux ciel, feuille d'or.",
   phone: "06 25 55 13 20",
   phoneRaw: "+33625551320",
-  email: "contact@kgm-pro-decor.fr",
+  email: "kgm.prodecor@icloud.com",
   city: "Nancy",
   region: "Lorraine, Meurthe-et-Moselle",
   // TODO Gary : confirmer le lien Google My Business + nombre réel d'avis avant de réactiver
